@@ -15,11 +15,15 @@
 **Group Selectors** were renamed into Group Controllers and now each of them has their own unique image.  
 
 ## Installation (Basic)
-Later...
+1) Download https://www.nuget.org/packages/SharpDX.Direct3D9/4.0.1, unpack it, copy SharpDX.Direct3D9.dll from \lib\net45 to WTF's folder.
+2) Download https://www.nuget.org/packages/SharpDX.Mathematics/4.0.1, unpack it, copy SharpDX.Mathematics.dll from \lib\net45 to WTF's folder.
+3) Download MonoMod from https://github.com/MonoMod/MonoMod/releases/tag/v22.01.29.01 and unpack it to anywhere.
+4) Download already compiled mod's DLL from https://github.com/WarStalkeR/FFU-TL/releases/tag/v0.0.1.0 and place it in WTF's folder.
+5) Via command line, launch MonoMod.exe \Path\To\WTF.exe, it will create MONOMODDED_WTF.exe that you can run. Enjoy!
 
 ## Installation (Advanced)
-1) Download https://www.nuget.org/packages/SharpDX.Direct3D9/4.0.1, unpack it, copy SharpDX.Direct3D9.dll from lib\net45 to WTF's folder.
-2) Download https://www.nuget.org/packages/SharpDX.Mathematics/4.0.1, unpack it, copy SharpDX.Mathematics.dll from lib\net45 to WTF's folder.
+1) Download https://www.nuget.org/packages/SharpDX.Direct3D9/4.0.1, unpack it, copy SharpDX.Direct3D9.dll from \lib\net45 to WTF's folder.
+2) Download https://www.nuget.org/packages/SharpDX.Mathematics/4.0.1, unpack it, copy SharpDX.Mathematics.dll from \lib\net45 to WTF's folder.
 3) Download this repository, unpack, and place it in any folder in WTF's directory: \Zero Falls\<Folder>\FFU_TL\FFU_Tyrian_Legacy.sln
 4) Download MonoMod from https://github.com/MonoMod/MonoMod/releases/tag/v22.01.29.01 and unpack dll/exe files into \Zero Falls\<Folder>\MonoMod\
 5) Open solution in Visual Studio 2022, remove BepInEx/Harmony references, comment out related code in ModLog.cs.
@@ -27,8 +31,8 @@ Later...
 7) Launch WTF_modded.exe directly and enjoy the modded game. Compatible with blacktea's mod loader and DLL mods.
 
 ## Installation (Developer)
-1) Download https://www.nuget.org/packages/SharpDX.Direct3D9/4.0.1, unpack it, copy SharpDX.Direct3D9.dll from lib\net45 to WTF's folder.
-2) Download https://www.nuget.org/packages/SharpDX.Mathematics/4.0.1, unpack it, copy SharpDX.Mathematics.dll from lib\net45 to WTF's folder.
+1) Download https://www.nuget.org/packages/SharpDX.Direct3D9/4.0.1, unpack it, copy SharpDX.Direct3D9.dll from \lib\net45 to WTF's folder.
+2) Download https://www.nuget.org/packages/SharpDX.Mathematics/4.0.1, unpack it, copy SharpDX.Mathematics.dll from \lib\net45 to WTF's folder.
 3) Download this repository, unpack, and place it in any folder in WTF's directory: \Zero Falls\<Folder>\FFU_TL\FFU_Tyrian_Legacy.sln
 4) Download MonoMod from https://github.com/MonoMod/MonoMod/releases/tag/v22.01.29.01 and unpack dll/exe files into \Zero Falls\<Folder>\MonoMod\
 5) Download latest code from https://github.com/BepInEx/BepInEx, unpack and open in Visual Studio 2022.
