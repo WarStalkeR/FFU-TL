@@ -2,13 +2,13 @@
 **Fight For Universe: Tyrian Legacy** is a mod that extends original **Wayward Terran Frontier: Zero Falls** in different ways. Mostly it is focused on implementing features and modules that aren't fully complete, or were disabled for one or another reason. In addition, it also contains features for modders that allow to do some interesting things, such as reading compressed textures directly from HEX string in code and patching main textures with smaller ones on game's load, without need to modify them permanently on your hard drive.
 
 ## Features
-**Cloning Bays** can be acquired, installed and used from your ship directly, if you're not far enough from it (i.e. if ship is present in location, when session is still active and processed by the game). In future it will be available even at the locations, that aren't active.  
-**Logistics Terminal** now can be acquired, installed and used from your ship to build other ships and unload ore from your own ship into the global ore storage. I intend to add feature that will allow to fetch ores from global storage and move them into ship for trade.  
+**Cloning Bays** can be acquired, installed and used from your ship directly, if you're not far from it (i.e. if ship is present in location, where session is still active and processed by the game). In future it will be available even at locations, that aren't active.  
+**Logistics Terminal** now can be acquired, installed and used from your ship to build other ships and/or unload ore from your own ship to global ore storage. I also intend to add feature that will allow to fetch ores from global storage and move them into ship for trading.  
 **MagRail Stations** now can be acquired, installed and used from your ship for fast in-ship travel between stations. They also can be used to access any cargo bay. When your crew is on **hold**, stations will ignore them and will only move player.  
-**All Crew Cabins** are now acquirable, installable on your ship and have some flavour texts added. I'm also thinking about implementing feature that will increase rewards from hitchikers based on quality cabins provide.  
-**Utility Room** now can be acquired, installed and used from your ship to get infinite supply of repair tools, fire exinguishers and handheld mining lasers. Has secret option, but it is up to you disover it.  
-**All Cargo Bays** are now acquirable and installable. Cargo bay capacity was greatly rebalanced. Working ore mining bonus will be implemented later.  
-**Space Bars/Taverns** now can be acquired, installed and used from your ship to re-recuit your own agents or heed One's nagging.  
+**All Crew Cabins** are now acquirable, installable on your ship and have some flavor texts added. I'm also thinking about implementing feature that will increase rewards from hitchhikers based on quality cabins provide.  
+**Utility Room** now can be acquired, installed and used from your ship to get infinite supply of repair tools, fire extinguishers and hand-held mining lasers. Has secret option, but it is up to you discover it.  
+**All Cargo Bays** are now acquirable and installable. Cargo bay capacity was greatly rebalanced. Working ore mining bonus from cargo bays will be implemented later.  
+**Space Bars/Taverns** now can be acquired, installed and used from your ship to re-recruit your own agents or heed One's nagging.  
 **Crew Rooms** are now divided into T1 that requires iron for building and T2 that requires titanium for building.  
 **Airlocks** are now divided into T1 that requires iron for building and T2 that requires titanium for building.  
 **Graviton Missiles** now have their own missile tube and missile magazine texture that makes it obvious, when converter is used.  
