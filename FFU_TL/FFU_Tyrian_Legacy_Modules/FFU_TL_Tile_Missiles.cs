@@ -2,7 +2,7 @@
 #pragma warning disable CS0169
 #pragma warning disable CS0414
 #pragma warning disable CS0649
-#pragma warning disable CS0626 
+#pragma warning disable CS0626
 
 using MonoMod;
 using CoOpSpRpG;
