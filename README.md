@@ -47,4 +47,4 @@
 14) Debug target will create only DLL file in BepInEx's folder, while Release target will also create monomod patched WTF_modded.exe in game's dir.
 15) Launch it via BepInEx.NetLauncher.exe. Optionally in steam you can set Launch Option for WTF to: %command%\..\BepInEx.NetLauncher.exe %command%
 
-Note: for some reason, while game is launched via BepInEx.NetLauncher.exe, it doesn't work with blacktea's WTF Mod Loader. So use Launcher version only if you do some coding/debugging. For normal playthrough play game via WTF_modded.exe.
+**Important Note**: for some reason, while game is launched via *BepInEx.NetLauncher.exe*, it doesn't work with blacktea's WTF Mod Loader (and other DLL mods that injected/loaded as *objects* and converted via *as*). So use Launcher version only if you do some coding/debugging. For normal playthrough play game via *WTF_modded.exe*
