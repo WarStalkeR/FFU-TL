@@ -21,7 +21,8 @@ namespace FFU_Tyrian_Legacy {
         }
         public static void dumpForgottenResearch(Dictionary<uint, uint> rList, Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> rModuleList, string dumpFile = "FFU_TL_Forgotten.txt") {
             ModLog.Warning($"Dumping all forgotten research into the {dumpFile}...");
-            TextWriter ioDump = new StreamWriter(FFU_TL_Base.exeFilePath + FFU_TL_Base.modConfDir + dumpFile);
+            Support.ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir);
+            TextWriter ioDump = new StreamWriter(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir + dumpFile);
             foreach (var rEntry in rList) {
                 var rKey = rEntry.Key;
                 var isBlocked = true;
@@ -76,7 +77,8 @@ namespace FFU_Tyrian_Legacy {
         }
         public static void dumpResearchCategories(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> rModuleList, string dumpFile = "FFU_TL_Research.txt") {
             ModLog.Warning($"Dumping all research categories into the {dumpFile}...");
-            TextWriter ioDump = new StreamWriter(FFU_TL_Base.exeFilePath + FFU_TL_Base.modConfDir + dumpFile);
+            Support.ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir);
+            TextWriter ioDump = new StreamWriter(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir + dumpFile);
             for (int i = 0; i < LOOTBAG.researchCategories.Length; i++) {
                 ioDump.WriteLine($"Research Category #{i} ({(DataCategory)i}):");
                 foreach (var rKey in LOOTBAG.researchCategories[i]) {

@@ -9,15 +9,12 @@ using System.IO;
 
 namespace FFU_Tyrian_Legacy {
     public class FFU_TL_Base {
-        public static readonly string exeFilePath = Directory.GetCurrentDirectory() + @"\";
-        public static readonly string modConfDir = @"Mods\";
-        public static readonly string modConfFile = @"FFU_Tyrian_Legacy.ini";
         public static void LoadModConfiguration() {
-            if (!Directory.Exists(exeFilePath + modConfDir)) Directory.CreateDirectory(exeFilePath + modConfDir);
-            if (File.Exists(exeFilePath + modConfDir + modConfFile)) {
+            Support.ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir);
+            if (File.Exists(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile)) {
                 IniFile modConfig = new IniFile();
-                modConfig.Load(exeFilePath + modConfDir + modConfFile);
-                string modConfigLog = $"Loading mod configuration from {exeFilePath + modConfDir + modConfFile}";
+                modConfig.Load(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile);
+                string modConfigLog = $"Loading mod configuration from {FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile}";
                 if (string.IsNullOrEmpty(modConfig["InitConfig"]["modVersion"].Value) || modConfig["InitConfig"]["modVersion"].ToString() != FFU_TL_Defs.modVersion) {
                     ModLog.Message(modConfigLog);
                     CreateModConfiguration();
@@ -30,11 +27,11 @@ namespace FFU_Tyrian_Legacy {
         }
         public static void CreateModConfiguration(bool isObsolete = true) {
             ModLog.Warning($"Mod configuration file {(isObsolete ? "is obsolete!" : "doesn't exist!")}");
-            ModLog.Warning($"Creating template mod configuration file at {exeFilePath + modConfDir + modConfFile}");
+            ModLog.Warning($"Creating template mod configuration file at {FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile}");
             IniFile modConfig = new IniFile();
             modConfig["InitConfig"]["modVersion"] = FFU_TL_Defs.modVersion;
             modConfig["InitConfig"]["secretStash"] = FFU_TL_Defs.secretStash;
-            modConfig.Save(exeFilePath + modConfDir + modConfFile);
+            modConfig.Save(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile);
         }
     }
 }
@@ -57,6 +54,10 @@ namespace CoOpSpRpG {
             orig_loadArt(messageQueue);
             SCREEN_MANAGER.TileArt[0] = Support.PatchTexture(SCREEN_MANAGER.TileArt[0], Datas.tGroupsSelectors);
             SCREEN_MANAGER.TileArt[3] = Support.PatchLight(SCREEN_MANAGER.TileArt[3], Datas.tMissleTubesLight);
+            //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[0], "Tile_Sheet_0_Patched.png");
+            //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[1], "Tile_Sheet_1_Patched.png");
+            //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[2], "Tile_Sheet_2_Patched.png");
+            //Support.DumpImageToFile(SCREEN_MANAGER.AnimSheets[15], "Missile_Sheet.png");
         }
     }
     public class patch_Game1 : Game1 {

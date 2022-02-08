@@ -2,9 +2,14 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace FFU_Tyrian_Legacy {
     public class FFU_TL_Defs {
+        public static readonly string exeFilePath = Directory.GetCurrentDirectory() + @"\";
+        public static readonly string modConfDir = @"Mods\";
+        public static readonly string modDumpsDir = @"Dumps\";
+        public static readonly string modConfFile = @"FFU_Tyrian_Legacy.ini";
         public static readonly string modVersion = "0.0.1.0";
         public static readonly bool isDebug = true;
         public static bool secretStash = false;

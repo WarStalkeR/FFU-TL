@@ -14,7 +14,8 @@ namespace FFU_Tyrian_Legacy {
     public class FFU_TL_Modules {
         public static void dumpExistingModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, string dumpFile = "FFU_TL_Modules.txt") {
             ModLog.Warning($"Dumping all modules into the {dumpFile}...");
-            TextWriter ioDump = new StreamWriter(FFU_TL_Base.exeFilePath + FFU_TL_Base.modConfDir + dumpFile);
+            Support.ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir);
+            TextWriter ioDump = new StreamWriter(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir + dumpFile);
             foreach (byte r in modules.Keys) 
                 foreach (byte g in modules[r].Keys) 
                     foreach (byte b in modules[r][g].Keys) {
@@ -110,6 +111,7 @@ namespace CoOpSpRpG {
             FFU_TL_Tile_CloningVats.updateModules(modules);
             FFU_TL_Tile_Taverns.updateModules(modules);
             FFU_TL_Tile_Controllers.updateModules(modules);
+            FFU_TL_Tile_Missiles.updateModules(modules);
             FFU_TL_Modules.updateToolTipCosts(modules);
             FFU_TL_Modules.updateResourceCosts(moduleResources, moduleExtraResources, modules, FFU_TL_Defs.unlistDynamic);
             FFU_TL_Modules.updateBlacklist(oldMods, FFU_TL_Defs.unlistDynamic, "unobtainable module list");

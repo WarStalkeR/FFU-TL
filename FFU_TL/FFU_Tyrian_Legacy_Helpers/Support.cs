@@ -2,12 +2,16 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Media.Imaging;
+using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System;
 
 namespace FFU_Tyrian_Legacy {
-    public class Support {
+    public static class Support {
+		public static bool emptyTile = false;
+		public static Point prevTile = new Point(int.MaxValue, int.MaxValue);
+		public static Point currTile = new Point(int.MaxValue, int.MaxValue);
 		public static BinaryReader StringToBinStream(string hexStr) {
 			return new BinaryReader(StringToMemStream(hexStr));
 		}
@@ -124,35 +128,59 @@ namespace FFU_Tyrian_Legacy {
 			return refTiles;
         }
 		public static Texture2D PatchLight(Texture2D mTex, TexturePatch tPatch) {
-			return PatchTexture(mTex, TextureFromStream(tPatch.lightHex), tPatch.xOffset * 2, tPatch.yOffset * 2);
+			return PatchTexture(mTex, TextureFromStream(tPatch.lightHex), tPatch.xOffset, tPatch.yOffset, 2, false);
 		}
 		public static Texture2D PatchTexture(Texture2D mTex, TexturePatch tPatch) {
 			return PatchTexture(PatchTexture(mTex,
-			TextureFromStream(tPatch.artHex), tPatch.xOffset * 16, tPatch.yOffset * 16),
-			TextureFromStream(tPatch.emitHex), (tPatch.xOffset + 128) * 16, tPatch.yOffset * 16);
+			TextureFromStream(tPatch.artHex), tPatch.xOffset, tPatch.yOffset, 16, true),
+			TextureFromStream(tPatch.emitHex), tPatch.xOffset + 128, tPatch.yOffset, 16, true);
 		}
-		public static Texture2D PatchTexture(Texture2D mTex, string pTex, int sX = 0, int sY = 0) {
-			return PatchTexture(mTex, TextureFromStream(pTex), sX, sY);
+		public static Texture2D PatchTexture(Texture2D mTex, string pTex, int sX, int sY, int tRes, bool vTile) {
+			return PatchTexture(mTex, TextureFromStream(pTex), sX, sY, tRes, vTile);
 		}
-		public static Texture2D PatchTexture(Texture2D mTex, Texture2D pTex, int sX = 0, int sY = 0) {
+		public static Texture2D PatchTexture(Texture2D mTex, Texture2D pTex, int sX, int sY, int tRes, bool vTile) {
 			ModLog.Message($"Patching Texture: {mTex.Name}...");
 			try {
+				int tilesX = mTex.Width / tRes;
+				int tilesY = mTex.Height / tRes;
+				int patchX = pTex.Width / tRes;
+				int patchY = pTex.Height / tRes;
 				Color[] mTexStream = new Color[mTex.Height * mTex.Width];
 				Color[] pTexStream = new Color[pTex.Height * pTex.Width];
 				mTex.GetData(mTexStream);
 				pTex.GetData(pTexStream);
 				Color[,] ref2D = Make2DArray(mTexStream, mTex.Height, mTex.Width);
 				Color[,] patch2D = Make2DArray(pTexStream, pTex.Height, pTex.Width);
-				for (int y = 0; y < mTex.Height; y++) {
-					for (int x = 0; x < mTex.Width; x++) {
-						if (x >= sX && y >= sY
-						&& x < (sX + pTex.Width)
-						&& y < (sY + pTex.Height)) {
-							try { ref2D[y, x] = patch2D[y - sY, x - sX]; } 
-							catch { ModLog.Fatal($"PatchTexture Failed! X:{x}, Y:{y}, rX:{x - sX}, rY:{y - sY}"); }
+				for (int tY = 0; tY < tilesY; tY++) {
+					for (int tX = 0; tX < tilesX; tX++) {
+						if (tX >= sX && tY >= sY
+						&& tX < (sX + patchX)
+						&& tY < (sY + patchY)) {
+							currTile = new Point(tX - sX, tY - sY);
+							if (vTile && prevTile != currTile) {
+								prevTile = currTile;
+								emptyTile = IsEmptyTile(currTile, patch2D, tRes);
+								//ModLog.Warning($"Tile X:{tX - sX}, Y:{tY - sY}, Empty:{emptyTile}");
+							}
+							if (!vTile || !emptyTile) {
+								for (int rY = 0; rY < tRes; rY++) {
+									for (int rX = 0; rX < tRes; rX++) {
+										int x = tX * tRes + rX;
+										int y = tY * tRes + rY;
+										int xP = x - sX * tRes;
+										int yP = y - sY * tRes;
+										try {
+											ref2D[y, x] = patch2D[yP, xP];
+										} catch {
+											ModLog.Fatal($"PatchTexture Failed! X:{x}, Y:{y}, pX:{xP}, pY:{yP}");
+										}
+									}
+								}
+							}
 						}
 					}
-				}
+                }
+				ResetTileVariables();
 				Color[] refTextStream = Make1DArray(ref2D);
 				Texture2D rTex = new Texture2D(SCREEN_MANAGER.Device, mTex.Width, mTex.Height);
 				rTex.SetData(refTextStream);
@@ -195,10 +223,32 @@ namespace FFU_Tyrian_Legacy {
 		}
 		public static void DumpImageToFile(Texture2D rImage, string dumpFile = "Dumped_Image.png") {
 			ModLog.Warning($"Dumping 2D texture into the {dumpFile}...");
-			BinaryWriter imgDump = new BinaryWriter(File.OpenWrite(FFU_TL_Base.exeFilePath + FFU_TL_Base.modConfDir + dumpFile));
+			ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir);
+			BinaryWriter imgDump = new BinaryWriter(File.OpenWrite(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir + dumpFile));
 			imgDump.Write(StreamFromTexture(rImage).ToArray());
 			imgDump.Close();
 			imgDump.Dispose();
+		}
+		public static bool IsEmptyTile(Point cTile, Color[,] refTex, int tRes) {
+			for (int y = 0; y < tRes; y++)
+				for (int x = 0; x < tRes; x++) {
+					try {
+						Color refPixel = refTex[cTile.Y * tRes + y, cTile.X * tRes + x];
+						if (refPixel.A > 0) return false;
+					} catch {
+						ModLog.Fatal($"IsEmptyTile Failed! X:{x}, Y:{y}, rX:{cTile.X * tRes + x}, rY:{cTile.Y * tRes + y}");
+						return false;
+					}
+				}
+			return true;
+        }
+		public static void ResetTileVariables() {
+			prevTile = new Point(int.MaxValue, int.MaxValue);
+			currTile = new Point(int.MaxValue, int.MaxValue);
+			emptyTile = false;
+		}
+		public static void ValidateDirPath(string dirPath) {
+			if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
 		}
 		public static T[,] Make2DArray<T>(T[] input, int height, int width) {
 			T[,] output = new T[height, width];

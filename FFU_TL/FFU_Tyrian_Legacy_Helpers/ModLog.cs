@@ -2,7 +2,7 @@
 #pragma warning disable CS0626
 
 namespace FFU_Tyrian_Legacy {
-    public class ModLog {
+    public static class ModLog {
         #if DEBUG
         private static readonly BepInEx.Logging.ManualLogSource Log = BepInEx.Logging.Logger.CreateLogSource("FFU_TL");
         #endif
