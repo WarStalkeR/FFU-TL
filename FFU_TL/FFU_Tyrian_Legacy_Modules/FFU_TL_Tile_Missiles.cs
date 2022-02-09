@@ -45,7 +45,7 @@ namespace FFU_Tyrian_Legacy {
 			mFactory.tip = new ToolTip();
 			mFactory.tip.tip = mFactory.toolTip;
 			mFactory.tip.botLeftText = $"Almaz-Antey Interstellar";
-			mFactory.tip.description = "Modular missile factory that can be installed on any ship that has enough space and energy to support it. Uses grey goo and high temperature plasma to manufacture missiles via efficient energy-matter converter. Connect linked missile storages to at least 1 of 4 outlets to unload manufactured missiles.";
+			mFactory.tip.description = "Modular missile factory that can be installed on any ship that has enough space and energy to support it. Uses grey goo and high temperature plasma to manufacture missiles via efficient energy-matter converter. Connect linked missile silos to at least 1 of 4 outlets to unload produced ammo.";
 			mFactory.tip.tierIcontype = (TierIcon)mFactory.techLevel;
 			mFactory.tip.addStat("Fabrication Rate", $"{mFactory.rate * 5f:0} Energy/s.", false);
 			mFactory.tip.addStat("Standard Missile Cost", $"{MISSILEBAG.constructionCost(MissileType.standard)} En.", false);
@@ -61,14 +61,14 @@ namespace FFU_Tyrian_Legacy {
 			mFactory.tip = new ToolTip();
 			mFactory.tip.tip = mFactory.toolTip;
 			mFactory.tip.botLeftText = $"Almaz-Antey Interstellar";
-			mFactory.tip.description = "Modular torpedo factory that can be installed on any ship that has enough space and energy to support it. Uses grey goo and high temperature plasma to manufacture torpedoes via efficient energy-matter converter. Connect linked torpedo storages to at least 1 of 4 outlets to unload manufactured torpedoes.";
+			mFactory.tip.description = "Modular torpedo factory that can be installed on any ship that has enough space and energy to support it. Uses grey goo and high temperature plasma to manufacture torpedoes via efficient energy-matter converter. Connect linked torpedo silos to at least 1 of 4 outlets to unload produced ammo.";
 			mFactory.tip.tierIcontype = (TierIcon)mFactory.techLevel;
 			mFactory.tip.addStat("Fabrication Rate", $"{mFactory.rate * 5f:0} Energy/s.", false);
 			mFactory.tip.addStat("Antimatter Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.antimatter_siege)} En.", false);
 			mFactory.tip.addStat("Fusion Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.fission_siege)} En.", false);
 			mFactory.tip.addStat("Seeker Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.seeker_siege)} En.", false);
 			mFactory.tip.addStat("Hellfire Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.hellfire_siege)} En.", false);
-			mFactory.tip.addStat("MIRV Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.mirv_siege)} En.", false);
+			mFactory.tip.addStat("M.I.R.V. Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.mirv_siege)} En.", false);
 		}
 	}
 }
@@ -76,7 +76,7 @@ namespace FFU_Tyrian_Legacy {
 namespace CoOpSpRpG {
 	public static class patch_MISSILEBAG {
 		[MonoModReplace] public static int constructionCost(MissileType type) {
-		/// Missiles & Torpedoes build time re-balance.
+		/// Missiles & Torpedoes build cost rebalance.
 			return type switch {
 				MissileType.standard => 240,
 				MissileType.interdict => 1800,
@@ -92,6 +92,7 @@ namespace CoOpSpRpG {
 			};
 		}
 		[MonoModReplace] public static Missile createMissile(MissileType type) {
+		/// Missiles & Torpedoes parameters rebalance.
 			Missile missile = null;
 			switch (type) {
 				//Modified Data

@@ -128,29 +128,33 @@ namespace FFU_Tyrian_Legacy {
 			return refTiles;
         }
 		public static Texture2D PatchLight(Texture2D mTex, TexturePatch tPatch) {
-			return PatchTexture(mTex, TextureFromStream(tPatch.lightHex), tPatch.xOffset, tPatch.yOffset, 2, false);
+			return PatchTexture(mTex, TextureFromStream(tPatch.lightHex), tPatch.xOffset, tPatch.yOffset, 2, false, Color.Black);
 		}
 		public static Texture2D PatchTexture(Texture2D mTex, TexturePatch tPatch) {
 			return PatchTexture(PatchTexture(mTex,
-			TextureFromStream(tPatch.artHex), tPatch.xOffset, tPatch.yOffset, 16, true),
-			TextureFromStream(tPatch.emitHex), tPatch.xOffset + 128, tPatch.yOffset, 16, true);
+			TextureFromStream(tPatch.artHex), tPatch.xOffset, tPatch.yOffset, 16, true, Color.Transparent),
+			TextureFromStream(tPatch.emitHex), tPatch.xOffset + 128, tPatch.yOffset, 16, true, Color.Black);
 		}
-		public static Texture2D PatchTexture(Texture2D mTex, string pTex, int sX, int sY, int tRes, bool vTile) {
-			return PatchTexture(mTex, TextureFromStream(pTex), sX, sY, tRes, vTile);
+		public static Texture2D PatchTexture(Texture2D mTex, string pTex, int sX, int sY, int tRes, bool vTile, Color fColor) {
+			return PatchTexture(mTex, TextureFromStream(pTex), sX, sY, tRes, vTile, fColor);
 		}
-		public static Texture2D PatchTexture(Texture2D mTex, Texture2D pTex, int sX, int sY, int tRes, bool vTile) {
+		public static Texture2D PatchTexture(Texture2D mTex, Texture2D pTex, int sX, int sY, int tRes, bool vTile, Color fColor) {
 			ModLog.Message($"Patching Texture: {mTex.Name}...");
 			try {
-				int tilesX = mTex.Width / tRes;
-				int tilesY = mTex.Height / tRes;
 				int patchX = pTex.Width / tRes;
 				int patchY = pTex.Height / tRes;
+				int refWidth = Math.Max(mTex.Width, (sX + patchX) * tRes);
+				int refHeight = Math.Max(mTex.Height, (sY + patchY) * tRes);
+				int tilesX = refWidth / tRes;
+				int tilesY = refHeight / tRes;
 				Color[] mTexStream = new Color[mTex.Height * mTex.Width];
 				Color[] pTexStream = new Color[pTex.Height * pTex.Width];
 				mTex.GetData(mTexStream);
 				pTex.GetData(pTexStream);
 				Color[,] ref2D = Make2DArray(mTexStream, mTex.Height, mTex.Width);
 				Color[,] patch2D = Make2DArray(pTexStream, pTex.Height, pTex.Width);
+				if (refWidth > mTex.Width || refHeight > mTex.Height)
+					ref2D = Resize2DArray(ref2D, refHeight, refWidth, fColor);
 				for (int tY = 0; tY < tilesY; tY++) {
 					for (int tX = 0; tX < tilesX; tX++) {
 						if (tX >= sX && tY >= sY
@@ -160,7 +164,6 @@ namespace FFU_Tyrian_Legacy {
 							if (vTile && prevTile != currTile) {
 								prevTile = currTile;
 								emptyTile = IsEmptyTile(currTile, patch2D, tRes);
-								//ModLog.Warning($"Tile X:{tX - sX}, Y:{tY - sY}, Empty:{emptyTile}");
 							}
 							if (!vTile || !emptyTile) {
 								for (int rY = 0; rY < tRes; rY++) {
@@ -182,7 +185,7 @@ namespace FFU_Tyrian_Legacy {
                 }
 				ResetTileVariables();
 				Color[] refTextStream = Make1DArray(ref2D);
-				Texture2D rTex = new Texture2D(SCREEN_MANAGER.Device, mTex.Width, mTex.Height);
+				Texture2D rTex = new Texture2D(SCREEN_MANAGER.Device, refWidth, refHeight);
 				rTex.SetData(refTextStream);
 				if (!string.IsNullOrEmpty(mTex.Name)) rTex.Name = mTex.Name + " P";
 				if (rTex != null) return rTex;
@@ -249,6 +252,16 @@ namespace FFU_Tyrian_Legacy {
 		}
 		public static void ValidateDirPath(string dirPath) {
 			if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+		}
+		public static T[,] Resize2DArray<T>(T[,] input, int height, int width, T fallback) {
+			var output = new T[height, width];
+			int origH = input.GetLength(0);
+			int origW = input.GetLength(1);
+			for (int y = 0; y < height; y++)
+				for (int x = 0; x < width; x++)
+					if (y < origH && x < origW) output[y, x] = input[y, x];
+					else output[y, x] = fallback;
+			return output;
 		}
 		public static T[,] Make2DArray<T>(T[] input, int height, int width) {
 			T[,] output = new T[height, width];
