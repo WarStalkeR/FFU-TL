@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace FFU_Tyrian_Legacy {
+namespace FFU_Terra_Liberatio {
 	public static class WordWrap {
 		public static string Wrap(this string text, int lineLength) {
 			using (var reader = new StringReader(text))

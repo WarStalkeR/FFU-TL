@@ -6,14 +6,14 @@
 
 using MonoMod;
 using CoOpSpRpG;
-using FFU_Tyrian_Legacy;
+using FFU_Terra_Liberatio;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FFU_Tyrian_Legacy {
+namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Missiles {
 		public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
 			ModLog.Message($"Applying module changes: Missiles & Torpedoes...");
@@ -51,7 +51,7 @@ namespace FFU_Tyrian_Legacy {
 			mFactory.tip.addStat("Standard Missile Cost", $"{MISSILEBAG.constructionCost(MissileType.standard)} En.", false);
 			mFactory.tip.addStat("Interdictor Missile Cost", $"{MISSILEBAG.constructionCost(MissileType.interdict)} En.", false);
 			mFactory.tip.addStat("Graviton Missile Cost", $"{MISSILEBAG.constructionCost(MissileType.graviton)} En.", false);
-			mFactory.tip.addStat("Anti-Armour Missile Cost", $"{MISSILEBAG.constructionCost(MissileType.armorpiercing)} En.", false);
+			mFactory.tip.addStat("Anti-Armor Missile Cost", $"{MISSILEBAG.constructionCost(MissileType.armorpiercing)} En.", false);
 			mFactory.tip.addStat("Mini-Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.red_siege)} En.", false);
 		}
 		public static void TorpedoFactory(MissileFactory mFactory) {
@@ -124,6 +124,7 @@ namespace CoOpSpRpG {
 				missile.launchSpeed = 200f;
 				missile.acceleration = 200f;
 				missile.radius = 10f;
+				missile.hp = 75;
 				break;
 				case MissileType.graviton:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
@@ -474,5 +475,34 @@ namespace CoOpSpRpG {
 				break;
 			}
 		}
+	}
+	[MonoModEnumReplace] public enum patch_MissileType : ushort {
+		standard,
+		drill_bore,
+		repair_drone_t1,
+		interdict,
+		supply_drone,
+		red_siege,
+		machinegun_drone_t1,
+		railarray_drone_t2,
+		antimatter_drone_t2,
+		armorpiercing,
+		graviton,
+		seeker_siege,
+		antimatter_siege,
+		mirv_siege,
+		hellfire_siege,
+		blue_spore,
+		blue_biome_visuals,
+		fission_siege,
+		locust_drone_t3,
+		mine,
+		goliath_fighter_t2,
+		goliath_support_t2,
+		devastator,
+		hunter,
+		havoc,
+		chemical,
+		overload,
 	}
 }

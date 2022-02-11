@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFU_Tyrian_Legacy", "FFU_TL\FFU_Tyrian_Legacy.csproj", "{8161A67C-B5BA-4FAA-BEA4-793D447B3B69}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFU_Terra_Liberatio", "FFU_TL\FFU_Terra_Liberatio.csproj", "{8161A67C-B5BA-4FAA-BEA4-793D447B3B69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

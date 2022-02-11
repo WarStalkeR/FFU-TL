@@ -4,13 +4,13 @@
 
 using MonoMod;
 using CoOpSpRpG;
-using FFU_Tyrian_Legacy;
+using FFU_Terra_Liberatio;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace FFU_Tyrian_Legacy {
+namespace FFU_Terra_Liberatio {
     public class FFU_TL_Modules {
         public static void dumpExistingModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, string dumpFile = "FFU_TL_Modules.txt") {
             ModLog.Warning($"Dumping all modules into the {dumpFile}...");

@@ -8,8 +8,8 @@
     <ProjectGuid>{8161A67C-B5BA-4FAA-BEA4-793D447B3B69}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FFU_Tyrian_Legacy</RootNamespace>
-    <AssemblyName>FFU_Tyrian_Legacy</AssemblyName>
+    <RootNamespace>FFU_Terra_Liberatio</RootNamespace>
+    <AssemblyName>FFU_Terra_Liberatio</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <LangVersion>9.0</LangVersion>
     <FileAlignment>512</FileAlignment>
@@ -110,24 +110,24 @@
     <Compile Include="FFU_TL_Handling.cs" />
     <Compile Include="FFU_TL_Modules.cs" />
     <Compile Include="FFU_TL_Research.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Helpers\Datas.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Helpers\IniFile.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Helpers\Mathx.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Helpers\ModLog.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Helpers\Core.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Helpers\Support.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Helpers\WordWrap.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Helpers\Datas.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Helpers\IniFile.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Helpers\Mathx.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Helpers\ModLog.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Helpers\Core.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Helpers\Support.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Helpers\WordWrap.cs" />
     <Compile Include="FFU_TL_Base.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Modules\FFU_TL_Tile_CloningVats.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Modules\FFU_TL_Tile_Controllers.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Modules\FFU_TL_Tile_CrewRooms.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Modules\FFU_TL_Tile_Hallways.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Modules\FFU_TL_Tile_CargoBays.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Modules\FFU_TL_Tile_Logistics.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Modules\FFU_TL_Tile_MagRails.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Modules\FFU_TL_Tile_Missiles.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Modules\FFU_TL_Tile_Taverns.cs" />
-    <Compile Include="FFU_Tyrian_Legacy_Modules\FFU_TL_Tile_UtilityBays.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_CloningVats.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_Controllers.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_CrewRooms.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_Hallways.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_CargoBays.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_Logistics.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_MagRails.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_Missiles.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_Taverns.cs" />
+    <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_UtilityBays.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

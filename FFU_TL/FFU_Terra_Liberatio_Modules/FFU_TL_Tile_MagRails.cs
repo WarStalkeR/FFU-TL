@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FFU_Tyrian_Legacy {
+namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_MagRails {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
             ModLog.Message($"Applying module changes: MagRail Stations...");

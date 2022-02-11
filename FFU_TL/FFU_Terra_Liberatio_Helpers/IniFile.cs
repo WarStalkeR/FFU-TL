@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace FFU_Tyrian_Legacy {
+namespace FFU_Terra_Liberatio {
 	public struct IniValue {
 		private static bool TryParseInt(string text, out int value) {
 			int res;

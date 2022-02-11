@@ -9,10 +9,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using FFU_Tyrian_Legacy;
+using FFU_Terra_Liberatio;
 using System.Linq;
 
-namespace FFU_Tyrian_Legacy {
+namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Taverns {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
             ModLog.Message($"Applying module changes: Space Bars & Taverns...");

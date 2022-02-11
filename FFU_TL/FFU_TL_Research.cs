@@ -4,12 +4,12 @@
 #pragma warning disable CS0649
 
 using CoOpSpRpG;
-using FFU_Tyrian_Legacy;
+using FFU_Terra_Liberatio;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
 
-namespace FFU_Tyrian_Legacy {
+namespace FFU_Terra_Liberatio {
     public class FFU_TL_Research {
         public static void rebalanceResearch(Dictionary<uint, uint> rCosts, Dictionary<uint, float> rTimes) {
             ModLog.Message($"Updating research times based on their costs...");

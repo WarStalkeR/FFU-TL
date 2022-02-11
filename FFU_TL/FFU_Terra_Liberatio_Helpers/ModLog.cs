@@ -1,7 +1,7 @@
 ﻿#pragma warning disable CS0108
 #pragma warning disable CS0626
 
-namespace FFU_Tyrian_Legacy {
+namespace FFU_Terra_Liberatio {
     public static class ModLog {
         #if DEBUG
         private static readonly BepInEx.Logging.ManualLogSource Log = BepInEx.Logging.Logger.CreateLogSource("FFU_TL");

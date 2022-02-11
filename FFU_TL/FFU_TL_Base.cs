@@ -2,12 +2,12 @@
 #pragma warning disable CS0626
 
 using CoOpSpRpG;
-using FFU_Tyrian_Legacy;
+using FFU_Terra_Liberatio;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Concurrent;
 using System.IO;
 
-namespace FFU_Tyrian_Legacy {
+namespace FFU_Terra_Liberatio {
     public class FFU_TL_Base {
         public static void LoadModConfiguration() {
             Support.ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir);
@@ -54,10 +54,13 @@ namespace CoOpSpRpG {
             orig_loadArt(messageQueue);
             SCREEN_MANAGER.TileArt[0] = Support.PatchTexture(SCREEN_MANAGER.TileArt[0], Datas.tGroupsSelectors);
             SCREEN_MANAGER.TileArt[3] = Support.PatchLight(SCREEN_MANAGER.TileArt[3], Datas.tMissleTubesLight);
+            SCREEN_MANAGER.GameArt[31] = Support.PatchSheet(SCREEN_MANAGER.GameArt[31], Datas.sAllDataCores);
+            SCREEN_MANAGER.GameArt[31] = Support.PatchSheet(SCREEN_MANAGER.GameArt[31], Datas.sNewHandDigger);
             //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[0], "Tile_Sheet_0_Patched.png");
             //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[1], "Tile_Sheet_1_Patched.png");
             //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[2], "Tile_Sheet_2_Patched.png");
-            //Support.DumpImageToFile(SCREEN_MANAGER.AnimSheets[15], "Missile_Sheet.png");
+            //Support.DumpImageToFile(SCREEN_MANAGER.AnimSheets[15], "Missile_Sheet_Patched.png");
+            //Support.DumpImageToFile(SCREEN_MANAGER.GameArt[31], "Zap_Patched.png");
         }
     }
     public class patch_Game1 : Game1 {

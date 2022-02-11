@@ -1,4 +1,4 @@
-﻿namespace FFU_Tyrian_Legacy {
+﻿namespace FFU_Terra_Liberatio {
     public enum DataCategory {
         mods_bal_turr_Basic,
         weap_bal_turr_Basic,
@@ -46,6 +46,7 @@
         public string blocksHex;
         public string airwayHex;
         public string repairHex;
+        public int tResolution;
         public int xOffset;
         public int yOffset;
         public int tWidth;
