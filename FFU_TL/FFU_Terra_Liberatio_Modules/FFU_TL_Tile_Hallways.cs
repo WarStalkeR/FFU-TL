@@ -85,5 +85,18 @@ namespace FFU_Terra_Liberatio {
             LOOTBAG.exclusive[rEntry] = true;
             LOOTBAG.tier[rEntry] = 2;
         }
+        private enum Hallway {
+            none,
+            corridor_l0,
+            corridor_l1,
+            corridor_l2,
+            corridor_l3,
+            corner,
+            corner_s1,
+            corner_s2,
+            junctionT,
+            junctionX,
+            dead_end,
+        }
     }
 }

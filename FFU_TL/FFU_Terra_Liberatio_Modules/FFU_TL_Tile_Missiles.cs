@@ -47,12 +47,16 @@ namespace FFU_Terra_Liberatio {
 			mFactory.tip.botLeftText = $"Almaz-Antey Interstellar";
 			mFactory.tip.description = "Modular missile factory that can be installed on any ship that has enough space and energy to support it. Uses grey goo and high temperature plasma to manufacture missiles via efficient energy-matter converter. Connect linked missile silos to at least 1 of 4 outlets to unload produced ammo.";
 			mFactory.tip.tierIcontype = (TierIcon)mFactory.techLevel;
-			mFactory.tip.addStat("Fabrication Rate", $"{mFactory.rate * 5f:0} Energy/s.", false);
-			mFactory.tip.addStat("Standard Missile Cost", $"{MISSILEBAG.constructionCost(MissileType.standard)} En.", false);
-			mFactory.tip.addStat("Interdictor Missile Cost", $"{MISSILEBAG.constructionCost(MissileType.interdict)} En.", false);
-			mFactory.tip.addStat("Graviton Missile Cost", $"{MISSILEBAG.constructionCost(MissileType.graviton)} En.", false);
-			mFactory.tip.addStat("Anti-Armor Missile Cost", $"{MISSILEBAG.constructionCost(MissileType.armorpiercing)} En.", false);
-			mFactory.tip.addStat("Mini-Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.red_siege)} En.", false);
+			mFactory.tip.addStat($"Fabrication Rate", $"{mFactory.rate * 5f:0} Energy/s.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.standard)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.standard)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.graviton)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.graviton)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.armorpiercing)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.armorpiercing)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.devastator)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.devastator)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.hunter)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.hunter)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.impactor)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.impactor)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.corrosive)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.corrosive)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.terror)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.terror)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.interdict)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.interdict)} En.", false);
 		}
 		public static void TorpedoFactory(MissileFactory mFactory) {
 			mFactory.cost = 17000;
@@ -63,40 +67,88 @@ namespace FFU_Terra_Liberatio {
 			mFactory.tip.botLeftText = $"Almaz-Antey Interstellar";
 			mFactory.tip.description = "Modular torpedo factory that can be installed on any ship that has enough space and energy to support it. Uses grey goo and high temperature plasma to manufacture torpedoes via efficient energy-matter converter. Connect linked torpedo silos to at least 1 of 4 outlets to unload produced ammo.";
 			mFactory.tip.tierIcontype = (TierIcon)mFactory.techLevel;
-			mFactory.tip.addStat("Fabrication Rate", $"{mFactory.rate * 5f:0} Energy/s.", false);
-			mFactory.tip.addStat("Antimatter Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.antimatter_siege)} En.", false);
-			mFactory.tip.addStat("Fusion Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.fission_siege)} En.", false);
-			mFactory.tip.addStat("Seeker Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.seeker_siege)} En.", false);
-			mFactory.tip.addStat("Hellfire Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.hellfire_siege)} En.", false);
-			mFactory.tip.addStat("M.I.R.V. Torpedo Cost", $"{MISSILEBAG.constructionCost(MissileType.mirv_siege)} En.", false);
+			mFactory.tip.addStat($"Fabrication Rate", $"{mFactory.rate * 5f:0} Energy/s.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.antimatter_siege)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.antimatter_siege)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.seeker_siege)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.seeker_siege)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.fission_siege)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.fission_siege)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.hellfire_siege)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.hellfire_siege)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.mirv_siege)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.mirv_siege)} En.", false);
+			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.red_siege)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.red_siege)} En.", false);
 		}
 	}
 }
 
 namespace CoOpSpRpG {
 	public static class patch_MISSILEBAG {
-		[MonoModReplace] public static int constructionCost(MissileType type) {
+		[MonoModAdded] public static string typeName(patch_MissileType type) {
+			/// Missiles & Torpedoes custom reload time.
+			return type switch {
+				patch_MissileType.standard => "Standard Missile",
+				patch_MissileType.graviton => "Graviton Missile",
+				patch_MissileType.armorpiercing => "Anti-Armor Missile",
+				patch_MissileType.devastator => "Devastator Missile",
+				patch_MissileType.hunter => "Hunter Missile",
+				patch_MissileType.impactor => "Impactor Missile",
+				patch_MissileType.corrosive => "Corrosive Missile",
+				patch_MissileType.terror => "Terror Missile",
+				patch_MissileType.interdict => "Interdictor Missile",
+				patch_MissileType.antimatter_siege => "Antimatter Torpedo",
+				patch_MissileType.seeker_siege => "Seeker Torpedo",
+				patch_MissileType.fission_siege => "Oblivion Torpedo",
+				patch_MissileType.hellfire_siege => "Hellfire Torpedo",
+				patch_MissileType.mirv_siege => "Retaliator Torpedo",
+				patch_MissileType.red_siege => "Annihilator Torpedo",
+				_ => "Unknown Object",
+			};
+		}
+		[MonoModAdded] public static float reloadTime(patch_MissileType type) {
+		/// Missiles & Torpedoes custom reload time.
+			return type switch {
+				patch_MissileType.standard => 3.5f,
+				patch_MissileType.graviton => 4.5f,
+				patch_MissileType.armorpiercing => 4.5f,
+				patch_MissileType.devastator => 5.0f,
+				patch_MissileType.hunter => 2.0f,
+				patch_MissileType.impactor => 5.0f,
+				patch_MissileType.corrosive => 6.0f,
+				patch_MissileType.terror => 6.0f,
+				patch_MissileType.interdict => 45.0f,
+				patch_MissileType.antimatter_siege => 12.0f,
+				patch_MissileType.seeker_siege => 8.0f,
+				patch_MissileType.fission_siege => 13.0f,
+				patch_MissileType.hellfire_siege => 15.0f,
+				patch_MissileType.mirv_siege => 15.0f,
+				patch_MissileType.red_siege => 18.0f,
+				_ => 10.0f,
+			};
+		}
+		[MonoModReplace] public static int constructionCost(patch_MissileType type) {
 		/// Missiles & Torpedoes build cost rebalance.
 			return type switch {
-				MissileType.standard => 240,
-				MissileType.interdict => 1800,
-				MissileType.graviton => 360,
-				MissileType.armorpiercing => 360,
-				MissileType.red_siege => 480,
-				MissileType.antimatter_siege => 600,
-				MissileType.fission_siege => 720,
-				MissileType.seeker_siege => 960,
-				MissileType.hellfire_siege => 1200,
-				MissileType.mirv_siege => 1440,
+				patch_MissileType.standard => 240,
+				patch_MissileType.graviton => 360,
+				patch_MissileType.armorpiercing => 320,
+				patch_MissileType.devastator => 420,
+				patch_MissileType.hunter => 160,
+				patch_MissileType.impactor => 400,
+				patch_MissileType.corrosive => 480,
+				patch_MissileType.terror => 560,
+				patch_MissileType.interdict => 1200,
+				patch_MissileType.antimatter_siege => 600,
+				patch_MissileType.seeker_siege => 720,
+				patch_MissileType.fission_siege => 960,
+				patch_MissileType.hellfire_siege => 1320,
+				patch_MissileType.mirv_siege => 1560,
+				patch_MissileType.red_siege => 1800,
 				_ => 600,
 			};
 		}
-		[MonoModReplace] public static Missile createMissile(MissileType type) {
+		[MonoModReplace] public static Missile createMissile(patch_MissileType type) {
 		/// Missiles & Torpedoes parameters rebalance.
 			Missile missile = null;
 			switch (type) {
 				//Modified Data
-				case MissileType.standard:
+				case patch_MissileType.standard:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = BULLETBAG.splodelist[14];
 				missile.collisionHeight = 28;
@@ -111,22 +163,7 @@ namespace CoOpSpRpG {
 				missile.radius = 6f;
 				missile.hp = 1;
 				break;
-				case MissileType.interdict:
-				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
-				missile.collisionData = BULLETBAG.splodelist[1];
-				missile.collisionHeight = 3;
-				missile.collisionWidth = 3;
-				missile.explosion = ExplosionType.small_missile;
-				missile.effect = WeaponEffectType.interdict_missile;
-				missile.fuel = 180f;
-				missile.rotationSpeed = 4.9f;
-				missile.topSpeed = 100000f;
-				missile.launchSpeed = 200f;
-				missile.acceleration = 200f;
-				missile.radius = 10f;
-				missile.hp = 75;
-				break;
-				case MissileType.graviton:
+				case patch_MissileType.graviton:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = BULLETBAG.splodelist[14];
 				missile.collisionHeight = 25;
@@ -142,7 +179,7 @@ namespace CoOpSpRpG {
 				missile.hp = 2;
 				missile.trailType = 3;
 				break;
-				case MissileType.armorpiercing:
+				case patch_MissileType.armorpiercing:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = BULLETBAG.splodelist[14];
 				missile.collisionHeight = 42;
@@ -158,7 +195,22 @@ namespace CoOpSpRpG {
 				missile.hp = 2;
 				missile.trailType = 4;
 				break;
-				case MissileType.red_siege:
+				case patch_MissileType.interdict:
+				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
+				missile.collisionData = BULLETBAG.splodelist[1];
+				missile.collisionHeight = 3;
+				missile.collisionWidth = 3;
+				missile.explosion = ExplosionType.small_missile;
+				missile.effect = WeaponEffectType.interdict_missile;
+				missile.fuel = 180f;
+				missile.rotationSpeed = 4.9f;
+				missile.topSpeed = 12500f;
+				missile.launchSpeed = 250f;
+				missile.acceleration = 250f;
+				missile.radius = 6f;
+				missile.hp = 25;
+				break;
+				case patch_MissileType.red_siege:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = BULLETBAG.splodelist[14];
 				missile.collisionHeight = 42;
@@ -174,7 +226,7 @@ namespace CoOpSpRpG {
 				missile.hp = 2;
 				missile.trailType = 4;
 				break;
-				case MissileType.antimatter_siege:
+				case patch_MissileType.antimatter_siege:
 				missile = new Missile(SCREEN_MANAGER.GameArt[128]);
 				missile.collisionData = BULLETBAG.splodelist[13];
 				missile.collisionHeight = 48;
@@ -190,7 +242,7 @@ namespace CoOpSpRpG {
 				missile.hp = 5;
 				missile.trailType = 1;
 				break;
-				case MissileType.fission_siege:
+				case patch_MissileType.fission_siege:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = BULLETBAG.splodelist[14];
 				missile.collisionHeight = 38;
@@ -206,7 +258,7 @@ namespace CoOpSpRpG {
 				missile.hp = 4;
 				missile.trailType = 3;
 				break;
-				case MissileType.seeker_siege:
+				case patch_MissileType.seeker_siege:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = BULLETBAG.splodelist[14];
 				missile.collisionHeight = 38;
@@ -222,7 +274,7 @@ namespace CoOpSpRpG {
 				missile.hp = 12;
 				missile.trailType = 5;
 				break;
-				case MissileType.hellfire_siege:
+				case patch_MissileType.hellfire_siege:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = BULLETBAG.splodelist[14];
 				missile.collisionHeight = 38;
@@ -238,7 +290,7 @@ namespace CoOpSpRpG {
 				missile.hp = 2;
 				missile.trailType = 3;
 				break;
-				case MissileType.mirv_siege:
+				case patch_MissileType.mirv_siege:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = BULLETBAG.splodelist[14];
 				missile.collisionHeight = 38;
@@ -255,7 +307,7 @@ namespace CoOpSpRpG {
 				missile.trailType = 3;
 				break;
 				//Original Data
-				case MissileType.drill_bore:
+				case patch_MissileType.drill_bore:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = null;
 				missile.effect = WeaponEffectType.drill_bore;
@@ -265,28 +317,28 @@ namespace CoOpSpRpG {
 				missile.launchSpeed = 1f;
 				missile.explosion = ExplosionType.none;
 				break;
-				case MissileType.repair_drone_t1:
+				case patch_MissileType.repair_drone_t1:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.fuel = 120f;
 				missile.controller = new RepairDroneMissileController();
 				missile.topSpeed = CONFIG.maxSpeed * 1.5f;
 				missile.explosion = ExplosionType.small_missile;
 				break;
-				case MissileType.machinegun_drone_t1:
+				case patch_MissileType.machinegun_drone_t1:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.fuel = 120f;
 				missile.controller = new BulletDroneMissileController();
 				missile.topSpeed = CONFIG.maxSpeed * 1.5f;
 				missile.explosion = ExplosionType.small_missile;
 				break;
-				case MissileType.supply_drone:
+				case patch_MissileType.supply_drone:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.fuel = 120f;
 				missile.controller = new SupplyDroneControllerAnim();
 				missile.topSpeed = CONFIG.maxSpeed * 1.5f;
 				missile.explosion = ExplosionType.small_missile;
 				break;
-				case MissileType.railarray_drone_t2:
+				case patch_MissileType.railarray_drone_t2:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.fuel = 120f;
 				missile.hp = 3;
@@ -294,7 +346,7 @@ namespace CoOpSpRpG {
 				missile.topSpeed = CONFIG.maxSpeed * 1.5f;
 				missile.explosion = ExplosionType.small_missile;
 				break;
-				case MissileType.antimatter_drone_t2:
+				case patch_MissileType.antimatter_drone_t2:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.fuel = 120f;
 				missile.hp = 3;
@@ -302,7 +354,7 @@ namespace CoOpSpRpG {
 				missile.topSpeed = CONFIG.maxSpeed * 0.0145f * 60f;
 				missile.explosion = ExplosionType.small_missile;
 				break;
-				case MissileType.goliath_fighter_t2:
+				case patch_MissileType.goliath_fighter_t2:
 				missile = new Missile(SCREEN_MANAGER.GameArt[205]);
 				missile.drawNormal = true;
 				missile.fuel = 800f;
@@ -312,7 +364,7 @@ namespace CoOpSpRpG {
 				missile.artOrigin = new Vector2(11f, 33f);
 				missile.scale = 0.8f;
 				break;
-				case MissileType.goliath_support_t2:
+				case patch_MissileType.goliath_support_t2:
 				missile = new Missile(SCREEN_MANAGER.GameArt[206]);
 				missile.drawNormal = true;
 				missile.fuel = 800f;
@@ -322,7 +374,7 @@ namespace CoOpSpRpG {
 				missile.artOrigin = new Vector2(SCREEN_MANAGER.GameArt[206].Width / 2, 33f);
 				missile.scale = 0.8f;
 				break;
-				case MissileType.locust_drone_t3:
+				case patch_MissileType.locust_drone_t3:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.fuel = 220f;
 				missile.hp = 25;
@@ -330,7 +382,7 @@ namespace CoOpSpRpG {
 				missile.topSpeed = CONFIG.maxSpeed * 0.0145f;
 				missile.explosion = ExplosionType.small_missile;
 				break;
-				case MissileType.blue_spore:
+				case patch_MissileType.blue_spore:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = BULLETBAG.splodelist[10];
 				missile.collisionHeight = 3;
@@ -346,7 +398,7 @@ namespace CoOpSpRpG {
 				missile.hp = 5;
 				missile.trailType = 3;
 				break;
-				case MissileType.blue_biome_visuals:
+				case patch_MissileType.blue_biome_visuals:
 				missile = new Missile(SCREEN_MANAGER.GameArt[86]);
 				missile.collisionData = BULLETBAG.splodelist[10];
 				missile.collisionHeight = 3;
@@ -363,7 +415,7 @@ namespace CoOpSpRpG {
 				missile.trailType = 3;
 				missile.controller = new BlueBiomeVisualSpawner();
 				break;
-				case MissileType.mine:
+				case patch_MissileType.mine:
 				missile = new Missile(SCREEN_MANAGER.GameArt[101]);
 				missile.collisionData = BULLETBAG.splodelist[14];
 				missile.collisionHeight = 38;
@@ -380,49 +432,116 @@ namespace CoOpSpRpG {
 				missile.trailType = 3;
 				break;
 			}
-			if (missile != null) missile.type = type;
+			if (missile != null) missile.type = (MissileType)(int)type;
 			return missile;
 		}
 	}
 	public class patch_MissileMagazineAnim : MissileMagazineAnim {
 		[MonoModIgnore] private Rectangle artSource;
 		[MonoModIgnore] public patch_MissileMagazineAnim(byte r) : base(r) { }
-		[MonoModReplace]
-		public void setType(MissileType type) {
+		[MonoModReplace] public void setType(patch_MissileType type) {
 			/// Sprite fix for graviton and implementation for new.
 			switch (type) {
 				default:
-				case MissileType.standard:
+				case patch_MissileType.drill_bore:
+				case patch_MissileType.supply_drone:
+				case patch_MissileType.repair_drone_t1:
+				case patch_MissileType.machinegun_drone_t1:
+				case patch_MissileType.railarray_drone_t2:
+				case patch_MissileType.antimatter_drone_t2:
+				case patch_MissileType.goliath_fighter_t2:
+				case patch_MissileType.goliath_support_t2:
+				case patch_MissileType.locust_drone_t3:
+				case patch_MissileType.blue_biome_visuals:
+				case patch_MissileType.blue_spore:
+				case patch_MissileType.mine:
+				case patch_MissileType.mirv_srm:
+				case patch_MissileType.standard:
 				artSource.X = 0;
 				artSource.Y = 128;
 				artSource.Width = 32;
 				artSource.Height = 32;
 				break;
-				case MissileType.interdict:
-				case MissileType.graviton:
+				case patch_MissileType.graviton:
 				artSource.X = 32;
 				artSource.Y = 128;
 				artSource.Width = 32;
 				artSource.Height = 32;
 				break;
-				case MissileType.armorpiercing:
-				case MissileType.red_siege:
+				case patch_MissileType.armorpiercing:
 				artSource.X = 64;
 				artSource.Y = 128;
 				artSource.Width = 32;
 				artSource.Height = 32;
 				break;
-				case MissileType.antimatter_siege:
-				case MissileType.fission_siege:
+				case patch_MissileType.devastator:
+				artSource.X = 96;
+				artSource.Y = 128;
+				artSource.Width = 32;
+				artSource.Height = 32;
+				break;
+				case patch_MissileType.hunter:
+				artSource.X = 128;
+				artSource.Y = 128;
+				artSource.Width = 32;
+				artSource.Height = 32;
+				break;
+				case patch_MissileType.impactor:
+				artSource.X = 160;
+				artSource.Y = 128;
+				artSource.Width = 32;
+				artSource.Height = 32;
+				break;
+				case patch_MissileType.corrosive:
+				artSource.X = 192;
+				artSource.Y = 128;
+				artSource.Width = 32;
+				artSource.Height = 32;
+				break;
+				case patch_MissileType.terror:
+				artSource.X = 224;
+				artSource.Y = 128;
+				artSource.Width = 32;
+				artSource.Height = 32;
+				break;
+				case patch_MissileType.interdict:
+				artSource.X = 256;
+				artSource.Y = 128;
+				artSource.Width = 32;
+				artSource.Height = 32;
+				break;
+				case patch_MissileType.antimatter_siege:
+				artSource.X = 0;
+				artSource.Y = 368;
+				artSource.Width = 48;
+				artSource.Height = 48;
+				break;
+				case patch_MissileType.seeker_siege:
 				artSource.X = 48;
 				artSource.Y = 368;
 				artSource.Width = 48;
 				artSource.Height = 48;
 				break;
-				case MissileType.seeker_siege:
-				case MissileType.hellfire_siege:
-				case MissileType.mirv_siege:
-				artSource.X = 0;
+				case patch_MissileType.fission_siege:
+				artSource.X = 96;
+				artSource.Y = 368;
+				artSource.Width = 48;
+				artSource.Height = 48;
+				break;
+				case patch_MissileType.hellfire_siege:
+				artSource.X = 144;
+				artSource.Y = 368;
+				artSource.Width = 48;
+				artSource.Height = 48;
+				break;
+				case patch_MissileType.red_siege:
+				artSource.X = 192;
+				artSource.Y = 368;
+				artSource.Width = 48;
+				artSource.Height = 48;
+				break;
+				case patch_MissileType.mirv_siege:
+				artSource.X = 240;
 				artSource.Y = 368;
 				artSource.Width = 48;
 				artSource.Height = 48;
@@ -433,42 +552,109 @@ namespace CoOpSpRpG {
 	public class patch_MissileTubeAnim : MissileTubeAnim {
 		[MonoModIgnore] private Rectangle artSource;
 		[MonoModIgnore] public patch_MissileTubeAnim(byte r, bool selfLoad, bool siege) : base(r, selfLoad, siege) { }
-		[MonoModReplace]
-		public void setType(MissileType type) {
+		[MonoModReplace] public void setType(patch_MissileType type) {
 			/// Sprite fix for graviton and implementation for new.
 			switch (type) {
 				default:
-				case MissileType.standard:
+				case patch_MissileType.drill_bore:
+				case patch_MissileType.supply_drone:
+				case patch_MissileType.repair_drone_t1:
+				case patch_MissileType.machinegun_drone_t1:
+				case patch_MissileType.railarray_drone_t2:
+				case patch_MissileType.antimatter_drone_t2:
+				case patch_MissileType.goliath_fighter_t2:
+				case patch_MissileType.goliath_support_t2:
+				case patch_MissileType.locust_drone_t3:
+				case patch_MissileType.blue_biome_visuals:
+				case patch_MissileType.blue_spore:
+				case patch_MissileType.mine:
+				case patch_MissileType.mirv_srm:
+				case patch_MissileType.standard:
 				artSource.X = 0;
 				artSource.Y = 0;
 				artSource.Width = 32;
 				artSource.Height = 128;
 				break;
-				case MissileType.interdict:
-				case MissileType.graviton:
+				case patch_MissileType.graviton:
 				artSource.X = 32;
 				artSource.Y = 0;
 				artSource.Width = 32;
 				artSource.Height = 128;
 				break;
-				case MissileType.armorpiercing:
-				case MissileType.red_siege:
+				case patch_MissileType.armorpiercing:
 				artSource.X = 64;
 				artSource.Y = 0;
 				artSource.Width = 32;
 				artSource.Height = 128;
 				break;
-				case MissileType.antimatter_siege:
-				case MissileType.fission_siege:
+				case patch_MissileType.devastator:
+				artSource.X = 96;
+				artSource.Y = 0;
+				artSource.Width = 32;
+				artSource.Height = 128;
+				break;
+				case patch_MissileType.hunter:
+				artSource.X = 128;
+				artSource.Y = 0;
+				artSource.Width = 32;
+				artSource.Height = 128;
+				break;
+				case patch_MissileType.impactor:
+				artSource.X = 160;
+				artSource.Y = 0;
+				artSource.Width = 32;
+				artSource.Height = 128;
+				break;
+				case patch_MissileType.corrosive:
+				artSource.X = 192;
+				artSource.Y = 0;
+				artSource.Width = 32;
+				artSource.Height = 128;
+				break;
+				case patch_MissileType.terror:
+				artSource.X = 224;
+				artSource.Y = 0;
+				artSource.Width = 32;
+				artSource.Height = 128;
+				break;
+				case patch_MissileType.interdict:
+				artSource.X = 256;
+				artSource.Y = 0;
+				artSource.Width = 32;
+				artSource.Height = 128;
+				break;
+				case patch_MissileType.antimatter_siege:
+				artSource.X = 0;
+				artSource.Y = 160;
+				artSource.Width = 48;
+				artSource.Height = 208;
+				break;
+				case patch_MissileType.seeker_siege:
 				artSource.X = 48;
 				artSource.Y = 160;
 				artSource.Width = 48;
 				artSource.Height = 208;
 				break;
-				case MissileType.seeker_siege:
-				case MissileType.hellfire_siege:
-				case MissileType.mirv_siege:
-				artSource.X = 0;
+				case patch_MissileType.fission_siege:
+				artSource.X = 96;
+				artSource.Y = 160;
+				artSource.Width = 48;
+				artSource.Height = 208;
+				break;
+				case patch_MissileType.hellfire_siege:
+				artSource.X = 144;
+				artSource.Y = 160;
+				artSource.Width = 48;
+				artSource.Height = 208;
+				break;
+				case patch_MissileType.red_siege:
+				artSource.X = 192;
+				artSource.Y = 160;
+				artSource.Width = 48;
+				artSource.Height = 208;
+				break;
+				case patch_MissileType.mirv_siege:
+				artSource.X = 240;
 				artSource.Y = 160;
 				artSource.Width = 48;
 				artSource.Height = 208;
@@ -501,8 +687,9 @@ namespace CoOpSpRpG {
 		goliath_support_t2,
 		devastator,
 		hunter,
-		havoc,
-		chemical,
-		overload,
+		impactor,
+		corrosive,
+		terror,
+		mirv_srm
 	}
 }

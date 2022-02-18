@@ -9,7 +9,7 @@ using System.Linq;
 using System;
 
 namespace FFU_Terra_Liberatio {
-    internal class FFU_TL_Tile_Controllers {
+    public class FFU_TL_Tile_Controllers {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
             ModLog.Message($"Applying module changes: Ship/Weapon Controllers...");
             modControllerN(modules, 255, 75, 0);

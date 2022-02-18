@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="FFU_TL_Defs.cs" />
     <Compile Include="FFU_TL_Handling.cs" />
+    <Compile Include="FFU_TL_Internals.cs" />
     <Compile Include="FFU_TL_Modules.cs" />
     <Compile Include="FFU_TL_Research.cs" />
     <Compile Include="FFU_Terra_Liberatio_Helpers\Datas.cs" />

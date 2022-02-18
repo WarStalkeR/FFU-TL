@@ -17,9 +17,10 @@
 ## Installation (Basic)
 1) Download https://www.nuget.org/packages/SharpDX.Direct3D9/4.0.1, unpack it, copy SharpDX.Direct3D9.dll from \lib\net45 to WTF's folder.
 2) Download https://www.nuget.org/packages/SharpDX.Mathematics/4.0.1, unpack it, copy SharpDX.Mathematics.dll from \lib\net45 to WTF's folder.
-3) Download MonoMod from https://github.com/MonoMod/MonoMod/releases/tag/v22.01.29.01 and unpack it to anywhere.
-4) Download already compiled mod's DLL from https://github.com/WarStalkeR/FFU-TL/releases/tag/v0.0.1.0 and place it in WTF's folder.
-5) Via command line, launch MonoMod.exe \Path\To\WTF.exe, it will create MONOMODDED_WTF.exe that you can run. Enjoy!
+3) Download any BepInEx_NetLauncher_???_6.0.0.zip from https://builds.bepinex.dev/projects/bepinex_be, unpack it, and copy only "BepInEx" folder to WTF's folder.
+4) Download MonoMod from https://github.com/MonoMod/MonoMod/releases/tag/v22.01.29.01 and unpack it to anywhere.
+5) Download already compiled mod's DLL from https://github.com/WarStalkeR/FFU-TL/releases/tag/v0.0.1.0 and place it in WTF's folder.
+6) Via command line, launch MonoMod.exe \Path\To\WTF.exe, it will create MONOMODDED_WTF.exe that you can run. Enjoy!
 
 ## Installation (Advanced)
 1) Download https://www.nuget.org/packages/SharpDX.Direct3D9/4.0.1, unpack it, copy SharpDX.Direct3D9.dll from \lib\net45 to WTF's folder.

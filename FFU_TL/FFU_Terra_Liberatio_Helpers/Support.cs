@@ -128,17 +128,19 @@ namespace FFU_Terra_Liberatio {
 			return refTiles;
         }
 		public static Texture2D PatchLight(Texture2D mTex, TexturePatch tPatch) {
-			return PatchTexture(mTex, TextureFromStream(tPatch.lightHex), tPatch.xOffset, tPatch.yOffset, tPatch.tResolution, false, Color.Black);
+			return PatchTexture(mTex, TextureFromStream(tPatch.lightHex), 
+				tPatch.xOffset, tPatch.yOffset, tPatch.tResolution, true, Color.Black, Background.transparent);
 		}
 		public static Texture2D PatchSheet(Texture2D mTex, TexturePatch tPatch) {
-			return PatchTexture(mTex, TextureFromStream(tPatch.artHex), tPatch.xOffset, tPatch.yOffset, tPatch.tResolution, false, Color.Transparent);
+			return PatchTexture(mTex, TextureFromStream(tPatch.artHex), 
+				tPatch.xOffset, tPatch.yOffset, tPatch.tResolution, true, Color.Transparent, Background.transparent);
 		}
 		public static Texture2D PatchTexture(Texture2D mTex, TexturePatch tPatch) {
 			return PatchTexture(PatchTexture(mTex,
-			TextureFromStream(tPatch.artHex), tPatch.xOffset, tPatch.yOffset, tPatch.tResolution, true, Color.Transparent),
-			TextureFromStream(tPatch.emitHex), tPatch.xOffset + 128, tPatch.yOffset, tPatch.tResolution, true, Color.Black);
+			TextureFromStream(tPatch.artHex), tPatch.xOffset, tPatch.yOffset, tPatch.tResolution, true, Color.Transparent, Background.transparent),
+			TextureFromStream(tPatch.emitHex), tPatch.xOffset + 128, tPatch.yOffset, tPatch.tResolution, true, Color.Black, Background.black);
 		}
-		public static Texture2D PatchTexture(Texture2D mTex, Texture2D pTex, int sX, int sY, int tRes, bool vTile, Color fColor) {
+		public static Texture2D PatchTexture(Texture2D mTex, Texture2D pTex, int sX, int sY, int tRes, bool vTile, Color fColor, Background bType) {
 			ModLog.Message($"Patching Texture: {mTex.Name}...");
 			try {
 				int patchX = pTex.Width / tRes;
@@ -163,7 +165,7 @@ namespace FFU_Terra_Liberatio {
 						&& tX < (sX + patchX)
 						&& tY < (sY + patchY)) {
 						Point currTile = new Point(tX - sX, tY - sY);
-						bool emptyTile = vTile ? IsEmptyTile(currTile, patch2D, tRes) : false;
+						bool emptyTile = vTile ? IsEmptyTile(currTile, patch2D, tRes, bType) : false;
 						if (!vTile || !emptyTile) {
 							Parallel.For(0, tRes * tRes, rN => {
 								int rX = tX * tRes + (rN % tRes);
@@ -192,7 +194,7 @@ namespace FFU_Terra_Liberatio {
 				return null;
 			}
 		}
-		public static MemoryStream StreamFromTexture(Texture2D rTex) {
+		public static MemoryStream StreamFromTexture(Texture2D rTex, bool noAlpha) {
 			try {
 				Color[] cData = new Color[rTex.Height * rTex.Width];
 				rTex.GetData(cData);
@@ -203,7 +205,7 @@ namespace FFU_Terra_Liberatio {
 					cArray[arrPos] = cData[i].B; arrPos++;
 					cArray[arrPos] = cData[i].G; arrPos++;
 					cArray[arrPos] = cData[i].R; arrPos++;
-					cArray[arrPos] = cData[i].A; arrPos++;
+					cArray[arrPos] = noAlpha ? (byte)255 : cData[i].A; arrPos++;
 				}
 				BitmapSource source = BitmapSource.Create(rTex.Width, rTex.Height, 96.0, 96.0, rFormat, null, cArray, rTex.Width * 4);
 				MemoryStream memoryStream = new MemoryStream();
@@ -217,22 +219,26 @@ namespace FFU_Terra_Liberatio {
 				return null;
 			}
 		}
-		public static void DumpImageToFile(Texture2D rImage, string dumpFile = "Dumped_Image.png") {
+		public static void DumpImageToFile(Texture2D rImage, string dumpFile = "Dumped_Image.png", bool noAlpha = false) {
 			ModLog.Warning($"Dumping 2D texture into the {dumpFile}...");
 			ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir);
 			BinaryWriter imgDump = new BinaryWriter(File.OpenWrite(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir + dumpFile));
-			MemoryStream imgStream = StreamFromTexture(rImage);
+			MemoryStream imgStream = StreamFromTexture(rImage, noAlpha);
 			imgDump.Write(imgStream.ToArray());
 			imgDump.Close();
 			try { imgDump.Dispose(); } catch { }
 			try { imgStream.Dispose(); } catch { }
 		}
-		public static bool IsEmptyTile(Point cTile, Color[,] refTex, int tRes) {
+		public static bool IsEmptyTile(Point cTile, Color[,] refTex, int tRes, Background bType) {
 			for (int y = 0; y < tRes; y++)
 				for (int x = 0; x < tRes; x++) {
 					try {
 						Color refPixel = refTex[cTile.Y * tRes + y, cTile.X * tRes + x];
-						if (refPixel.A > 0) return false;
+						switch (bType) {
+							case Background.transparent: if (!IsTransparent(refPixel)) return false; break;
+							case Background.black: if (!IsPureBlack(refPixel)) return false; break;
+							case Background.special: if (!IsColorSpecial(refPixel)) return false; break;
+						}
 					} catch {
 						ModLog.Fatal($"IsEmptyTile Failed! X:{x}, Y:{y}, rX:{cTile.X * tRes + x}, rY:{cTile.Y * tRes + y}");
 						return false;
@@ -240,6 +246,15 @@ namespace FFU_Terra_Liberatio {
 				}
 			return true;
         }
+		public static bool IsTransparent(Color rPixel) {
+			return rPixel.A == 0;
+		}
+		public static bool IsPureBlack(Color rPixel) {
+			return rPixel.R == 0 && rPixel.G == 0 && rPixel.B == 0 && rPixel.A == 255;
+		}
+		public static bool IsColorSpecial(Color rPixel) {
+			return rPixel.R == 255 && rPixel.G == 0 && rPixel.B == 255 && rPixel.A == 255;
+		}
 		public static void ValidateDirPath(string dirPath) {
 			if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
 		}
@@ -280,5 +295,10 @@ namespace FFU_Terra_Liberatio {
 					tOutput[y * oWidth + x] = tInput[y, x];
 			return tOutput;
         }
+		public enum Background {
+			transparent,
+			black,
+			special
+		}
 	}
 }

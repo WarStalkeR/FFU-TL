@@ -1,4 +1,13 @@
-﻿using CoOpSpRpG;
+﻿#pragma warning disable CS0108
+#pragma warning disable CS0169
+#pragma warning disable CS0414
+#pragma warning disable CS0436
+#pragma warning disable CS0649
+#pragma warning disable CS0626
+
+using MonoMod;
+using CoOpSpRpG;
+using FFU_Terra_Liberatio;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -221,6 +230,31 @@ namespace FFU_Terra_Liberatio {
             LOOTBAG.researchCategories[(int)DataCategory.loot_TierTwoPlus].Add(rEntry);
             LOOTBAG.researchCategories[(int)DataCategory.loot_TierThree].Add(rEntry);
             LOOTBAG.researchType[rEntry] = ResearchType.module;
+        }
+    }
+}
+
+namespace CoOpSpRpG {
+    public class patch_CargoBay: CargoBay {
+        [MonoModIgnore] private float timer;
+        [MonoModIgnore] private float frequency;
+        public string getTip() {
+            return "Access Cargo";
+        }
+        public override void animate(float elapsed) {
+            if (functioning && miningBonus != 0f) {
+                timer += elapsed;
+                if (timer >= frequency) {
+                    timer = 0f;
+                    StatStatus cargoBuff = new StatStatus(frequency);
+                    cargoBuff.tempOreYield = miningBonus;
+                    cargoBuff.tip = new ToolTip();
+                    cargoBuff.tip.tip = "Advanced ore sorting";
+                    cargoBuff.tip.setDescription("Grants passive mining bonus as long as you have Cargo Bay C-96 installed and in working condition.");
+                    cargoBuff.icon = new Rectangle(136, 1, 32, 32);
+                    cosm.ship.newEffects.Enqueue(cargoBuff);
+                }
+            }
         }
     }
 }
