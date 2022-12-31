@@ -150,13 +150,15 @@
 	"$(SolutionDir)..\MonoMod\MonoMod.exe" "$(SolutionDir)..\..\WTF.exe"
 	del "$(SolutionDir)..\..\WTF.FFU_TL.mm.dll" /F
 	del "$(SolutionDir)..\..\MONOMODDED_WTF.pdb" /F
-	move /Y "$(SolutionDir)..\..\MONOMODDED_WTF.exe" "$(SolutionDir)..\..\WTF_modded.exe"
+	echo F | xcopy /F /Y "$(SolutionDir)..\..\MONOMODDED_WTF.exe" "$(SolutionDir)..\..\WTF_modded.exe"
+	del "$(SolutionDir)..\..\MONOMODDED_WTF.exe" /F
 ) else if $(ConfigurationName) == Publish (
 	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\BepInEx\monomod\WTF.FFU_TL.mm.dll"
 	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\WTF.FFU_TL.mm.dll"
 	"$(SolutionDir)..\MonoMod\MonoMod.exe" "$(SolutionDir)..\..\WTF.exe"
 	del "$(SolutionDir)..\..\MONOMODDED_WTF.pdb" /F
-	move /Y "$(SolutionDir)..\..\MONOMODDED_WTF.exe" "$(SolutionDir)..\..\WTF_modded.exe"
+	echo F | xcopy /F /Y "$(SolutionDir)..\..\MONOMODDED_WTF.exe" "$(SolutionDir)..\..\WTF_modded.exe"
+	del "$(SolutionDir)..\..\MONOMODDED_WTF.exe" /F
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>
