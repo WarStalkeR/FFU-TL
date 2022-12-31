@@ -15,7 +15,7 @@ using System.Linq;
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Taverns {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
-            ModLog.Message($"Applying module changes: Space Bars & Taverns...");
+            ModLog.Message($"Applying module changes: Space Bars & Taverns.");
 			modTavernSushi(modules, 145, 188, 22);
 			modTavernSushi(modules, 145, 189, 22);
 			modTavernSushi(modules, 145, 190, 22);
@@ -44,11 +44,11 @@ namespace FFU_Terra_Liberatio {
             patch_TILEBAG.refDeprecate(new Color(145, 183, 22));
 		}
 		public static void updateResearch() {
-			ModLog.Message($"Applying research changes: Space Bars & Taverns...");
-			modTavernSushi(400731U);
-			modTavernSnooker(400732U);
-			modTavernTeaHouse(400733U);
-			modTavernLuxury(400734U);
+			ModLog.Message($"Applying research changes: Space Bars & Taverns.");
+			modTavernSushi(400731U, 145, 188, 22);
+			modTavernSnooker(400732U, 145, 184, 22);
+			modTavernTeaHouse(400733U, 145, 172, 24);
+			modTavernLuxury(400734U, 145, 123, 24);
 		}
 		public static void modTavernSushi(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
 			FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
@@ -144,10 +144,9 @@ namespace FFU_Terra_Liberatio {
 			rBar.tip.tierIcontype = (TierIcon)rBar.techLevel;
 			rBar.tip.addStat($"Deprecated", "Yes", false);
 		}
-		public static void modTavernSushi(uint rEntry) {
-			FFU_TL_Defs.checkExistingResearch(rEntry);
-			FFU_TL_Defs.checkResearchDupe(new Color(145, 188, 22));
-			LOOTBAG.modules[rEntry] = new Color(145, 188, 22);
+		public static void modTavernSushi(uint rEntry, byte r, byte g, byte b) {
+			FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+			LOOTBAG.modules[rEntry] = new Color(r, g, b);
 			LOOTBAG.researchCosts[rEntry] = 37500;
 			LOOTBAG.researchTimes[rEntry] = 22.5f;
 			LOOTBAG.exclusive[rEntry] = true;
@@ -157,10 +156,9 @@ namespace FFU_Terra_Liberatio {
 			LOOTBAG.researchCategories[(int)DataCategory.loot_TierTwoPlus].Add(rEntry);
 			LOOTBAG.researchType[rEntry] = ResearchType.module;
 		}
-		public static void modTavernSnooker(uint rEntry) {
-			FFU_TL_Defs.checkExistingResearch(rEntry);
-			FFU_TL_Defs.checkResearchDupe(new Color(145, 184, 22));
-			LOOTBAG.modules[rEntry] = new Color(145, 184, 22);
+		public static void modTavernSnooker(uint rEntry, byte r, byte g, byte b) {
+			FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+			LOOTBAG.modules[rEntry] = new Color(r, g, b);
 			LOOTBAG.researchCosts[rEntry] = 62500;
 			LOOTBAG.researchTimes[rEntry] = 37.5f;
 			LOOTBAG.exclusive[rEntry] = true;
@@ -170,10 +168,9 @@ namespace FFU_Terra_Liberatio {
 			LOOTBAG.researchCategories[(int)DataCategory.loot_TierTwoPlus].Add(rEntry);
 			LOOTBAG.researchType[rEntry] = ResearchType.module;
 		}
-		public static void modTavernTeaHouse(uint rEntry) {
-			FFU_TL_Defs.checkExistingResearch(rEntry);
-			FFU_TL_Defs.checkResearchDupe(new Color(145, 172, 24));
-			LOOTBAG.modules[rEntry] = new Color(145, 172, 24);
+		public static void modTavernTeaHouse(uint rEntry, byte r, byte g, byte b) {
+			FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+			LOOTBAG.modules[rEntry] = new Color(r, g, b);
 			LOOTBAG.researchCosts[rEntry] = 125000;
 			LOOTBAG.researchTimes[rEntry] = 75f;
 			LOOTBAG.exclusive[rEntry] = true;
@@ -183,10 +180,9 @@ namespace FFU_Terra_Liberatio {
 			LOOTBAG.researchCategories[(int)DataCategory.loot_TierThree].Add(rEntry);
 			LOOTBAG.researchType[rEntry] = ResearchType.module;
 		}
-		public static void modTavernLuxury(uint rEntry) {
-			FFU_TL_Defs.checkExistingResearch(rEntry);
-			FFU_TL_Defs.checkResearchDupe(new Color(145, 123, 24));
-			LOOTBAG.modules[rEntry] = new Color(145, 123, 24);
+		public static void modTavernLuxury(uint rEntry, byte r, byte g, byte b) {
+			FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+			LOOTBAG.modules[rEntry] = new Color(r, g, b);
 			LOOTBAG.researchCosts[rEntry] = 375000;
 			LOOTBAG.researchTimes[rEntry] = 225f;
 			LOOTBAG.exclusive[rEntry] = true;
@@ -200,7 +196,7 @@ namespace FFU_Terra_Liberatio {
 }
 
 namespace CoOpSpRpG {
-    public class patch_AgentTracker : AgentTracker {
+    [MonoModIfFlag("SP")] public class patch_AgentTracker : AgentTracker {
         public extern List<BarAgentDrawer> orig_getBarAgents(ulong stationID, Point grid);
         public List<BarAgentDrawer> getBarAgents(ulong stationID, Point grid) {
         /// Allow player to recruit crew from all owned bars.
@@ -208,7 +204,7 @@ namespace CoOpSpRpG {
             else return orig_getBarAgents(stationID, grid);
         }
     }
-    /*public class patch_BarScreen : BarScreen {
+	/*[MonoModIfFlag("SP")] public class patch_BarScreen : BarScreen {
 		[MonoModIgnore] private int hoverSpot;
 		[MonoModIgnore] private Keys[] oldKeys;
 		[MonoModIgnore] private Clickable close;

@@ -31,7 +31,7 @@ namespace CoOpSpRpG {
 			return orig_getModAnim(index, rotation, bBox, mod);
 		}
 	}
-	public class patch_MicroCosm : MicroCosm {
+	[MonoModIfFlag("SP")] public class patch_MicroCosm : MicroCosm {
 		public List<Module> walls;
 		[MonoModIgnore] private void setMoment() { }
 		[MonoModIgnore] private void checkHealthCommit() { }
@@ -1107,7 +1107,7 @@ namespace CoOpSpRpG {
 			return false;
 		}
 		private extern void orig_updateModule(Module mod, ModuleConnectionUpdateType updateType);
-		private void updateModule(Module mod, ModuleConnectionUpdateType updateType) {
+		[MonoModIfFlag("SP")] private void updateModule(Module mod, ModuleConnectionUpdateType updateType) {
 		/// Allow corridors, airlocks, doors and life supports to increase integrity.
 			if (mod != null) {
 				switch (mod.type) {

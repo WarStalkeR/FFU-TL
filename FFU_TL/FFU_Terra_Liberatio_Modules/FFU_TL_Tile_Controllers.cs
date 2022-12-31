@@ -11,7 +11,7 @@ using System;
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Controllers {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
-            ModLog.Message($"Applying module changes: Ship/Weapon Controllers...");
+            ModLog.Message($"Applying module changes: Ship/Weapon Controllers.");
             modControllerN(modules, 255, 75, 0);
             modControllerW(modules, 255, 75, 1);
             modControllerW(modules, 255, 75, 2);
@@ -23,7 +23,7 @@ namespace FFU_Terra_Liberatio {
             modControllerW(modules, 255, 75, 8);
         }
         public static void assignCustomCosts(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, Dictionary<Module, Dictionary<InventoryItemType, float>> rRes, Dictionary<Module, Dictionary<InventoryItemType, float>> rExtra) {
-            ModLog.Message($"Applying custom resource costs: Ship/Weapon Controllers...");
+            ModLog.Message($"Applying custom resource costs: Ship/Weapon Controllers.");
             modController(modules[255][75][0], rRes, rExtra);
             modController(modules[255][75][1], rRes, rExtra);
             modController(modules[255][75][2], rRes, rExtra);
@@ -79,17 +79,13 @@ namespace FFU_Terra_Liberatio {
             rCtrl.tiles = Support.PatchTiles(Datas.tGroupsSelectors, refColor);
         }
         public static void modController(Module rMod, Dictionary<Module, Dictionary<InventoryItemType, float>> rRes, Dictionary<Module, Dictionary<InventoryItemType, float>> rExtra) {
-            try {
-                FFU_TL_Modules.cleanModuleResList(rMod);
-                if (rRes.ContainsKey(rMod)) rRes.Remove(rMod);
-                if (rExtra.ContainsKey(rMod)) rExtra.Remove(rMod);
-                rExtra.Add(rMod, new Dictionary<InventoryItemType, float>() {
-                    {InventoryItemType.gold_ore, 5f},
-                });
-                TILEBAG.AssignResources(rMod);
-            } catch (Exception ex) {
-                ModLog.Error($"Error assigning custom resources! Exception: {ex}");
-            }
+            FFU_TL_Modules.cleanModuleResList(rMod);
+            if (rRes.ContainsKey(rMod)) rRes.Remove(rMod);
+            if (rExtra.ContainsKey(rMod)) rExtra.Remove(rMod);
+            rExtra.Add(rMod, new Dictionary<InventoryItemType, float>() {
+                {InventoryItemType.gold_ore, 5f},
+            });
+            patch_TILEBAG.SafeAssignResources(rMod, rExtra[rMod]);
         }
     }
 }

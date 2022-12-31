@@ -6,7 +6,7 @@ using System.Linq;
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_CrewRooms {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
-            ModLog.Message($"Applying module changes: Barracks & Cabins...");
+            ModLog.Message($"Applying module changes: Barracks & Cabins.");
             modCabinT1S(modules, 145, 168, 22);
             modCabinT1S(modules, 145, 169, 22);
             modCabinT1S(modules, 145, 170, 22);
@@ -57,14 +57,14 @@ namespace FFU_Terra_Liberatio {
             modCabinT3L(modules, 146, 39, 22);
         }
         public static void updateResearch() {
-            ModLog.Message($"Applying research changes: Barracks & Cabins...");
-            modCabinT1S(400309U);
-            modCabinT1M(400310U);
-            modCabinT2S(400609U);
-            modCabinT2M(400608U);
-            modCabinT2L(400628U);
-            modCabinT3M(400629U);
-            modCabinT3L(400630U);
+            ModLog.Message($"Applying research changes: Barracks & Cabins.");
+            modCabinT1S(400309U, 145, 168, 22);
+            modCabinT1M(400310U, 145, 176, 22);
+            modCabinT2S(400609U, 144, 79, 22);
+            modCabinT2M(400616U, 144, 59, 22);
+            modCabinT2L(400608U, 144, 55, 22);
+            modCabinT3M(400660U, 146, 24, 22);
+            modCabinT3L(400661U, 146, 32, 22);
         }
         public static void modCabinT1S(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
@@ -222,19 +222,22 @@ namespace FFU_Terra_Liberatio {
             bRoom.tip.addStat("Bath Limit", "12,500L/day", false);
             bRoom.tip.addStat("Food Replicator", "Tetsujin VII", false);
         }
-        public static void modCabinT1S(uint rEntry) {
+        public static void modCabinT1S(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
             LOOTBAG.researchCosts[rEntry] = 8000;
             LOOTBAG.researchTimes[rEntry] = 4.8f;
             LOOTBAG.exclusive[rEntry] = true;
             LOOTBAG.tier[rEntry] = 1;
         }
-        public static void modCabinT1M(uint rEntry) {
+        public static void modCabinT1M(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
             LOOTBAG.researchCosts[rEntry] = 14000;
             LOOTBAG.researchTimes[rEntry] = 8.4f;
             LOOTBAG.exclusive[rEntry] = true;
             LOOTBAG.tier[rEntry] = 1;
         }
-        public static void modCabinT2S(uint rEntry) {
+        public static void modCabinT2S(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
             LOOTBAG.researchCosts[rEntry] = 12000;
             LOOTBAG.researchTimes[rEntry] = 7.2f;
             LOOTBAG.exclusive[rEntry] = true;
@@ -244,7 +247,8 @@ namespace FFU_Terra_Liberatio {
             LOOTBAG.researchCategories[(int)DataCategory.rewards_Hitchhiker].Add(rEntry);
             LOOTBAG.researchCategories[(int)DataCategory.loot_TierTwo].Add(rEntry);
         }
-        public static void modCabinT2M(uint rEntry) {
+        public static void modCabinT2M(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
             LOOTBAG.researchCosts[rEntry] = 24000;
             LOOTBAG.researchTimes[rEntry] = 14.4f;
             LOOTBAG.exclusive[rEntry] = true;
@@ -254,10 +258,9 @@ namespace FFU_Terra_Liberatio {
             LOOTBAG.researchCategories[(int)DataCategory.rewards_Hitchhiker].Add(rEntry);
             LOOTBAG.researchCategories[(int)DataCategory.loot_TierTwo].Add(rEntry);
         }
-        public static void modCabinT2L(uint rEntry) {
-            FFU_TL_Defs.checkExistingResearch(rEntry);
-            FFU_TL_Defs.checkResearchDupe(new Color(144, 55, 22));
-            LOOTBAG.modules[rEntry] = new Color(144, 55, 22);
+        public static void modCabinT2L(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+            LOOTBAG.modules[rEntry] = new Color(r, g, b);
             LOOTBAG.researchCosts[rEntry] = 36000;
             LOOTBAG.researchTimes[rEntry] = 21.6f;
             LOOTBAG.exclusive[rEntry] = true;
@@ -266,10 +269,9 @@ namespace FFU_Terra_Liberatio {
             LOOTBAG.researchCategories[(int)DataCategory.loot_TierTwo].Add(rEntry);
             LOOTBAG.researchType[rEntry] = ResearchType.module;
         }
-        public static void modCabinT3M(uint rEntry) {
-            FFU_TL_Defs.checkExistingResearch(rEntry);
-            FFU_TL_Defs.checkResearchDupe(new Color(146, 24, 22));
-            LOOTBAG.modules[rEntry] = new Color(146, 24, 22);
+        public static void modCabinT3M(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+            LOOTBAG.modules[rEntry] = new Color(r, g, b);
             LOOTBAG.researchCosts[rEntry] = 72000;
             LOOTBAG.researchTimes[rEntry] = 43.2f;
             LOOTBAG.exclusive[rEntry] = true;
@@ -279,10 +281,9 @@ namespace FFU_Terra_Liberatio {
             LOOTBAG.researchCategories[(int)DataCategory.loot_TierThree].Add(rEntry);
             LOOTBAG.researchType[rEntry] = ResearchType.module;
         }
-        public static void modCabinT3L(uint rEntry) {
-            FFU_TL_Defs.checkExistingResearch(rEntry);
-            FFU_TL_Defs.checkResearchDupe(new Color(146, 32, 22));
-            LOOTBAG.modules[rEntry] = new Color(146, 32, 22);
+        public static void modCabinT3L(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+            LOOTBAG.modules[rEntry] = new Color(r, g, b);
             LOOTBAG.researchCosts[rEntry] = 144000;
             LOOTBAG.researchTimes[rEntry] = 86.4f;
             LOOTBAG.exclusive[rEntry] = true;

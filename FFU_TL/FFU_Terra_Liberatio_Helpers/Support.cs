@@ -141,7 +141,6 @@ namespace FFU_Terra_Liberatio {
 			TextureFromStream(tPatch.emitHex), tPatch.xOffset + 128, tPatch.yOffset, tPatch.tResolution, true, Color.Black, Background.black);
 		}
 		public static Texture2D PatchTexture(Texture2D mTex, Texture2D pTex, int sX, int sY, int tRes, bool vTile, Color fColor, Background bType) {
-			ModLog.Message($"Patching Texture: {mTex.Name}...");
 			try {
 				int patchX = pTex.Width / tRes;
 				int patchY = pTex.Height / tRes;
@@ -175,7 +174,7 @@ namespace FFU_Terra_Liberatio {
 								try {
 									ref2D[rY, rX] = patch2D[pY, pX];
 								} catch {
-									ModLog.Fatal($"PatchTexture Failed! X:{rX}, Y:{rY}, pX:{pX}, pY:{pY}");
+									ModLog.Fatal($"Patching texture \"{mTex.Name}\" failed! X:{rX}, Y:{rY}, pX:{pX}, pY:{pY}");
 								}
 							});
 						}
@@ -184,7 +183,8 @@ namespace FFU_Terra_Liberatio {
 				Color[] refTextStream = Make1DArray(ref2D);
 				Texture2D rTex = new Texture2D(SCREEN_MANAGER.Device, refWidth, refHeight);
 				rTex.SetData(refTextStream);
-				if (!string.IsNullOrEmpty(mTex.Name)) rTex.Name = mTex.Name + " P";
+				if (!string.IsNullOrEmpty(mTex.Name)) rTex.Name = mTex.Name + ".";
+				ModLog.Message($"Patched texture: {rTex.Name}");
 				try { mTex.Dispose(); } catch { }
 				try { pTex.Dispose(); } catch { }
 				if (rTex != null) return rTex;
@@ -220,7 +220,7 @@ namespace FFU_Terra_Liberatio {
 			}
 		}
 		public static void DumpImageToFile(Texture2D rImage, string dumpFile = "Dumped_Image.png", bool noAlpha = false) {
-			ModLog.Warning($"Dumping 2D texture into the {dumpFile}...");
+			ModLog.Warning($"Dumping 2D texture into the {dumpFile}");
 			ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir);
 			BinaryWriter imgDump = new BinaryWriter(File.OpenWrite(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir + dumpFile));
 			MemoryStream imgStream = StreamFromTexture(rImage, noAlpha);

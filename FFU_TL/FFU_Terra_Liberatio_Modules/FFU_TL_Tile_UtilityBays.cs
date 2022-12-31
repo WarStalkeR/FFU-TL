@@ -7,26 +7,27 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_UtilityBays {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
-            ModLog.Message($"Applying module changes: Utility Rooms...");
+            ModLog.Message($"Applying module changes: Utility Rooms.");
             modUtilityCloset(modules, 145, 250, 22);
             modUtilityCloset(modules, 145, 251, 22);
             modUtilityCloset(modules, 145, 252, 22);
             modUtilityCloset(modules, 145, 253, 22);
         }
         public static void assignCustomCosts(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, Dictionary<Module, Dictionary<InventoryItemType, float>> rRes, Dictionary<Module, Dictionary<InventoryItemType, float>> rExtra) {
-            ModLog.Message($"Applying custom resource costs: Utility Rooms...");
+            ModLog.Message($"Applying custom resource costs: Utility Rooms.");
             modUtilityCloset(modules[145][250][22], rRes, rExtra);
             modUtilityCloset(modules[145][251][22], rRes, rExtra);
             modUtilityCloset(modules[145][252][22], rRes, rExtra);
             modUtilityCloset(modules[145][253][22], rRes, rExtra);
         }
         public static void updateResearch() {
-            ModLog.Message($"Applying research changes: Utility Rooms...");
-            modUtilityCloset(400631U);
+            ModLog.Message($"Applying research changes: Utility Rooms.");
+            modUtilityCloset(400631U, 145, 250, 22);
         }
         public static void modUtilityCloset(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
@@ -108,12 +109,11 @@ namespace FFU_Terra_Liberatio {
                 {InventoryItemType.mitraxit_ore, rMod.tiles.Count() * 15f},
                 {InventoryItemType.ithacit_ore, rMod.tiles.Count() * 5f}
             });
-            TILEBAG.AssignResources(rMod);
+            patch_TILEBAG.SafeAssignResources(rMod, rExtra[rMod]);
         }
-        public static void modUtilityCloset(uint rEntry) {
-            FFU_TL_Defs.checkExistingResearch(rEntry);
-            FFU_TL_Defs.checkResearchDupe(new Color(145, 250, 22));
-            LOOTBAG.modules[rEntry] = new Color(145, 250, 22);
+        public static void modUtilityCloset(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+            LOOTBAG.modules[rEntry] = new Color(r, g, b);
             LOOTBAG.researchCosts[rEntry] = 750000;
             LOOTBAG.researchTimes[rEntry] = 450f;
             LOOTBAG.exclusive[rEntry] = true;

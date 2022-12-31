@@ -13,20 +13,21 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_CloningVats {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
-            ModLog.Message($"Applying module changes: Cloning Vats...");
+            ModLog.Message($"Applying module changes: Cloning Vats.");
             modCloningVat(modules, 145, 249, 25);
         }
         public static void assignCustomCosts(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, Dictionary<Module, Dictionary<InventoryItemType, float>> rRes, Dictionary<Module, Dictionary<InventoryItemType, float>> rExtra) {
-            ModLog.Message($"Applying custom resource costs: Cloning Vats...");
+            ModLog.Message($"Applying custom resource costs: Cloning Vats.");
             modCloningVat(modules[145][249][25], rRes, rExtra);
         }
         public static void updateResearch() {
-            ModLog.Message($"Applying research changes: Cloning Vats...");
-            modCloningVat(400636U);
+            ModLog.Message($"Applying research changes: Cloning Vats.");
+            modCloningVat(400636U, 145, 249, 25);
         }
         public static void modCloningVat(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
@@ -61,12 +62,11 @@ namespace FFU_Terra_Liberatio {
                 {InventoryItemType.mitraxit_ore, rMod.tiles.Count() * 15f},
                 {InventoryItemType.ithacit_ore, rMod.tiles.Count() * 5f}
             });
-            TILEBAG.AssignResources(rMod);
+            patch_TILEBAG.SafeAssignResources(rMod, rExtra[rMod]);
         }
-        public static void modCloningVat(uint rEntry) {
-            FFU_TL_Defs.checkExistingResearch(rEntry);
-            FFU_TL_Defs.checkResearchDupe(new Color(145, 249, 25));
-            LOOTBAG.modules[rEntry] = new Color(145, 249, 25);
+        public static void modCloningVat(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+            LOOTBAG.modules[rEntry] = new Color(r, g, b);
             LOOTBAG.researchCosts[rEntry] = 4250000;
             LOOTBAG.researchTimes[rEntry] = 2550f;
             LOOTBAG.exclusive[rEntry] = true;
@@ -79,7 +79,7 @@ namespace FFU_Terra_Liberatio {
 }
 
 namespace CoOpSpRpG {
-    [MonoModReplace] public class CloningVat : Module, Activateable {
+    [MonoModIfFlag("SP")] [MonoModReplace] public class CloningVat : Module, Activateable {
     /// Clone Registration for Clone Jumping via death.
         public Vector2 spawnOffset;
         public CloningVat(ModTile[] list) : base(list) {
@@ -104,7 +104,7 @@ namespace CoOpSpRpG {
         public void trip(ShipActor crew, MicroCosm cosm) { }
         public override void animate(float elapsed) { }
     }
-    public class patch_Respawning : Respawning {
+    [MonoModIfFlag("SP")] public class patch_Respawning : Respawning {
         private Dictionary<byte, ulong> reviveShipIDs;
         [MonoModIgnore] private KeyboardState oldState;
         [MonoModIgnore] private MouseState oldMouse;
@@ -225,7 +225,7 @@ namespace CoOpSpRpG {
             oldMouse = mState;
         }
     }
-    public class patch_WorldRev3 : WorldRev3 {
+    [MonoModIfFlag("SP")] public class patch_WorldRev3 : WorldRev3 {
         [MonoModIgnore] private void setEarPos() { }
         [MonoModIgnore] public patch_WorldRev3(string path, bool loadStuff) : base(path, loadStuff) { }
         [MonoModReplace] public void spawnPlayer(PlayerSaveInfo spawn) {

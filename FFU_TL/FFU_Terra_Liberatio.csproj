@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FFU_Terra_Liberatio</RootNamespace>
     <AssemblyName>FFU_Terra_Liberatio</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <LangVersion>9.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -22,6 +22,7 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <LangVersion>9.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -31,6 +32,7 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
+    <LangVersion>9.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -38,11 +40,19 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <OutputPath>bin\Publish\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\BepInEx\core\0Harmony.dll</HintPath>
-    </Reference>
     <Reference Include="BepInEx.Core, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\BepInEx\core\BepInEx.Core.dll</HintPath>
@@ -96,12 +106,9 @@
     <Reference Include="System.Data.SQLite">
       <HintPath>..\..\..\System.Data.SQLite.dll</HintPath>
     </Reference>
-    <Reference Include="WaywardExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\WaywardExtensions.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="WTF">
+    <Reference Include="WTF, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\WTF.exe</HintPath>
     </Reference>
   </ItemGroup>
@@ -129,18 +136,27 @@
     <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_Missiles.cs" />
     <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_Taverns.cs" />
     <Compile Include="FFU_Terra_Liberatio_Modules\FFU_TL_Tile_UtilityBays.cs" />
+    <Compile Include="FFU_TL_Root.cs" />
+    <Compile Include="MonoModRules.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Debug (
-copy "$(TargetPath)" "$(SolutionDir)..\..\BepInEx\monomod\WTF.FFU_TL.mm.dll" /Y
+	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\BepInEx\monomod\WTF.FFU_TL.mm.dll"
 ) else if $(ConfigurationName) == Release (
-copy "$(TargetPath)" "$(SolutionDir)..\..\WTF.FFU_TL.mm.dll" /Y
-"$(SolutionDir)..\MonoMod\MonoMod.exe" "$(SolutionDir)..\..\WTF.exe"
-del "$(SolutionDir)..\..\WTF.FFU_TL.mm.dll" /F
-del "$(SolutionDir)..\..\MONOMODDED_WTF.pdb" /F
-move /Y "$(SolutionDir)..\..\MONOMODDED_WTF.exe" "$(SolutionDir)..\..\WTF_modded.exe"
+	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\BepInEx\monomod\WTF.FFU_TL.mm.dll"
+	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\WTF.FFU_TL.mm.dll"
+	"$(SolutionDir)..\MonoMod\MonoMod.exe" "$(SolutionDir)..\..\WTF.exe"
+	del "$(SolutionDir)..\..\WTF.FFU_TL.mm.dll" /F
+	del "$(SolutionDir)..\..\MONOMODDED_WTF.pdb" /F
+	move /Y "$(SolutionDir)..\..\MONOMODDED_WTF.exe" "$(SolutionDir)..\..\WTF_modded.exe"
+) else if $(ConfigurationName) == Publish (
+	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\BepInEx\monomod\WTF.FFU_TL.mm.dll"
+	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\WTF.FFU_TL.mm.dll"
+	"$(SolutionDir)..\MonoMod\MonoMod.exe" "$(SolutionDir)..\..\WTF.exe"
+	del "$(SolutionDir)..\..\MONOMODDED_WTF.pdb" /F
+	move /Y "$(SolutionDir)..\..\MONOMODDED_WTF.exe" "$(SolutionDir)..\..\WTF_modded.exe"
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>

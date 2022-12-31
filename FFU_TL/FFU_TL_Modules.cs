@@ -13,7 +13,7 @@ using System.Linq;
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Modules {
         public static void dumpExistingModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, string dumpFile = "FFU_TL_Modules.txt") {
-            ModLog.Warning($"Dumping all modules into the {dumpFile}...");
+            ModLog.Warning($"Dumping all modules into the {dumpFile}");
             Support.ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir);
             TextWriter ioDump = new StreamWriter(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir + dumpFile);
             foreach (byte r in modules.Keys) 
@@ -28,7 +28,7 @@ namespace FFU_Terra_Liberatio {
             ioDump.Close();
         }
         public static void updateToolTipCosts(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
-            ModLog.Message($"Updating price format for all modules...");
+            ModLog.Message($"Updating price format for all modules.");
             foreach (byte r in modules.Keys)
                 foreach (byte g in modules[r].Keys)
                     foreach (byte b in modules[r][g].Keys) {
@@ -36,7 +36,7 @@ namespace FFU_Terra_Liberatio {
             }
         }
         public static void updateResourceCosts(Dictionary<Module, Dictionary<InventoryItemType, float>> res, Dictionary<Module, Dictionary<InventoryItemType, float>> extra, Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, List<Color> colorsList) {
-            ModLog.Message($"Updating resource costs for altered modules...");
+            ModLog.Message($"Updating resource costs for altered modules.");
             foreach (byte r in modules.Keys)
                 foreach (byte g in modules[r].Keys)
                     foreach (byte b in modules[r][g].Keys) {
@@ -72,7 +72,7 @@ namespace FFU_Terra_Liberatio {
             FFU_TL_Tile_Controllers.assignCustomCosts(modules, res, extra);
         }
         public static void updateBlacklist(List<Color> mainList, List<Color> refList, string listName = "") {
-            ModLog.Message($"Updating {(string.IsNullOrEmpty(listName) ? $"the list" : $"{listName}")} according to the changes...");
+            ModLog.Message($"Updating {(string.IsNullOrEmpty(listName) ? $"the list" : $"{listName}")} according to the changes.");
             var tempList = mainList;
             foreach (Color cItem in refList) {
                 if (tempList.Contains(cItem)) tempList.Remove(cItem);
@@ -102,6 +102,7 @@ namespace CoOpSpRpG {
         public static void init() {
         /// Apply module changes after loading original files.
             orig_init();
+            FFU_TL_Modules.dumpExistingModules(modules, "FFU_TL_Modules_Original.txt");
             FFU_TL_Tile_CargoBays.updateModules(modules);
             FFU_TL_Tile_UtilityBays.updateModules(modules);
             FFU_TL_Tile_MagRails.updateModules(modules);
@@ -116,7 +117,7 @@ namespace CoOpSpRpG {
             FFU_TL_Modules.updateResourceCosts(moduleResources, moduleExtraResources, modules, FFU_TL_Defs.unlistDynamic);
             FFU_TL_Modules.updateBlacklist(oldMods, FFU_TL_Defs.unlistDynamic, "unobtainable module list");
             FFU_TL_Modules.updateBlacklist(unlockableModsBlacklist, FFU_TL_Defs.unlistStatic, "non-removable module list");
-            FFU_TL_Modules.dumpExistingModules(modules);
+            FFU_TL_Modules.dumpExistingModules(modules, "FFU_TL_Modules_Modded.txt");
             FFU_TL_Defs.refModules = modules;
         }
         public static Color[][][] getModDataRef(string append) { 
@@ -124,6 +125,11 @@ namespace CoOpSpRpG {
         }
         public static void refDeprecate(Color c) {
             deprecate(c);
+        }
+        public static void SafeAssignResources(Module refModule, Dictionary<InventoryItemType, float> refResources) {
+            if (moduleResources.ContainsKey(refModule)) moduleResources.Remove(refModule);
+            if (refModule.tip != null && refResources.Count != 0) refModule.tip.addResources(refResources);
+            moduleResources.Add(refModule, refResources);
         }
     }
 }

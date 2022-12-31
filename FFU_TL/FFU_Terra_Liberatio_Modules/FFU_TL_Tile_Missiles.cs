@@ -16,7 +16,7 @@ using System.Linq;
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Missiles {
 		public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
-			ModLog.Message($"Applying module changes: Missiles & Torpedoes...");
+			ModLog.Message($"Applying module changes: Missiles & Torpedoes.");
 			MissileFactory(modules, 144, 223, 22);
 			MissileFactory(modules, 144, 224, 22);
 			MissileFactory(modules, 144, 225, 22);
@@ -79,7 +79,7 @@ namespace FFU_Terra_Liberatio {
 }
 
 namespace CoOpSpRpG {
-	public static class patch_MISSILEBAG {
+	[MonoModIfFlag("SP")] public static class patch_MISSILEBAG {
 		[MonoModAdded] public static string typeName(patch_MissileType type) {
 			/// Missiles & Torpedoes custom reload time.
 			return type switch {
@@ -662,7 +662,7 @@ namespace CoOpSpRpG {
 			}
 		}
 	}
-	[MonoModEnumReplace] public enum patch_MissileType : ushort {
+	[MonoModIfFlag("SP")] [MonoModEnumReplace] public enum patch_MissileType : ushort {
 		standard,
 		drill_bore,
 		repair_drone_t1,

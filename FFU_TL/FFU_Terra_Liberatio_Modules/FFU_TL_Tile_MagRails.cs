@@ -13,7 +13,7 @@ using System.Linq;
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_MagRails {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
-            ModLog.Message($"Applying module changes: MagRail Stations...");
+            ModLog.Message($"Applying module changes: MagRail Stations.");
             modMagRailStationH(modules, 145, 192, 24);
             modMagRailStationH(modules, 145, 193, 24);
             modMagRailStationH(modules, 145, 194, 24);
@@ -40,10 +40,10 @@ namespace FFU_Terra_Liberatio {
             modMagRailStationU(modules, 145, 215, 24);
         }
         public static void updateResearch() {
-            ModLog.Message($"Applying research changes: MagRail Stations...");
-            modMagRailStationH(400634U);
-            modMagRailStationT(400633U);
-            modMagRailStationU(400632U);
+            ModLog.Message($"Applying research changes: MagRail Stations.");
+            modMagRailStationH(400634U, 145, 192, 24);
+            modMagRailStationT(400633U, 145, 200, 24);
+            modMagRailStationU(400632U, 145, 208, 24);
         }
         public static void modMagRailStationH(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
@@ -96,10 +96,9 @@ namespace FFU_Terra_Liberatio {
             mRail.tip.addStat($"No. of Platforms", "1", false);
             mRail.tip.addStat($"MagTrain Speed", "1860 km/h", false);
         }
-        public static void modMagRailStationH(uint rEntry) {
-            FFU_TL_Defs.checkExistingResearch(rEntry);
-            FFU_TL_Defs.checkResearchDupe(new Color(145, 192, 24));
-            LOOTBAG.modules[rEntry] = new Color(145, 192, 24);
+        public static void modMagRailStationH(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+            LOOTBAG.modules[rEntry] = new Color(r, g, b);
             LOOTBAG.researchCosts[rEntry] = 101250;
             LOOTBAG.researchTimes[rEntry] = 60.75f;
             LOOTBAG.exclusive[rEntry] = true;
@@ -110,10 +109,9 @@ namespace FFU_Terra_Liberatio {
             LOOTBAG.researchCategories[(int)DataCategory.loot_TierThree].Add(rEntry);
             LOOTBAG.researchType[rEntry] = ResearchType.module;
         }
-        public static void modMagRailStationT(uint rEntry) {
-            FFU_TL_Defs.checkExistingResearch(rEntry);
-            FFU_TL_Defs.checkResearchDupe(new Color(145, 200, 24));
-            LOOTBAG.modules[rEntry] = new Color(145, 200, 24);
+        public static void modMagRailStationT(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+            LOOTBAG.modules[rEntry] = new Color(r, g, b);
             LOOTBAG.researchCosts[rEntry] = 101250;
             LOOTBAG.researchTimes[rEntry] = 60.75f;
             LOOTBAG.exclusive[rEntry] = true;
@@ -124,10 +122,9 @@ namespace FFU_Terra_Liberatio {
             LOOTBAG.researchCategories[(int)DataCategory.loot_TierThree].Add(rEntry);
             LOOTBAG.researchType[rEntry] = ResearchType.module;
         }
-        public static void modMagRailStationU(uint rEntry) {
-            FFU_TL_Defs.checkExistingResearch(rEntry);
-            FFU_TL_Defs.checkResearchDupe(new Color(145, 208, 24));
-            LOOTBAG.modules[rEntry] = new Color(145, 208, 24);
+        public static void modMagRailStationU(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+            LOOTBAG.modules[rEntry] = new Color(r, g, b);
             LOOTBAG.researchCosts[rEntry] = 101250;
             LOOTBAG.researchTimes[rEntry] = 60.75f;
             LOOTBAG.exclusive[rEntry] = true;
@@ -142,7 +139,7 @@ namespace FFU_Terra_Liberatio {
 }
 
 namespace CoOpSpRpG {
-    public class patch_ShipNavigationRev3 : ShipNavigationRev3 {
+    [MonoModIfFlag("SP")] public class patch_ShipNavigationRev3 : ShipNavigationRev3 {
 		[MonoModIgnore] private bool stationTravelAnimation;
 		[MonoModIgnore] private MicroCosm currentCosm;
 		[MonoModIgnore] private float stationAnimTimer;

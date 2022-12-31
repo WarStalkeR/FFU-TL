@@ -15,7 +15,7 @@ using System.Linq;
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_CargoBays {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
-            ModLog.Message($"Applying module changes: Cargo Bays...");
+            ModLog.Message($"Applying module changes: Cargo Bays.");
             modCargoBayT0S(modules, 144, 246, 22);
             modCargoBayT0S(modules, 144, 247, 22);
             modCargoBayT0S(modules, 144, 248, 22);
@@ -54,14 +54,14 @@ namespace FFU_Terra_Liberatio {
             modCargoBayT3X(modules, 145, 5, 26);
         }
         public static void updateResearch() {
-            ModLog.Message($"Applying research changes: Cargo Bays...");
-            modCargoBayT0S(400480U);
-            modCargoBayT1S(400502U);
-            modCargoBayT1L(400503U);
-            modCargoBayT2S(400701U);
-            modCargoBayT2L(400700U);
-            modCargoBayT2X(400702U);
-            modCargoBayT3X(400735U);
+            ModLog.Message($"Applying research changes: Cargo Bays.");
+            modCargoBayT0S(400480U, 144, 246, 22);
+            modCargoBayT1S(400502U, 145, 156, 22);
+            modCargoBayT1L(400503U, 145, 164, 22);
+            modCargoBayT2S(400701U, 144, 67, 22);
+            modCargoBayT2L(400700U, 144, 51, 22);
+            modCargoBayT2X(400702U, 144, 71, 22);
+            modCargoBayT3X(400735U, 145, 2, 26);
         }
         public static void modCargoBayT0S(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
@@ -184,33 +184,39 @@ namespace FFU_Terra_Liberatio {
             cBay.tip.addStat($"Storage Capacity", $"{cBay.storage.slotCount}", false);
             cBay.tip.addStat($"Mining Bonus", $"{cBay.miningBonus * 100f}%", false);
         }
-        public static void modCargoBayT0S(uint rEntry) {
+        public static void modCargoBayT0S(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
             LOOTBAG.researchCosts[rEntry] = 2200;
             LOOTBAG.researchTimes[rEntry] = 1.32f;
             LOOTBAG.exclusive[rEntry] = true;
         }
-        public static void modCargoBayT1S(uint rEntry) {
+        public static void modCargoBayT1S(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
             LOOTBAG.researchCosts[rEntry] = 8250;
             LOOTBAG.researchTimes[rEntry] = 4.95f;
             LOOTBAG.exclusive[rEntry] = true;
         }
-        public static void modCargoBayT1L(uint rEntry) {
+        public static void modCargoBayT1L(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
             LOOTBAG.researchCosts[rEntry] = 13200;
             LOOTBAG.researchTimes[rEntry] = 7.92f;
             LOOTBAG.exclusive[rEntry] = true;
-            LOOTBAG.researchCategories[13].Add(rEntry);
+            LOOTBAG.researchCategories[(int)DataCategory.loot_LowChanceAdv].Add(rEntry);
         }
-        public static void modCargoBayT2S(uint rEntry) {
+        public static void modCargoBayT2S(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
             LOOTBAG.researchCosts[rEntry] = 10800;
             LOOTBAG.researchTimes[rEntry] = 6.48f;
             LOOTBAG.exclusive[rEntry] = true;
         }
-        public static void modCargoBayT2L(uint rEntry) {
+        public static void modCargoBayT2L(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
             LOOTBAG.researchCosts[rEntry] = 32400;
             LOOTBAG.researchTimes[rEntry] = 19.44f;
             LOOTBAG.exclusive[rEntry] = true;
         }
-        public static void modCargoBayT2X(uint rEntry) {
+        public static void modCargoBayT2X(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
             LOOTBAG.researchCosts[rEntry] = 45000;
             LOOTBAG.researchTimes[rEntry] = 27f;
             LOOTBAG.exclusive[rEntry] = true;
@@ -218,10 +224,9 @@ namespace FFU_Terra_Liberatio {
             LOOTBAG.researchCategories[(int)DataCategory.loot_PhaseTwo].Remove(rEntry);
             LOOTBAG.researchCategories[(int)DataCategory.loot_TierTwoPlus].Add(rEntry);
         }
-        public static void modCargoBayT3X(uint rEntry) {
-            FFU_TL_Defs.checkExistingResearch(rEntry);
-            FFU_TL_Defs.checkResearchDupe(new Color(145, 2, 26));
-            LOOTBAG.modules[rEntry] = new Color(145, 2, 26);
+        public static void modCargoBayT3X(uint rEntry, byte r, byte g, byte b) {
+            FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+            LOOTBAG.modules[rEntry] = new Color(r, g, b);
             LOOTBAG.researchCosts[rEntry] = 72000;
             LOOTBAG.researchTimes[rEntry] = 43.2f;
             LOOTBAG.exclusive[rEntry] = true;
@@ -235,7 +240,7 @@ namespace FFU_Terra_Liberatio {
 }
 
 namespace CoOpSpRpG {
-    public class patch_CargoBay: CargoBay {
+    [MonoModIfFlag("SP")] public class patch_CargoBay: CargoBay {
         [MonoModIgnore] private float timer;
         [MonoModIgnore] private float frequency;
         public string getTip() {

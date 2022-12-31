@@ -13,15 +13,15 @@ using System;
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Logistics {
         public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
-            ModLog.Message($"Applying module changes: Logistics Terminals...");
+            ModLog.Message($"Applying module changes: Logistics Terminals.");
             modLogisticsRoom(modules, 145, 151, 24, 0);
             modLogisticsRoom(modules, 145, 152, 24, 1);
             modLogisticsRoom(modules, 145, 153, 24, 5);
             modLogisticsRoom(modules, 145, 154, 24, 6);
 		}
 		public static void updateResearch() {
-			ModLog.Message($"Applying research changes: Logistics Terminals...");
-			modLogisticsRoom(400635U);
+			ModLog.Message($"Applying research changes: Logistics Terminals.");
+			modLogisticsRoom(400635U, 145, 151, 24);
 		}
 		public static void modLogisticsRoom(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b, byte rot) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
@@ -35,16 +35,15 @@ namespace FFU_Terra_Liberatio {
             logRoom.techLevel = 4;
             logRoom.tip = new ToolTip();
             logRoom.tip.tip = logRoom.toolTip;
-            logRoom.tip.botLeftText = $"Starship Engineering Inc.";
+            logRoom.tip.botLeftText = $"Deep Space Engineering Inc.";
 			logRoom.tip.description = $"Specialized logistics terminal and assembly center in a single bundle. Allows spaceships and stations to construct other vessels, given required resources are available.";
             logRoom.tip.tierIcontype = (TierIcon)logRoom.techLevel;
             logRoom.tip.addStat($"Construction Drones", "8", false);
             logRoom.tip.addStat($"Resource Efficiency", "100%", false);
 		}
-		public static void modLogisticsRoom(uint rEntry) {
-			FFU_TL_Defs.checkExistingResearch(rEntry);
-			FFU_TL_Defs.checkResearchDupe(new Color(145, 151, 24));
-			LOOTBAG.modules[rEntry] = new Color(145, 151, 24);
+		public static void modLogisticsRoom(uint rEntry, byte r, byte g, byte b) {
+			FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));
+			LOOTBAG.modules[rEntry] = new Color(r, g, b);
 			LOOTBAG.researchCosts[rEntry] = 2625000;
 			LOOTBAG.researchTimes[rEntry] = 1575f;
 			LOOTBAG.exclusive[rEntry] = true;
@@ -104,7 +103,7 @@ namespace CoOpSpRpG {
 }
 
 /*namespace CoOpSpRpG {
-    public class patch_LogisticsScreenRev3 : LogisticsScreenRev3 {
+    [MonoModIfFlag("SP")] public class patch_LogisticsScreenRev3 : LogisticsScreenRev3 {
 		[MonoModIgnore] private KeyboardState oldState;
 		[MonoModIgnore] private MouseState oldMouse;
 		[MonoModIgnore] private Keys[] oldKeys;
