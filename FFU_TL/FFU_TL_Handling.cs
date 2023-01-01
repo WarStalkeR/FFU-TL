@@ -204,6 +204,7 @@ namespace CoOpSpRpG {
 						cargoBay2.setTiles(ref list3);
 						cargoBay2.location = j;
 						cargoBay2.storage = new Storage(cargoBay.storage.slotCount, cargoBay.storage.width, cargoBay.storage.height);
+						cargoBay2.miningBonus = cargoBay.miningBonus; /// FIX
 						modules.Add(cargoBay2);
 						cargoBays.Add(cargoBay2);
 						cargoTileCount += cargoBay2.tiles.Length;
