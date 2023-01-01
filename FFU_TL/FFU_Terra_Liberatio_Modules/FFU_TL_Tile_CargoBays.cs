@@ -240,7 +240,7 @@ namespace FFU_Terra_Liberatio {
 }
 
 namespace CoOpSpRpG {
-    [MonoModIfFlag("SP")] public class patch_CargoBay: CargoBay {
+    public class patch_CargoBay: CargoBay {
         [MonoModIgnore] private float timer;
         [MonoModIgnore] private float frequency;
         public string getTip() {

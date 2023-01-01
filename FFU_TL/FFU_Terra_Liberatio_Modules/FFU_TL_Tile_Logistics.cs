@@ -103,7 +103,7 @@ namespace CoOpSpRpG {
 }
 
 /*namespace CoOpSpRpG {
-    [MonoModIfFlag("SP")] public class patch_LogisticsScreenRev3 : LogisticsScreenRev3 {
+    public class patch_LogisticsScreenRev3 : LogisticsScreenRev3 {
 		[MonoModIgnore] private KeyboardState oldState;
 		[MonoModIgnore] private MouseState oldMouse;
 		[MonoModIgnore] private Keys[] oldKeys;

@@ -196,7 +196,7 @@ namespace FFU_Terra_Liberatio {
 }
 
 namespace CoOpSpRpG {
-    [MonoModIfFlag("SP")] public class patch_AgentTracker : AgentTracker {
+    public class patch_AgentTracker : AgentTracker {
         public extern List<BarAgentDrawer> orig_getBarAgents(ulong stationID, Point grid);
         public List<BarAgentDrawer> getBarAgents(ulong stationID, Point grid) {
         /// Allow player to recruit crew from all owned bars.
@@ -204,7 +204,7 @@ namespace CoOpSpRpG {
             else return orig_getBarAgents(stationID, grid);
         }
     }
-	/*[MonoModIfFlag("SP")] public class patch_BarScreen : BarScreen {
+	/*public class patch_BarScreen : BarScreen {
 		[MonoModIgnore] private int hoverSpot;
 		[MonoModIgnore] private Keys[] oldKeys;
 		[MonoModIgnore] private Clickable close;

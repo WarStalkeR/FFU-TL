@@ -31,7 +31,7 @@ namespace CoOpSpRpG {
 			return orig_getModAnim(index, rotation, bBox, mod);
 		}
 	}
-	[MonoModIfFlag("SP")] public class patch_MicroCosm : MicroCosm {
+	public class patch_MicroCosm : MicroCosm {
 		public List<Module> walls;
 		[MonoModIgnore] private void setMoment() { }
 		[MonoModIgnore] private void checkHealthCommit() { }
@@ -71,6 +71,7 @@ namespace CoOpSpRpG {
 			}
 			List<PixelParticleEmission> list2 = new List<PixelParticleEmission>();
 			float shieldCap = 0f;
+			float energyCap = 0f;
 			float engineThrust = 0f;
 			float thrusterOut = 0f;
 			float integrityBoost = 0f;
@@ -208,6 +209,19 @@ namespace CoOpSpRpG {
 						cargoTileCount += cargoBay2.tiles.Length;
 						break;
 					}
+					case ModuleType.hangar: {
+						Hangar hangar = module as Hangar;
+						Hangar hangar2 = new Hangar();
+						hangar2.tip = hangar.tip;
+						hangar2.setTiles(ref list3);
+						hangar2.location = j;
+						hangar2.storage = new Storage(hangar.storage.slotCount, hangar.storage.width, hangar.storage.height);
+						hangar2.storage.allowedTypes = new List<InventoryItemType>(1);
+						hangar2.storage.allowedTypes.Add(InventoryItemType.packed_ship);
+						modules.Add(hangar2);
+						hangars.Add(hangar2);
+						break;
+					}
 					case ModuleType.matter_furnace: {
 						MatterFurnace matterFurnace = module as MatterFurnace;
 						MatterFurnace matterFurnace2 = new MatterFurnace();
@@ -300,6 +314,7 @@ namespace CoOpSpRpG {
 						modules.Add(capacitor2);
 						capacitors.Add(capacitor2);
 						capacitorTileCount += capacitor2.tiles.Length;
+						energyCap += capacitor2.capacity;
 						break;
 					}
 					case ModuleType.beam_controller: {
@@ -347,6 +362,7 @@ namespace CoOpSpRpG {
 						poweredTurretMount2.mountType = poweredTurretMount.mountType;
 						poweredTurretMount2.usesAmmo = poweredTurretMount.usesAmmo;
 						poweredTurretMount2.gooUse = poweredTurretMount.gooUse;
+						poweredTurretMount2.ammoBoxUse = poweredTurretMount.ammoBoxUse;
 						if (ship.turrets != null && turretNum < ship.turrets.Count() && ship.turrets[turretNum] != null) {
 							poweredTurretMount2.mounted = ship.turrets[turretNum];
 							poweredTurretMount2.rate = poweredTurretMount.rate;
@@ -1011,6 +1027,103 @@ namespace CoOpSpRpG {
 						modules.Add(interactiveRoom2);
 						break;
 					}
+					case ModuleType.computer_core: {
+						ComputerCore computerCore = module as ComputerCore;
+						ComputerCore computerCore2 = new ComputerCore();
+						computerCore2.tip = computerCore.tip;
+						computerCore2.setTiles(ref list3);
+						computerCore2.location = j;
+						computerCore2.rotation = computerCore.rotation;
+						computerCore2.animIndex = computerCore.animIndex;
+						computerCore2.rate = computerCore.rate;
+						computerCore2.capacity = computerCore.capacity;
+						computerCore2.powerNeed = computerCore.powerNeed;
+						computerCore2.aggressivity = computerCore.aggressivity;
+						computerCore2.cleverness = computerCore.cleverness;
+						computerCore2.accuracy = computerCore.accuracy;
+						computerCore2.aimingBehaviorPreference = computerCore.aimingBehaviorPreference;
+						modules.Add(computerCore2);
+						brain = computerCore2;
+						ship.aiControlled = true;
+						break;
+					}
+					case ModuleType.algae_tank: {
+						AlgaeTank algaeTank = module as AlgaeTank;
+						AlgaeTank algaeTank2 = new AlgaeTank();
+						algaeTank2.tip = algaeTank.tip;
+						algaeTank2.setTiles(ref list3);
+						algaeTank2.location = j;
+						algaeTank2.rotation = algaeTank.rotation;
+						algaeTank2.wasteStorage = algaeTank.wasteStorage;
+						algaeTank2.growthRate = algaeTank.growthRate;
+						modules.Add(algaeTank2);
+						algaeTanks.Add(algaeTank2);
+						break;
+					}
+					case ModuleType.water_tank: {
+						WaterTank waterTank = module as WaterTank;
+						WaterTank waterTank2 = new WaterTank();
+						waterTank2.tip = waterTank.tip;
+						waterTank2.setTiles(ref list3);
+						waterTank2.location = j;
+						waterTank2.rotation = waterTank.rotation;
+						waterTank2.storage = waterTank.storage;
+						modules.Add(waterTank2);
+						break;
+					}
+					case ModuleType.ram_scoop: {
+						RamScoop ramScoop = module as RamScoop;
+						RamScoop ramScoop2 = new RamScoop();
+						ramScoop2.tip = ramScoop.tip;
+						ramScoop2.setTiles(ref list3);
+						ramScoop2.location = j;
+						ramScoop2.rotation = ramScoop.rotation;
+						ramScoop2.usePerSec = ramScoop.usePerSec;
+						ramScoop2.capacity = ramScoop.usePerSec * 2f;
+						ramScoop2.rate = ramScoop.rate;
+						ramScoop2.timeToGather = ramScoop.timeToGather;
+						modules.Add(ramScoop2);
+						powerUsers.Add(ramScoop2);
+						ramScoops.Add(ramScoop2);
+						break;
+					}
+					case ModuleType.waste_recycler: {
+						WasteRecycler wasteRecycler = module as WasteRecycler;
+						WasteRecycler wasteRecycler2 = new WasteRecycler();
+						wasteRecycler2.tip = wasteRecycler.tip;
+						wasteRecycler2.setTiles(ref list3);
+						wasteRecycler2.location = j;
+						wasteRecycler2.rotation = wasteRecycler.rotation;
+						wasteRecycler2.efficiency = wasteRecycler.efficiency;
+						modules.Add(wasteRecycler2);
+						break;
+					}
+					case ModuleType.water_recycler: {
+						WaterRecycler waterRecycler = module as WaterRecycler;
+						WaterRecycler waterRecycler2 = new WaterRecycler();
+						waterRecycler2.tip = waterRecycler.tip;
+						waterRecycler2.setTiles(ref list3);
+						waterRecycler2.location = j;
+						waterRecycler2.rotation = waterRecycler.rotation;
+						waterRecycler2.efficiency = waterRecycler.efficiency;
+						modules.Add(waterRecycler2);
+						break;
+					}
+					case ModuleType.cargo_scanner: {
+						CargoScanner cargoScanner = module as CargoScanner;
+						CargoScanner cargoScanner2 = new CargoScanner();
+						cargoScanner2.tip = cargoScanner.tip;
+						cargoScanner2.setTiles(ref list3);
+						cargoScanner2.location = j;
+						cargoScanner2.rotation = cargoScanner.rotation;
+						cargoScanner2.usePerSec = cargoScanner.usePerSec;
+						cargoScanner2.capacity = cargoScanner.usePerSec * 2f;
+						cargoScanner2.rate = cargoScanner.rate;
+						modules.Add(cargoScanner2);
+						cargoScanners.Add(cargoScanner2);
+						powerUsers.Add(cargoScanner2);
+						break;
+					}
 				}
 			}
 			for (int m = 0; m < length; m++) {
@@ -1034,6 +1147,7 @@ namespace CoOpSpRpG {
 			blank.airBlocking = true;
 			blank.repairable = false;
 			ship.shieldCap = shieldCap;
+			ship.capCap = energyCap;
 			ship.engineCap = engineThrust;
 			ship.thrusterCap = thrusterOut;
 			checkHealthCommit();
@@ -1094,7 +1208,7 @@ namespace CoOpSpRpG {
 			return false;
 		}
 		private extern void orig_updateModule(Module mod, ModuleConnectionUpdateType updateType);
-		[MonoModIfFlag("SP")] private void updateModule(Module mod, ModuleConnectionUpdateType updateType) {
+		private void updateModule(Module mod, ModuleConnectionUpdateType updateType) {
 		/// Allow corridors, airlocks, doors and life supports to increase integrity.
 			if (mod != null) {
 				switch (mod.type) {

@@ -1,70 +1,61 @@
 ﻿#pragma warning disable CS0108
 #pragma warning disable CS0626
 
+using System;
+using System.IO;
+using System.Reflection;
+using FFU_Terra_Liberatio;
+
 namespace FFU_Terra_Liberatio {
-    public static class ModLog {
-        #if DEBUG
-        private static readonly BepInEx.Logging.ManualLogSource Log = BepInEx.Logging.Logger.CreateLogSource("FFU_TL");
-        #endif
-        public static void Info() {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Info, (object)$"");
-            #endif
+    internal static class ModLog {
+        internal static void Init() {
+            using (var modLog = File.CreateText(FFU_TL_Defs.modLogPath)) {
+                Console.ForegroundColor = ConsoleColor.Green;
+                modLog.WriteLine($"[Mod:    Info] Terra Liberatio v{FFU_TL_Defs.modVersion}, {DateTime.Now}");
+                Console.WriteLine($"[Mod:    Info] Terra Liberatio v{FFU_TL_Defs.modVersion}, {DateTime.Now}");
+            }
         }
-        public static void Info(string logEntry) {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Info, logEntry);
-            #endif
+        internal static void Info(string logEntry) {
+            using (var modLog = File.AppendText(FFU_TL_Defs.modLogPath)) {
+                Console.ForegroundColor = ConsoleColor.Green;
+                modLog.WriteLine($"[Mod:    Info] {logEntry}");
+                Console.WriteLine($"[Mod:    Info] {logEntry}");
+            }
         }
-        public static void Debug() {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Debug, (object)$"");
-            #endif
+        internal static void Debug(string logEntry) {
+            using (var modLog = File.AppendText(FFU_TL_Defs.modLogPath)) {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                modLog.WriteLine($"[Mod:   Debug] {logEntry}");
+                Console.WriteLine($"[Mod:   Debug] {logEntry}");
+            }
         }
-        public static void Debug(string logEntry) {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Debug, logEntry);
-            #endif
+        internal static void Message(string logEntry) {
+            using (var modLog = File.AppendText(FFU_TL_Defs.modLogPath)) {
+                Console.ForegroundColor = ConsoleColor.White;
+                modLog.WriteLine($"[Mod: Message] {logEntry}");
+                Console.WriteLine($"[Mod: Message] {logEntry}");
+            }
         }
-        public static void Message() {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Message, (object)$"");
-            #endif
+        internal static void Warning(string logEntry) {
+            using (var modLog = File.AppendText(FFU_TL_Defs.modLogPath)) {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                modLog.WriteLine($"[Mod: Warning] {logEntry}");
+                Console.WriteLine($"[Mod: Warning] {logEntry}");
+            }
         }
-        public static void Message(string logEntry) {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Message, logEntry);
-            #endif
+        internal static void Error(string logEntry) {
+            using (var modLog = File.AppendText(FFU_TL_Defs.modLogPath)) {
+                Console.ForegroundColor = ConsoleColor.Red;
+                modLog.WriteLine($"[Mod:   Error] {logEntry}");
+                Console.WriteLine($"[Mod:   Error] {logEntry}");
+            }
         }
-        public static void Warning() {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Warning, (object)$"");
-            #endif
-        }
-        public static void Warning(string logEntry) {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Warning, logEntry);
-            #endif
-        }
-        public static void Error() {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Error, (object)$"");
-            #endif
-        }
-        public static void Error(string logEntry) {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Error, logEntry);
-            #endif
-        }
-        public static void Fatal() {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Fatal, (object)$"");
-            #endif
-        }
-        public static void Fatal(string logEntry) {
-            #if DEBUG
-            Log.Log(BepInEx.Logging.LogLevel.Fatal, logEntry);
-            #endif
+        internal static void Fatal(string logEntry) {
+            using (var modLog = File.AppendText(FFU_TL_Defs.modLogPath)) {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                modLog.WriteLine($"[Mod:   Fatal] {logEntry}");
+                Console.WriteLine($"[Mod:   Fatal] {logEntry}");
+            }
         }
     }
 }

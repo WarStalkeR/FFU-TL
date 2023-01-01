@@ -10,29 +10,41 @@ using System.IO;
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Base {
         public static void LoadModConfiguration() {
-            ModLog.Warning($"Client Mode: {(CONFIG.openMP ? "Multiplayer" : "Singleplayer")}");
+            ModLog.Debug($"Client Mode: {(CONFIG.openMP ? "Multiplayer" : "Singleplayer")}");
             Support.ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir);
             if (File.Exists(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile)) {
                 IniFile modConfig = new IniFile();
                 modConfig.Load(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile);
                 string modConfigLog = $"Loading mod configuration from {FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile}";
                 if (string.IsNullOrEmpty(modConfig["InitConfig"]["modVersion"].Value) || modConfig["InitConfig"]["modVersion"].ToString() != FFU_TL_Defs.modVersion) {
-                    ModLog.Warning(modConfigLog);
+                    ModLog.Debug(modConfigLog);
                     CreateModConfiguration();
                     return;
                 }
                 FFU_TL_Defs.secretStash = modConfig["InitConfig"]["secretStash"].ToBool(FFU_TL_Defs.secretStash);
                 modConfigLog += $"\n > Property [secretStash] loaded with value: {FFU_TL_Defs.secretStash}";
-                ModLog.Warning(modConfigLog);
+                ModLog.Debug(modConfigLog);
             } else CreateModConfiguration(false);
         }
         public static void CreateModConfiguration(bool isObsolete = true) {
             ModLog.Warning($"Mod configuration file {(isObsolete ? "is obsolete!" : "doesn't exist!")}");
-            ModLog.Warning($"Creating template mod configuration file at {FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile}");
+            ModLog.Debug($"Creating template mod configuration file at {FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile}");
             IniFile modConfig = new IniFile();
             modConfig["InitConfig"]["modVersion"] = FFU_TL_Defs.modVersion;
             modConfig["InitConfig"]["secretStash"] = FFU_TL_Defs.secretStash;
             modConfig.Save(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modConfDir + FFU_TL_Defs.modConfFile);
+        }
+        public static void DumpArtData(string modifier) {
+            if (FFU_TL_Defs.doArtDump) {
+                Support.DumpImageToFile(SCREEN_MANAGER.AnimSheets[15], $"Missile_Sheet_{modifier}.png");
+                Support.DumpImageToFile(SCREEN_MANAGER.TileArt[0], $"Tile_Sheet_0_{modifier}.png");
+                Support.DumpImageToFile(SCREEN_MANAGER.TileArt[1], $"Tile_Sheet_1_{modifier}.png");
+                Support.DumpImageToFile(SCREEN_MANAGER.TileArt[2], $"Tile_Sheet_2_{modifier}.png");
+                Support.DumpImageToFile(SCREEN_MANAGER.TileArt[5], $"Tile_Light_0_{modifier}.png", true);
+                Support.DumpImageToFile(SCREEN_MANAGER.TileArt[3], $"Tile_Light_1_{modifier}.png", true);
+                Support.DumpImageToFile(SCREEN_MANAGER.TileArt[4], $"Tile_Light_2_{modifier}.png", true);
+                Support.DumpImageToFile(SCREEN_MANAGER.GameArt[31], $"Items_Sheet_{modifier}.png");
+            }
         }
     }
 }
@@ -53,6 +65,7 @@ namespace CoOpSpRpG {
         private void loadArt(ConcurrentQueue<string> messageQueue) {
         /// Load additional art from binary code/hex.
             orig_loadArt(messageQueue);
+            FFU_TL_Base.DumpArtData("Original");
             SCREEN_MANAGER.TileArt[0] = Support.PatchTexture(SCREEN_MANAGER.TileArt[0], Datas.tGroupsSelectors);
             SCREEN_MANAGER.TileArt[3] = Support.PatchLight(SCREEN_MANAGER.TileArt[3], Datas.tMissleTubesLight);
             SCREEN_MANAGER.TileArt[4] = Support.PatchLight(SCREEN_MANAGER.TileArt[4], Datas.tTorpedoSiloLight);
@@ -71,20 +84,14 @@ namespace CoOpSpRpG {
             SCREEN_MANAGER.GameArt[31] = Support.PatchSheet(SCREEN_MANAGER.GameArt[31], Datas.sAllDataCores);
             SCREEN_MANAGER.GameArt[31] = Support.PatchSheet(SCREEN_MANAGER.GameArt[31], Datas.sNewHandDigger);
             SCREEN_MANAGER.AnimSheets[15] = Support.PatchSheet(SCREEN_MANAGER.AnimSheets[15], Datas.sNewTorpMissiles);
-            //Support.DumpImageToFile(SCREEN_MANAGER.AnimSheets[15], "Missile_Sheet_Patched.png");
-            //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[0], "Tile_Sheet_0_Patched.png");
-            //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[1], "Tile_Sheet_1_Patched.png");
-            //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[2], "Tile_Sheet_2_Patched.png");
-            //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[5], "Tile_Light_0_Patched.png", true);
-            //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[3], "Tile_Light_1_Patched.png", true);
-            //Support.DumpImageToFile(SCREEN_MANAGER.TileArt[4], "Tile_Light_2_Patched.png", true);
-            //Support.DumpImageToFile(SCREEN_MANAGER.GameArt[31], "Items_Sheet_Patched.png");
+            FFU_TL_Base.DumpArtData("Patched");
         }
     }
     public class patch_Game1 : Game1 {
         private extern void orig_loadStuff();
         private void loadStuff() {
         /// Initialize priority code before everything else.
+            ModLog.Init();
             orig_loadStuff();
         }
         public static GraphicsDevice refGraphicsDevice() {

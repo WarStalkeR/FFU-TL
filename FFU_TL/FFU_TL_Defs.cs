@@ -10,8 +10,12 @@ namespace FFU_Terra_Liberatio {
         public static readonly string modConfDir = @"Mods\";
         public static readonly string modDumpsDir = @"Dumps\";
         public static readonly string modConfFile = @"FFU_Terra_Liberatio.ini";
+        public static readonly string modLogFile = @"FFU_Terra_Liberatio.log";
         public static readonly string modVersion = "0.0.1.3";
+        public static readonly string modLogPath = exeFilePath + modConfDir + modLogFile;
         public static readonly bool isPatchDebug = false;
+        public static readonly bool doDataDump = true;
+        public static readonly bool doArtDump = false;
         public static readonly bool isDebug = true;
         public static bool secretStash = false;
         public static List<Color> unlistStatic = new List<Color>(new Color[] {

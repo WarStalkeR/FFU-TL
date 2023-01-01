@@ -117,8 +117,8 @@ namespace CoOpSpRpG {
         public static void prepareLoot() {
         /// Apply research changes after loading original files.
             orig_prepareLoot();
-            FFU_TL_Research.dumpForgottenResearch(LOOTBAG.researchCosts, FFU_TL_Defs.refModules, "FFU_TL_Forgotten_Original.txt");
-            FFU_TL_Research.dumpResearchCategories(FFU_TL_Defs.refModules, "FFU_TL_Research_Original.txt");
+            if (FFU_TL_Defs.doDataDump) FFU_TL_Research.dumpForgottenResearch(LOOTBAG.researchCosts, FFU_TL_Defs.refModules, "FFU_TL_Forgotten_Original.txt");
+            if (FFU_TL_Defs.doDataDump) FFU_TL_Research.dumpResearchCategories(FFU_TL_Defs.refModules, "FFU_TL_Research_Original.txt");
             FFU_TL_Tile_CargoBays.updateResearch();
             FFU_TL_Tile_UtilityBays.updateResearch();
             FFU_TL_Tile_MagRails.updateResearch();
@@ -128,8 +128,8 @@ namespace CoOpSpRpG {
             FFU_TL_Tile_CloningVats.updateResearch();
             FFU_TL_Tile_Taverns.updateResearch();
             FFU_TL_Research.rebalanceResearch(LOOTBAG.researchCosts, LOOTBAG.researchTimes);
-            FFU_TL_Research.dumpForgottenResearch(LOOTBAG.researchCosts, FFU_TL_Defs.refModules, "FFU_TL_Forgotten_Modded.txt");
-            FFU_TL_Research.dumpResearchCategories(FFU_TL_Defs.refModules, "FFU_TL_Research_Modded.txt");
+            if (FFU_TL_Defs.doDataDump) FFU_TL_Research.dumpForgottenResearch(LOOTBAG.researchCosts, FFU_TL_Defs.refModules, "FFU_TL_Forgotten_Modded.txt");
+            if (FFU_TL_Defs.doDataDump) FFU_TL_Research.dumpResearchCategories(FFU_TL_Defs.refModules, "FFU_TL_Research_Modded.txt");
             FFU_TL_Defs.refModules = null;
         }
         //private static void t2unlockCorridors() {

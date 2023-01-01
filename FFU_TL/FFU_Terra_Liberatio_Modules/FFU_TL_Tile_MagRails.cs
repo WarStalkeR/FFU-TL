@@ -139,7 +139,7 @@ namespace FFU_Terra_Liberatio {
 }
 
 namespace CoOpSpRpG {
-    [MonoModIfFlag("SP")] public class patch_ShipNavigationRev3 : ShipNavigationRev3 {
+    public class patch_ShipNavigationRev3 : ShipNavigationRev3 {
 		[MonoModIgnore] private bool stationTravelAnimation;
 		[MonoModIgnore] private MicroCosm currentCosm;
 		[MonoModIgnore] private float stationAnimTimer;

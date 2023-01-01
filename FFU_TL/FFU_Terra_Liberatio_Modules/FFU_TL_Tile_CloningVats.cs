@@ -79,7 +79,7 @@ namespace FFU_Terra_Liberatio {
 }
 
 namespace CoOpSpRpG {
-    [MonoModIfFlag("SP")] [MonoModReplace] public class CloningVat : Module, Activateable {
+    [MonoModReplace] public class CloningVat : Module, Activateable {
     /// Clone Registration for Clone Jumping via death.
         public Vector2 spawnOffset;
         public CloningVat(ModTile[] list) : base(list) {
@@ -104,7 +104,7 @@ namespace CoOpSpRpG {
         public void trip(ShipActor crew, MicroCosm cosm) { }
         public override void animate(float elapsed) { }
     }
-    [MonoModIfFlag("SP")] public class patch_Respawning : Respawning {
+    public class patch_Respawning : Respawning {
         private Dictionary<byte, ulong> reviveShipIDs;
         [MonoModIgnore] private KeyboardState oldState;
         [MonoModIgnore] private MouseState oldMouse;
@@ -225,7 +225,7 @@ namespace CoOpSpRpG {
             oldMouse = mState;
         }
     }
-    [MonoModIfFlag("SP")] public class patch_WorldRev3 : WorldRev3 {
+    public class patch_WorldRev3 : WorldRev3 {
         [MonoModIgnore] private void setEarPos() { }
         [MonoModIgnore] public patch_WorldRev3(string path, bool loadStuff) : base(path, loadStuff) { }
         [MonoModReplace] public void spawnPlayer(PlayerSaveInfo spawn) {

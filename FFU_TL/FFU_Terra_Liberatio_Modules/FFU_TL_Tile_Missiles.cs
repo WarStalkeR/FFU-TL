@@ -79,7 +79,7 @@ namespace FFU_Terra_Liberatio {
 }
 
 namespace CoOpSpRpG {
-	[MonoModIfFlag("SP")] public static class patch_MISSILEBAG {
+	public static class patch_MISSILEBAG {
 		[MonoModAdded] public static string typeName(patch_MissileType type) {
 			/// Missiles & Torpedoes custom reload time.
 			return type switch {
@@ -662,7 +662,7 @@ namespace CoOpSpRpG {
 			}
 		}
 	}
-	[MonoModIfFlag("SP")] [MonoModEnumReplace] public enum patch_MissileType : ushort {
+	[MonoModEnumReplace] public enum patch_MissileType : ushort {
 		standard,
 		drill_bore,
 		repair_drone_t1,
