@@ -143,7 +143,6 @@ namespace CoOpSpRpG {
 					case ModuleType.Life_Support:
 					case ModuleType.walls: {
 						integrityBoost += module.tiles.Length * 25 * (float)Math.Pow(Math.Max(1U, module.techLevel), 2);
-
 						break;
 					}
 				}
