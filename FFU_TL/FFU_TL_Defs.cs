@@ -23,22 +23,37 @@ namespace FFU_Terra_Liberatio {
         });
         public static List<Color> unlistDynamic = new List<Color>();
         public static List<uint> startingTechIDs = new List<uint>();
-        public static Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> refModules = new Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>>();
+        public static Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> refModules => patch_TILEBAG.refModules();
         public static Dictionary<ulong, Ship> reviveShips = new Dictionary<ulong, Ship>();
         public static ulong reviveShipID = 0;
+        public static Module refModuleIfExists(Color cEntry) {
+            return refModuleIfExists(cEntry.R, cEntry.G, cEntry.B);
+        }
+        public static Module refModuleIfExists(byte r, byte g, byte b) {
+            if (refModules.ContainsKey(r) && refModules[r].ContainsKey(g) && refModules[r][g].ContainsKey(b)) 
+                return refModules[r][g][b];
+            else return null;
+        }
         public static void checkModifiedEntry(uint rEntry, Color cEntry) {
             bool foundEntry = LOOTBAG.modules.ContainsKey(rEntry);
             bool foundColor = LOOTBAG.modules.Count(x => x.Value == cEntry) > 0;
-            if (foundEntry && foundColor) {
-                if (LOOTBAG.modules[rEntry] != cEntry) {
-                    ModLog.Warning($" > The Entry #{rEntry} you want overwrite exists, but with Color Code ({LOOTBAG.modules[rEntry].R}, {LOOTBAG.modules[rEntry].G}, {LOOTBAG.modules[rEntry].B}).");
-                    ModLog.Warning($" > The Color Code ({cEntry.R}, {cEntry.G}, {cEntry.B}) you want to add already exists, but under Entry #{LOOTBAG.modules.FirstOrDefault(x => x.Value == cEntry).Key}.");
-                } else if (isPatchDebug) ModLog.Message($" > Overwriting Entry #{LOOTBAG.modules.FirstOrDefault(x => x.Value == cEntry).Key}, Color Code: {cEntry.R}, {cEntry.G}, {cEntry.B}.");
-            } else if (!foundEntry && foundColor) {
-                ModLog.Warning($" > The Color Code ({cEntry.R}, {cEntry.G}, {cEntry.B}) you want to add already exists, but under Entry #{LOOTBAG.modules.FirstOrDefault(x => x.Value == cEntry).Key}.");
-            } else if (foundEntry && !foundColor) {
-                ModLog.Warning($" > The Entry #{rEntry} you want overwrite exists, but with Color Code ({LOOTBAG.modules[rEntry].R}, {LOOTBAG.modules[rEntry].G}, {LOOTBAG.modules[rEntry].B}).");
-            } else if (isPatchDebug) ModLog.Message($" > Adding Entry #{rEntry}, Color Code: {cEntry.R}, {cEntry.G}, {cEntry.B}.");
+            Color fEntry = foundEntry ? LOOTBAG.modules[rEntry] : new Color(255, 255, 255);
+            Module foundModule = refModuleIfExists(cEntry);
+            if (foundModule != null) {
+                string moduleName = foundModule.tip?.tip?.Replace("\n", " ");
+                if (string.IsNullOrEmpty(moduleName)) moduleName = foundModule.toolTip?.Replace("\n", " ");
+                if (string.IsNullOrEmpty(moduleName)) moduleName = "MISSING_NAME";
+                if (foundEntry && foundColor) {
+                    if (fEntry != cEntry) {
+                        ModLog.Warning($" > The Research Entry #{rEntry} you want overwrite exists, but for [{moduleName}] Module ({fEntry.R}, {fEntry.G}, {fEntry.B}).");
+                        ModLog.Warning($" > The [{moduleName}] Module ({cEntry.R}, {cEntry.G}, {cEntry.B}) you want to add already exists, but in Research Entry #{LOOTBAG.modules.FirstOrDefault(x => x.Value == cEntry).Key}.");
+                    } else if (isPatchDebug) ModLog.Message($" > Overwriting Research Entry #{LOOTBAG.modules.FirstOrDefault(x => x.Value == cEntry).Key}, [{moduleName}] Module: {cEntry.R}, {cEntry.G}, {cEntry.B}.");
+                } else if (!foundEntry && foundColor) {
+                    ModLog.Warning($" > The [{moduleName}] Module ({cEntry.R}, {cEntry.G}, {cEntry.B}) you want to add already exists, but in Research Entry #{LOOTBAG.modules.FirstOrDefault(x => x.Value == cEntry).Key}.");
+                } else if (foundEntry && !foundColor) {
+                    ModLog.Warning($" > The Research Entry #{rEntry} you want overwrite exists, but with [{moduleName}] Module ({fEntry.R}, {fEntry.G}, {fEntry.B}).");
+                } else if (isPatchDebug) ModLog.Message($" > Adding Entry #{rEntry}, Color Code: {cEntry.R}, {cEntry.G}, {cEntry.B}.");
+            } else ModLog.Error($" > The Module with Color Code ({cEntry.R}, {cEntry.G}, {cEntry.B}) you want to make researchable isn't implemented!");
         }
     }
 }

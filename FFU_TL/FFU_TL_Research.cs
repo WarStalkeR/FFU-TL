@@ -130,7 +130,6 @@ namespace CoOpSpRpG {
             FFU_TL_Research.rebalanceResearch(LOOTBAG.researchCosts, LOOTBAG.researchTimes);
             if (FFU_TL_Defs.doDataDump) FFU_TL_Research.dumpForgottenResearch(LOOTBAG.researchCosts, FFU_TL_Defs.refModules, "FFU_TL_Forgotten_Modded.txt");
             if (FFU_TL_Defs.doDataDump) FFU_TL_Research.dumpResearchCategories(FFU_TL_Defs.refModules, "FFU_TL_Research_Modded.txt");
-            FFU_TL_Defs.refModules = null;
         }
         //private static void t2unlockCorridors() {
         //    orig_t2unlockCorridors();

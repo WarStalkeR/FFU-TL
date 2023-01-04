@@ -118,7 +118,6 @@ namespace CoOpSpRpG {
             FFU_TL_Modules.updateBlacklist(oldMods, FFU_TL_Defs.unlistDynamic, "unobtainable module list");
             FFU_TL_Modules.updateBlacklist(unlockableModsBlacklist, FFU_TL_Defs.unlistStatic, "non-removable module list");
             if (FFU_TL_Defs.doDataDump) FFU_TL_Modules.dumpExistingModules(modules, "FFU_TL_Modules_Modded.txt");
-            FFU_TL_Defs.refModules = modules;
         }
         public static Color[][][] getModDataRef(string append) { 
             return getModData(append);
@@ -130,6 +129,9 @@ namespace CoOpSpRpG {
             if (moduleResources.ContainsKey(refModule)) moduleResources.Remove(refModule);
             if (refModule.tip != null && refResources.Count != 0) refModule.tip.addResources(refResources);
             moduleResources.Add(refModule, refResources);
+        }
+        public static Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> refModules() {
+            return modules;
         }
     }
 }

@@ -81,7 +81,7 @@ namespace FFU_Terra_Liberatio {
 namespace CoOpSpRpG {
 	public static class patch_MISSILEBAG {
 		[MonoModAdded] public static string typeName(patch_MissileType type) {
-			/// Missiles & Torpedoes custom reload time.
+		/// Missiles & Torpedoes custom reload time.
 			return type switch {
 				patch_MissileType.standard => "Standard Missile",
 				patch_MissileType.graviton => "Graviton Missile",
@@ -432,7 +432,7 @@ namespace CoOpSpRpG {
 				missile.trailType = 3;
 				break;
 			}
-			if (missile != null) missile.type = (MissileType)(int)type;
+			if (missile != null) missile.type = (MissileType)type;
 			return missile;
 		}
 	}
@@ -440,7 +440,7 @@ namespace CoOpSpRpG {
 		[MonoModIgnore] private Rectangle artSource;
 		[MonoModIgnore] public patch_MissileMagazineAnim(byte r) : base(r) { }
 		[MonoModReplace] public void setType(patch_MissileType type) {
-			/// Sprite fix for graviton and implementation for new.
+		/// Sprite fix for graviton and implementation for new.
 			switch (type) {
 				default:
 				case patch_MissileType.drill_bore:
@@ -553,7 +553,7 @@ namespace CoOpSpRpG {
 		[MonoModIgnore] private Rectangle artSource;
 		[MonoModIgnore] public patch_MissileTubeAnim(byte r, bool selfLoad, bool siege) : base(r, selfLoad, siege) { }
 		[MonoModReplace] public void setType(patch_MissileType type) {
-			/// Sprite fix for graviton and implementation for new.
+		/// Sprite fix for graviton and implementation for new.
 			switch (type) {
 				default:
 				case patch_MissileType.drill_bore:
@@ -663,33 +663,33 @@ namespace CoOpSpRpG {
 		}
 	}
 	[MonoModEnumReplace] public enum patch_MissileType : ushort {
-		standard,
-		drill_bore,
-		repair_drone_t1,
-		interdict,
-		supply_drone,
-		red_siege,
-		machinegun_drone_t1,
-		railarray_drone_t2,
-		antimatter_drone_t2,
-		armorpiercing,
-		graviton,
-		seeker_siege,
-		antimatter_siege,
-		mirv_siege,
-		hellfire_siege,
-		blue_spore,
-		blue_biome_visuals,
-		fission_siege,
-		locust_drone_t3,
-		mine,
-		goliath_fighter_t2,
-		goliath_support_t2,
-		devastator,
-		hunter,
-		impactor,
-		corrosive,
-		terror,
-		mirv_srm
+		standard = 0,
+		drill_bore = 1,
+		repair_drone_t1 = 2,
+		interdict = 3,
+		supply_drone = 4,
+		red_siege = 5,
+		machinegun_drone_t1 = 6,
+		railarray_drone_t2 = 7,
+		antimatter_drone_t2 = 8,
+		armorpiercing = 9,
+		graviton = 10,
+		seeker_siege = 11,
+		antimatter_siege = 12,
+		mirv_siege = 13,
+		hellfire_siege = 14,
+		blue_spore = 15,
+		blue_biome_visuals = 16,
+		fission_siege = 17,
+		locust_drone_t3 = 18,
+		mine = 19,
+		goliath_fighter_t2 = 20,
+		goliath_support_t2 = 21,
+		devastator = 40,
+		hunter = 41,
+		impactor = 42,
+		corrosive = 43,
+		terror = 44,
+		mirv_srm = 80
 	}
 }
