@@ -36,7 +36,7 @@
 2) Download https://www.nuget.org/packages/SharpDX.Mathematics/4.0.1, unpack it, copy SharpDX.Mathematics.dll from \lib\net45 to WTF's folder.
 3) Download this repository, unpack, and place it in any folder in WTF's directory: \Zero Falls\<Folder>\FFU_TL\FFU_Terra_Liberatio.sln
 4) Download MonoMod from https://github.com/MonoMod/MonoMod/releases/tag/v22.01.29.01 and unpack dll/exe files into \Zero Falls\<Folder>\MonoMod\
-5) Download latest code from https://github.com/BepInEx/BepInEx, unpack and open in Visual Studio 2022.
+5) Download code from https://github.com/BepInEx/BepInEx/tree/ec79ad057b20c302c17b34e63906ee398352d852, unpack and open in Visual Studio 2022.
 6) In it, modify BepInEx.NetLauncher project to target .NET 4.6 and edit project to use <PlatformTarget>x64</PlatformTarget>.
 7) Compile it, copy all files, except BepInEx.NetLauncher.exe/pdb into folder \Zero Falls\BepInEx\core\
 8) Copy BepInEx.NetLauncher.exe/pdb into \Zero Falls\ folder. Launch the BepInEx.NetLauncher.exe to initialize BepInEx for the first time.
