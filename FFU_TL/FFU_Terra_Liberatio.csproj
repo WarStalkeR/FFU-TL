@@ -52,6 +52,15 @@
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugMM|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugMM\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -152,7 +161,7 @@
     <PostBuildEvent>if $(ConfigurationName) == Debug (
 	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\BepInEx\monomod\WTF.FFU_TL.mm.dll"
 	del "$(TargetPath)" /F
-) else if $(ConfigurationName) == Release (
+) else if $(ConfigurationName) == DebugMM (
 	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\BepInEx\monomod\WTF.FFU_TL.mm.dll"
 	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\WTF.FFU_TL.mm.dll"
 	"$(SolutionDir)..\MonoMod\MonoMod.exe" "$(SolutionDir)..\..\WTF.exe"
@@ -160,7 +169,7 @@
 	del "$(SolutionDir)..\..\MONOMODDED_WTF.pdb" /F
 	echo F | xcopy /F /Y "$(SolutionDir)..\..\MONOMODDED_WTF.exe" "$(SolutionDir)..\..\WTF_modded.exe"
 	del "$(SolutionDir)..\..\MONOMODDED_WTF.exe" /F
-) else if $(ConfigurationName) == Publish (
+) else if $(ConfigurationName) == Release (
 	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\BepInEx\monomod\WTF.FFU_TL.mm.dll"
 	echo F | xcopy /F /Y "$(TargetPath)" "$(SolutionDir)..\..\WTF.FFU_TL.mm.dll"
 	"$(SolutionDir)..\MonoMod\MonoMod.exe" "$(SolutionDir)..\..\WTF.exe"
