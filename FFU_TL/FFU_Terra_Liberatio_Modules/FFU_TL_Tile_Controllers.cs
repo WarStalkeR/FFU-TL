@@ -10,39 +10,39 @@ using System;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Controllers {
-        public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+        public static void updateModules() {
             ModLog.Message($"Applying module changes: Ship/Weapon Controllers.");
-            modControllerN(modules, 255, 75, 0);
-            modControllerW(modules, 255, 75, 1);
-            modControllerW(modules, 255, 75, 2);
-            modControllerW(modules, 255, 75, 3);
-            modControllerW(modules, 255, 75, 4);
-            modControllerW(modules, 255, 75, 5);
-            modControllerW(modules, 255, 75, 6);
-            modControllerW(modules, 255, 75, 7);
-            modControllerW(modules, 255, 75, 8);
+            modControllerN(255, 75, 0);
+            modControllerW(255, 75, 1);
+            modControllerW(255, 75, 2);
+            modControllerW(255, 75, 3);
+            modControllerW(255, 75, 4);
+            modControllerW(255, 75, 5);
+            modControllerW(255, 75, 6);
+            modControllerW(255, 75, 7);
+            modControllerW(255, 75, 8);
         }
-        public static void assignCustomCosts(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, Dictionary<Module, Dictionary<InventoryItemType, float>> rRes, Dictionary<Module, Dictionary<InventoryItemType, float>> rExtra) {
+        public static void assignCustomCosts() {
             ModLog.Message($"Applying custom resource costs: Ship/Weapon Controllers.");
-            modController(modules[255][75][0], rRes, rExtra);
-            modController(modules[255][75][1], rRes, rExtra);
-            modController(modules[255][75][2], rRes, rExtra);
-            modController(modules[255][75][3], rRes, rExtra);
-            modController(modules[255][75][4], rRes, rExtra);
-            modController(modules[255][75][5], rRes, rExtra);
-            modController(modules[255][75][6], rRes, rExtra);
-            modController(modules[255][75][7], rRes, rExtra);
-            modController(modules[255][75][8], rRes, rExtra);
+            FFU_TL_Modules.applyModuleResList(255, 75, 0, gold: 5f);
+            FFU_TL_Modules.applyModuleResList(255, 75, 1, gold: 5f);
+            FFU_TL_Modules.applyModuleResList(255, 75, 2, gold: 5f);
+            FFU_TL_Modules.applyModuleResList(255, 75, 3, gold: 5f);
+            FFU_TL_Modules.applyModuleResList(255, 75, 4, gold: 5f);
+            FFU_TL_Modules.applyModuleResList(255, 75, 5, gold: 5f);
+            FFU_TL_Modules.applyModuleResList(255, 75, 6, gold: 5f);
+            FFU_TL_Modules.applyModuleResList(255, 75, 7, gold: 5f);
+            FFU_TL_Modules.applyModuleResList(255, 75, 8, gold: 5f);
         }
-        public static void modControllerN(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modControllerN(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modControllerN(modules[r][g][b] as ConsoleConnect, new Color(r, g, b));
+            modControllerN(FFU_TL_Defs.rMod[r][g][b] as ConsoleConnect, new Color(r, g, b));
         }
-        public static void modControllerW(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modControllerW(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modControllerW(modules[r][g][b] as ConsoleConnect, new Color(r, g, b), b);
+            modControllerW(FFU_TL_Defs.rMod[r][g][b] as ConsoleConnect, new Color(r, g, b), b);
         }
         public static void modControllerN(ConsoleConnect rCtrl, Color refColor) {
             rCtrl.cost = 500;
@@ -77,15 +77,6 @@ namespace FFU_Terra_Liberatio {
             rCtrl.tip.addStat($"Signal Transfer Speed", "86.7 TBps", false);
             rCtrl.tip.addStat($"Signal Transfer Latency", "0.017 fs", false);
             rCtrl.tiles = Support.PatchTiles(Datas.tGroupsSelectors, refColor);
-        }
-        public static void modController(Module rMod, Dictionary<Module, Dictionary<InventoryItemType, float>> rRes, Dictionary<Module, Dictionary<InventoryItemType, float>> rExtra) {
-            FFU_TL_Modules.cleanModuleResList(rMod);
-            if (rRes.ContainsKey(rMod)) rRes.Remove(rMod);
-            if (rExtra.ContainsKey(rMod)) rExtra.Remove(rMod);
-            rExtra.Add(rMod, new Dictionary<InventoryItemType, float>() {
-                {InventoryItemType.gold_ore, 5f},
-            });
-            patch_TILEBAG.SafeAssignResources(rMod, rExtra[rMod]);
         }
     }
 }

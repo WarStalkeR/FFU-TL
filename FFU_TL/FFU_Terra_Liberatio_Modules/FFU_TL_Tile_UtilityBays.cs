@@ -11,28 +11,28 @@ using System;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_UtilityBays {
-        public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+        public static void updateModules() {
             ModLog.Message($"Applying module changes: Utility Rooms.");
-            modUtilityCloset(modules, 145, 250, 22);
-            modUtilityCloset(modules, 145, 251, 22);
-            modUtilityCloset(modules, 145, 252, 22);
-            modUtilityCloset(modules, 145, 253, 22);
+            modUtilityCloset(145, 250, 22);
+            modUtilityCloset(145, 251, 22);
+            modUtilityCloset(145, 252, 22);
+            modUtilityCloset(145, 253, 22);
         }
-        public static void assignCustomCosts(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, Dictionary<Module, Dictionary<InventoryItemType, float>> rRes, Dictionary<Module, Dictionary<InventoryItemType, float>> rExtra) {
+        public static void assignCustomCosts() {
             ModLog.Message($"Applying custom resource costs: Utility Rooms.");
-            modUtilityCloset(modules[145][250][22], rRes, rExtra);
-            modUtilityCloset(modules[145][251][22], rRes, rExtra);
-            modUtilityCloset(modules[145][252][22], rRes, rExtra);
-            modUtilityCloset(modules[145][253][22], rRes, rExtra);
+            FFU_TL_Modules.applyModuleResList(145, 250, 22, 10f, 35f, 50f, 20f, 15f, 5f);
+            FFU_TL_Modules.applyModuleResList(145, 251, 22, 10f, 35f, 50f, 20f, 15f, 5f);
+            FFU_TL_Modules.applyModuleResList(145, 252, 22, 10f, 35f, 50f, 20f, 15f, 5f);
+            FFU_TL_Modules.applyModuleResList(145, 253, 22, 10f, 35f, 50f, 20f, 15f, 5f);
         }
         public static void updateResearch() {
             ModLog.Message($"Applying research changes: Utility Rooms.");
             modUtilityCloset(400631U, 145, 250, 22);
         }
-        public static void modUtilityCloset(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modUtilityCloset(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modUtilityCloset(modules[r][g][b] as ItemSpawner);
+            modUtilityCloset(FFU_TL_Defs.rMod[r][g][b] as ItemSpawner);
         }
         public static void modUtilityCloset(ItemSpawner iSpawner) {
             iSpawner.cost = FFU_TL_Defs.secretStash ? 1250000 : 1250;
@@ -95,21 +95,6 @@ namespace FFU_Terra_Liberatio {
                 new NanoAura(Support.StringToBinStream(Datas.perfectShieldAura)),
                 new NanoAura(Support.StringToBinStream(Datas.perfectOxygenAura)),
             };
-        }
-        public static void modUtilityCloset(Module rMod, Dictionary<Module, Dictionary<InventoryItemType, float>> rRes, Dictionary<Module, Dictionary<InventoryItemType, float>> rExtra) {
-            if (!FFU_TL_Defs.secretStash) return;
-            FFU_TL_Modules.cleanModuleResList(rMod);
-            if (rRes.ContainsKey(rMod)) rRes.Remove(rMod);
-            if (rExtra.ContainsKey(rMod)) rExtra.Remove(rMod);
-            rExtra.Add(rMod, new Dictionary<InventoryItemType, float>() {
-                {InventoryItemType.iron_ore, rMod.tiles.Count() * 10f},
-                {InventoryItemType.gold_ore, rMod.tiles.Count() * 35f},
-                {InventoryItemType.titanium_ore, rMod.tiles.Count() * 50f},
-                {InventoryItemType.rhodium_ore, rMod.tiles.Count() * 20f},
-                {InventoryItemType.mitraxit_ore, rMod.tiles.Count() * 15f},
-                {InventoryItemType.ithacit_ore, rMod.tiles.Count() * 5f}
-            });
-            patch_TILEBAG.SafeAssignResources(rMod, rExtra[rMod]);
         }
         public static void modUtilityCloset(uint rEntry, byte r, byte g, byte b) {
             FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));

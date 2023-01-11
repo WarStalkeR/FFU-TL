@@ -12,66 +12,66 @@ using System.Linq;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Modules {
-        public static void dumpExistingModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, string dumpFile = "FFU_TL_Modules.txt") {
+        public static void dumpExistingModules(string dumpFile = "FFU_TL_Modules.txt") {
             ModLog.Warning($"Dumping all modules into the {dumpFile}");
             Support.ValidateDirPath(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir);
             TextWriter ioDump = new StreamWriter(FFU_TL_Defs.exeFilePath + FFU_TL_Defs.modDumpsDir + dumpFile);
-            foreach (byte r in modules.Keys) 
-                foreach (byte g in modules[r].Keys) 
-                    foreach (byte b in modules[r][g].Keys) {
+            foreach (byte r in FFU_TL_Defs.rMod.Keys) 
+                foreach (byte g in FFU_TL_Defs.rMod[r].Keys) 
+                    foreach (byte b in FFU_TL_Defs.rMod[r][g].Keys) {
                 ioDump.WriteLine($"Key: [{r}][{g}][{b}]/({r}, {g}, {b}), " +
-                $"Type: {modules[r][g][b]?.type!}, Name: {modules[r][g][b]?.tip?.tip?.Replace("\n", " ")}, " +
-                $"ToolTip: {modules[r][g][b]?.toolTip?.Replace("\n"," ")}, " +
-                $"Description: {modules[r][g][b]?.tip?.description?.Replace("\n", " ")}" +
+                $"Type: {FFU_TL_Defs.rMod[r][g][b]?.type!}, Name: {FFU_TL_Defs.rMod[r][g][b]?.tip?.tip?.Replace("\n", " ")}, " +
+                $"ToolTip: {FFU_TL_Defs.rMod[r][g][b]?.toolTip?.Replace("\n"," ")}, " +
+                $"Description: {FFU_TL_Defs.rMod[r][g][b]?.tip?.description?.Replace("\n", " ")}" +
                 $"");
             }
             ioDump.Close();
         }
-        public static void updateToolTipCosts(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+        public static void updateToolTipCosts() {
             ModLog.Message($"Updating price format for all modules.");
-            foreach (byte r in modules.Keys)
-                foreach (byte g in modules[r].Keys)
-                    foreach (byte b in modules[r][g].Keys) {
-                if (modules[r][g][b].tip != null) modules[r][g][b].tip.cost = string.Format("{0:n0}", modules[r][g][b].cost);
+            foreach (byte r in FFU_TL_Defs.rMod.Keys)
+                foreach (byte g in FFU_TL_Defs.rMod[r].Keys)
+                    foreach (byte b in FFU_TL_Defs.rMod[r][g].Keys) {
+                if (FFU_TL_Defs.rMod[r][g][b].tip != null) FFU_TL_Defs.rMod[r][g][b].tip.cost = string.Format("{0:n0}", FFU_TL_Defs.rMod[r][g][b].cost);
             }
         }
-        public static void updateResourceCosts(Dictionary<Module, Dictionary<InventoryItemType, float>> res, Dictionary<Module, Dictionary<InventoryItemType, float>> extra, Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, List<Color> colorsList) {
+        public static void updateResourceCosts() {
             ModLog.Message($"Updating resource costs for altered modules.");
-            foreach (byte r in modules.Keys)
-                foreach (byte g in modules[r].Keys)
-                    foreach (byte b in modules[r][g].Keys) {
-                if (modules[r][g][b].techLevel == 25) {
-                    modules[r][g][b].techLevel = 3;
-                    cleanModuleResList(modules[r][g][b]);
-                    if (extra.ContainsKey(modules[r][g][b])) extra.Remove(modules[r][g][b]);
-                    if (res.ContainsKey(modules[r][g][b])) res.Remove(modules[r][g][b]);
-                    TILEBAG.AssignResources(modules[r][g][b]);
+            foreach (byte r in FFU_TL_Defs.rMod.Keys)
+                foreach (byte g in FFU_TL_Defs.rMod[r].Keys)
+                    foreach (byte b in FFU_TL_Defs.rMod[r][g].Keys) {
+                if (FFU_TL_Defs.rMod[r][g][b].techLevel == 25) {
+                            FFU_TL_Defs.rMod[r][g][b].techLevel = 3;
+                    cleanModuleResList(FFU_TL_Defs.rMod[r][g][b]);
+                    if (FFU_TL_Defs.rExt.ContainsKey(FFU_TL_Defs.rMod[r][g][b])) FFU_TL_Defs.rExt.Remove(FFU_TL_Defs.rMod[r][g][b]);
+                    if (FFU_TL_Defs.rRes.ContainsKey(FFU_TL_Defs.rMod[r][g][b])) FFU_TL_Defs.rRes.Remove(FFU_TL_Defs.rMod[r][g][b]);
+                    TILEBAG.AssignResources(FFU_TL_Defs.rMod[r][g][b]);
                 }
-                if (colorsList.Contains(new Color(r, g, b))) {
-                    if (extra.ContainsKey(modules[r][g][b])) extra.Remove(modules[r][g][b]);
-                    if (res.ContainsKey(modules[r][g][b])) res.Remove(modules[r][g][b]);
-                    TILEBAG.AssignResources(modules[r][g][b]);
+                if (FFU_TL_Defs.unlistDynamic.Contains(new Color(r, g, b))) {
+                    if (FFU_TL_Defs.rExt.ContainsKey(FFU_TL_Defs.rMod[r][g][b])) FFU_TL_Defs.rExt.Remove(FFU_TL_Defs.rMod[r][g][b]);
+                    if (FFU_TL_Defs.rRes.ContainsKey(FFU_TL_Defs.rMod[r][g][b])) FFU_TL_Defs.rRes.Remove(FFU_TL_Defs.rMod[r][g][b]);
+                    TILEBAG.AssignResources(FFU_TL_Defs.rMod[r][g][b]);
                 }
-                if (modules[r][g][b].techLevel == 4) {
-                    cleanModuleResList(modules[r][g][b]);
-                    int moduleTiles = modules[r][g][b].tiles.Count();
-                    if (extra.ContainsKey(modules[r][g][b])) extra.Remove(modules[r][g][b]);
-                    if (res.ContainsKey(modules[r][g][b])) res.Remove(modules[r][g][b]);
-                    extra.Add(modules[r][g][b], new Dictionary<InventoryItemType, float>() {
-                    { InventoryItemType.gold_ore, moduleTiles * 1f },
-                    { InventoryItemType.titanium_ore, moduleTiles * 2f },
-                    { InventoryItemType.rhodium_ore, moduleTiles * 0.4f },
-                    { InventoryItemType.mitraxit_ore, moduleTiles * 0.15f },
-                    { InventoryItemType.ithacit_ore, moduleTiles * 0.05f }
-                });
-                    TILEBAG.AssignResources(modules[r][g][b]);
+                if (FFU_TL_Defs.rMod[r][g][b].techLevel == 4) {
+                    cleanModuleResList(FFU_TL_Defs.rMod[r][g][b]);
+                    int moduleTiles = FFU_TL_Defs.rMod[r][g][b].tiles.Count();
+                    if (FFU_TL_Defs.rExt.ContainsKey(FFU_TL_Defs.rMod[r][g][b])) FFU_TL_Defs.rExt.Remove(FFU_TL_Defs.rMod[r][g][b]);
+                    if (FFU_TL_Defs.rRes.ContainsKey(FFU_TL_Defs.rMod[r][g][b])) FFU_TL_Defs.rRes.Remove(FFU_TL_Defs.rMod[r][g][b]);
+                    FFU_TL_Defs.rExt.Add(FFU_TL_Defs.rMod[r][g][b], new Dictionary<InventoryItemType, float>() {
+                        { InventoryItemType.gold_ore, moduleTiles * 1f },
+                        { InventoryItemType.titanium_ore, moduleTiles * 2f },
+                        { InventoryItemType.rhodium_ore, moduleTiles * 0.4f },
+                        { InventoryItemType.mitraxit_ore, moduleTiles * 0.15f },
+                        { InventoryItemType.ithacit_ore, moduleTiles * 0.05f }
+                    });
+                    TILEBAG.AssignResources(FFU_TL_Defs.rMod[r][g][b]);
                 }
             }
-            FFU_TL_Tile_UtilityBays.assignCustomCosts(modules, res, extra);
-            FFU_TL_Tile_CloningVats.assignCustomCosts(modules, res, extra);
-            FFU_TL_Tile_Controllers.assignCustomCosts(modules, res, extra);
+            FFU_TL_Tile_UtilityBays.assignCustomCosts();
+            FFU_TL_Tile_CloningVats.assignCustomCosts();
+            FFU_TL_Tile_Controllers.assignCustomCosts();
         }
-        public static void updateBlacklist(List<Color> mainList, List<Color> refList, string listName = "") {
+        public static void updateBlacklist(ref List<Color> mainList, List<Color> refList, string listName = "") {
             ModLog.Message($"Updating {(string.IsNullOrEmpty(listName) ? $"the list" : $"{listName}")} according to the changes.");
             var tempList = mainList;
             foreach (Color cItem in refList) {
@@ -84,6 +84,34 @@ namespace FFU_Terra_Liberatio {
             for (int i = 0; i < refModule.tip.elements.Count(); i++) {
                 if (refModule.tip.elements[i] is TipStatResources) refModule.tip.elements.RemoveAt(i);
             }
+        }
+        public static Dictionary<InventoryItemType, float> makeModuleResList(int tiles, 
+            float iron, float gold, float titanium, float rhodium, float mitraxit, float ithacit, 
+            float lead, float troilite, float silicate, float cliftonite, float ilmenite) {
+            var resList = new Dictionary<InventoryItemType, float>();
+            // Can be stashed into infinite storage.
+            if (iron > 0) resList.Add(InventoryItemType.iron_ore, tiles * iron);
+            if (gold > 0) resList.Add(InventoryItemType.gold_ore, tiles * gold);
+            if (titanium > 0) resList.Add(InventoryItemType.titanium_ore, tiles * titanium);
+            if (rhodium > 0) resList.Add(InventoryItemType.rhodium_ore, tiles * rhodium);
+            if (mitraxit > 0) resList.Add(InventoryItemType.mitraxit_ore, tiles * mitraxit);
+            if (ithacit > 0) resList.Add(InventoryItemType.ithacit_ore, tiles * ithacit);
+            // Can't be stashed into infinite storage.
+            if (lead > 0) resList.Add(InventoryItemType.lead_ore, tiles * lead);
+            if (troilite > 0) resList.Add(InventoryItemType.troilite_ore, tiles * troilite);
+            if (silicate > 0) resList.Add(InventoryItemType.silicate_ore, tiles * silicate);
+            if (cliftonite > 0) resList.Add(InventoryItemType.cliftonite_ore, tiles * cliftonite);
+            if (ilmenite > 0) resList.Add(InventoryItemType.ilmenite_ore, tiles * ilmenite);
+            return resList;
+        }
+        public static void applyModuleResList(byte r, byte g, byte b,
+            float iron = 0, float gold = 0, float titanium = 0, float rhodium = 0, float mitraxit = 0, float ithacit = 0,
+            float lead = 0, float troilite = 0, float silicate = 0, float cliftonite = 0, float ilmenite = 0) {
+            cleanModuleResList(FFU_TL_Defs.rMod[r][g][b]);
+            if (FFU_TL_Defs.rRes.ContainsKey(FFU_TL_Defs.rMod[r][g][b])) FFU_TL_Defs.rRes.Remove(FFU_TL_Defs.rMod[r][g][b]);
+            if (FFU_TL_Defs.rExt.ContainsKey(FFU_TL_Defs.rMod[r][g][b])) FFU_TL_Defs.rExt.Remove(FFU_TL_Defs.rMod[r][g][b]);
+            FFU_TL_Defs.rExt.Add(FFU_TL_Defs.rMod[r][g][b], makeModuleResList(FFU_TL_Defs.rMod[r][g][b].tiles.Count(), iron, gold, titanium, rhodium, mitraxit, ithacit, 0, 0, 0, 0, 0));
+            patch_TILEBAG.SafeAssignResources(FFU_TL_Defs.rMod[r][g][b], FFU_TL_Defs.rExt[FFU_TL_Defs.rMod[r][g][b]]);
         }
     }
 }
@@ -102,22 +130,22 @@ namespace CoOpSpRpG {
         public static void init() {
         /// Apply module changes after loading original files.
             orig_init();
-            if (FFU_TL_Defs.doDataDump) FFU_TL_Modules.dumpExistingModules(modules, "FFU_TL_Modules_Original.txt");
-            FFU_TL_Tile_CargoBays.updateModules(modules);
-            FFU_TL_Tile_UtilityBays.updateModules(modules);
-            FFU_TL_Tile_MagRails.updateModules(modules);
-            FFU_TL_Tile_Logistics.updateModules(modules);
-            FFU_TL_Tile_Hallways.updateModules(modules);
-            FFU_TL_Tile_CrewRooms.updateModules(modules);
-            FFU_TL_Tile_CloningVats.updateModules(modules);
-            FFU_TL_Tile_Taverns.updateModules(modules);
-            FFU_TL_Tile_Controllers.updateModules(modules);
-            FFU_TL_Tile_Missiles.updateModules(modules);
-            FFU_TL_Modules.updateToolTipCosts(modules);
-            FFU_TL_Modules.updateResourceCosts(moduleResources, moduleExtraResources, modules, FFU_TL_Defs.unlistDynamic);
-            FFU_TL_Modules.updateBlacklist(oldMods, FFU_TL_Defs.unlistDynamic, "unobtainable module list");
-            FFU_TL_Modules.updateBlacklist(unlockableModsBlacklist, FFU_TL_Defs.unlistStatic, "non-removable module list");
-            if (FFU_TL_Defs.doDataDump) FFU_TL_Modules.dumpExistingModules(modules, "FFU_TL_Modules_Modded.txt");
+            if (FFU_TL_Defs.doDataDump) FFU_TL_Modules.dumpExistingModules("FFU_TL_Modules_Original.txt");
+            FFU_TL_Tile_CargoBays.updateModules();
+            FFU_TL_Tile_UtilityBays.updateModules();
+            FFU_TL_Tile_MagRails.updateModules();
+            FFU_TL_Tile_Logistics.updateModules();
+            FFU_TL_Tile_Hallways.updateModules();
+            FFU_TL_Tile_CrewRooms.updateModules();
+            FFU_TL_Tile_CloningVats.updateModules();
+            FFU_TL_Tile_Taverns.updateModules();
+            FFU_TL_Tile_Controllers.updateModules();
+            FFU_TL_Tile_Missiles.updateModules();
+            FFU_TL_Modules.updateToolTipCosts();
+            FFU_TL_Modules.updateResourceCosts();
+            FFU_TL_Modules.updateBlacklist(ref oldMods, FFU_TL_Defs.unlistDynamic, "unobtainable module list");
+            FFU_TL_Modules.updateBlacklist(ref unlockableModsBlacklist, FFU_TL_Defs.unlistStatic, "non-removable module list");
+            if (FFU_TL_Defs.doDataDump) FFU_TL_Modules.dumpExistingModules("FFU_TL_Modules_Modded.txt");
         }
         public static Color[][][] getModDataRef(string append) { 
             return getModData(append);
@@ -130,8 +158,14 @@ namespace CoOpSpRpG {
             if (refModule.tip != null && refResources.Count != 0) refModule.tip.addResources(refResources);
             moduleResources.Add(refModule, refResources);
         }
-        public static Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> refModules() {
-            return modules;
+        public static ref Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> refModules() {
+            return ref modules;
+        }
+        public static ref Dictionary<Module, Dictionary<InventoryItemType, float>> refResources() {
+            return ref moduleResources;
+        }
+        public static ref Dictionary<Module, Dictionary<InventoryItemType, float>> refExtraResources() {
+            return ref moduleExtraResources;
         }
     }
 }

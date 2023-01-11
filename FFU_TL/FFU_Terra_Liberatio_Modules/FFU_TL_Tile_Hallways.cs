@@ -8,40 +8,40 @@ using System;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Hallways {
-        public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+        public static void updateModules() {
             ModLog.Message($"Applying module changes: Hallways & Airlocks.");
-            modAirlockT1(modules, 146, 40, 22, modules[144][100][22]);
-            modAirlockT1(modules, 146, 41, 22, modules[144][101][22]);
-            modAirlockT1(modules, 146, 42, 22, modules[144][102][22]);
-            modAirlockT1(modules, 146, 43, 22, modules[144][103][22]);
-            modAirlockT2(modules, 144, 100, 22);
-            modAirlockT2(modules, 144, 101, 22);
-            modAirlockT2(modules, 144, 102, 22);
-            modAirlockT2(modules, 144, 103, 22);
-            modHallway(modules, 145, 122, 22, Hallway.t1_corridor_l0);
-            modHallway(modules, 145, 123, 22, Hallway.t1_corridor_l0);
-            modHallway(modules, 145, 112, 22, Hallway.t1_corridor_l1);
-            modHallway(modules, 145, 113, 22, Hallway.t1_corridor_l1);
+            modAirlockT1(146, 40, 22, 144, 100, 22);
+            modAirlockT1(146, 41, 22, 144, 101, 22);
+            modAirlockT1(146, 42, 22, 144, 102, 22);
+            modAirlockT1(146, 43, 22, 144, 103, 22);
+            modAirlockT2(144, 100, 22);
+            modAirlockT2(144, 101, 22);
+            modAirlockT2(144, 102, 22);
+            modAirlockT2(144, 103, 22);
+            modHallway(145, 122, 22, Hallway.t1_corridor_l0);
+            modHallway(145, 123, 22, Hallway.t1_corridor_l0);
+            modHallway(145, 112, 22, Hallway.t1_corridor_l1);
+            modHallway(145, 113, 22, Hallway.t1_corridor_l1);
         }
         public static void updateResearch() {
             ModLog.Message($"Applying research changes: Hallways & Airlocks.");
             modAirlockT1(400495U, 146, 40, 22);
             modAirlockT2(400500U, 144, 100, 22);
         }
-        public static void modAirlockT1(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b, Module refModule) {
+        public static void modAirlockT1(byte r, byte g, byte b, byte x, byte y, byte z) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modAirlockT1(modules[r][g][b] as Airlock, refModule as Airlock);
+            modAirlockT1(FFU_TL_Defs.rMod[r][g][b] as Airlock, FFU_TL_Defs.rMod[x][y][z] as Airlock);
         }
-        public static void modAirlockT2(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modAirlockT2(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modAirlockT2(modules[r][g][b] as Airlock);
+            modAirlockT2(FFU_TL_Defs.rMod[r][g][b] as Airlock);
         }
-        public static void modHallway(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b, Hallway hType) {
+        public static void modHallway(byte r, byte g, byte b, Hallway hType) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modHallway(modules[r][g][b], hType);
+            modHallway(FFU_TL_Defs.rMod[r][g][b], hType);
         }
         public static void modAirlockT1(Airlock aLock, Airlock refLock) {
 			for (int i = 0; i < aLock.tiles.Length && i < refLock.tiles.Length; i++) {

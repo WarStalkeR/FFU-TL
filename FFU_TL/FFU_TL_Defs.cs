@@ -23,15 +23,17 @@ namespace FFU_Terra_Liberatio {
         });
         public static List<Color> unlistDynamic = new List<Color>();
         public static List<uint> startingTechIDs = new List<uint>();
-        public static Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> refModules => patch_TILEBAG.refModules();
+        public static ref Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> rMod => ref patch_TILEBAG.refModules();
+        public static ref Dictionary<Module, Dictionary<InventoryItemType, float>> rRes => ref patch_TILEBAG.refResources();
+        public static ref Dictionary<Module, Dictionary<InventoryItemType, float>> rExt => ref patch_TILEBAG.refExtraResources();
         public static Dictionary<ulong, Ship> reviveShips = new Dictionary<ulong, Ship>();
         public static ulong reviveShipID = 0;
         public static Module refModuleIfExists(Color cEntry) {
             return refModuleIfExists(cEntry.R, cEntry.G, cEntry.B);
         }
         public static Module refModuleIfExists(byte r, byte g, byte b) {
-            if (refModules.ContainsKey(r) && refModules[r].ContainsKey(g) && refModules[r][g].ContainsKey(b)) 
-                return refModules[r][g][b];
+            if (rMod.ContainsKey(r) && rMod[r].ContainsKey(g) && rMod[r][g].ContainsKey(b)) 
+                return rMod[r][g][b];
             else return null;
         }
         public static void checkModifiedEntry(uint rEntry, Color cEntry) {

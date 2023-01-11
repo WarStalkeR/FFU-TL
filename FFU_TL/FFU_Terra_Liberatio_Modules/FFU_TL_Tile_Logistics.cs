@@ -12,21 +12,21 @@ using System;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Logistics {
-        public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+        public static void updateModules() {
             ModLog.Message($"Applying module changes: Logistics Terminals.");
-            modLogisticsRoom(modules, 145, 151, 24, 0);
-            modLogisticsRoom(modules, 145, 152, 24, 1);
-            modLogisticsRoom(modules, 145, 153, 24, 5);
-            modLogisticsRoom(modules, 145, 154, 24, 6);
+            modLogisticsRoom(145, 151, 24, 0, 0);
+            modLogisticsRoom(145, 152, 24, 1, 0);
+            modLogisticsRoom(145, 153, 24, 5, 0);
+            modLogisticsRoom(145, 154, 24, 6, 0);
 		}
 		public static void updateResearch() {
 			ModLog.Message($"Applying research changes: Logistics Terminals.");
 			modLogisticsRoom(400635U, 145, 151, 24);
 		}
-		public static void modLogisticsRoom(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b, byte rot) {
+		public static void modLogisticsRoom(byte r, byte g, byte b, byte rot, byte side) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modLogisticsRoom(modules[r][g][b] as ScreenAccess, rot);
+            modLogisticsRoom(FFU_TL_Defs.rMod[r][g][b] as ScreenAccess, rot);
         }
         public static void modLogisticsRoom(ScreenAccess logRoom, byte rot) {
             logRoom.cost = 175000;

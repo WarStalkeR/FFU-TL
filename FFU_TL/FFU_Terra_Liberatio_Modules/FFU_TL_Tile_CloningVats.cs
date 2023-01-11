@@ -1,4 +1,5 @@
-﻿#pragma warning disable CS0108
+﻿#pragma warning disable IDE1006
+#pragma warning disable CS0108
 #pragma warning disable CS0169
 #pragma warning disable CS0414
 #pragma warning disable CS0436
@@ -17,22 +18,22 @@ using System;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_CloningVats {
-        public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+        public static void updateModules() {
             ModLog.Message($"Applying module changes: Cloning Vats.");
-            modCloningVat(modules, 145, 249, 25);
+            modCloningVat(145, 249, 25);
         }
-        public static void assignCustomCosts(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, Dictionary<Module, Dictionary<InventoryItemType, float>> rRes, Dictionary<Module, Dictionary<InventoryItemType, float>> rExtra) {
+        public static void assignCustomCosts() {
             ModLog.Message($"Applying custom resource costs: Cloning Vats.");
-            modCloningVat(modules[145][249][25], rRes, rExtra);
+            FFU_TL_Modules.applyModuleResList(145, 249, 25, 10f, 35f, 50f, 20f, 15f, 5f);
         }
         public static void updateResearch() {
             ModLog.Message($"Applying research changes: Cloning Vats.");
             modCloningVat(400636U, 145, 249, 25);
         }
-        public static void modCloningVat(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCloningVat(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCloningVat(modules[r][g][b] as CloningVat);
+            modCloningVat(FFU_TL_Defs.rMod[r][g][b] as CloningVat);
         }
         public static void modCloningVat(CloningVat cVat) {
             cVat.cost = 750000;
@@ -49,20 +50,6 @@ namespace FFU_Terra_Liberatio {
             cVat.tip.addStat($"Transfer Method", "Infomorph", false);
             cVat.tip.addStat($"Transfer Reliability", "99.92%", false);
             cVat.tip.addStat($"Consciousness Sync", "100%", false);
-        }
-        public static void modCloningVat(Module rMod, Dictionary<Module, Dictionary<InventoryItemType, float>> rRes, Dictionary<Module, Dictionary<InventoryItemType, float>> rExtra) {
-            FFU_TL_Modules.cleanModuleResList(rMod);
-            if (rRes.ContainsKey(rMod)) rRes.Remove(rMod);
-            if (rExtra.ContainsKey(rMod)) rExtra.Remove(rMod);
-            rExtra.Add(rMod, new Dictionary<InventoryItemType, float>() {
-                {InventoryItemType.iron_ore, rMod.tiles.Count() * 10f},
-                {InventoryItemType.gold_ore, rMod.tiles.Count() * 35f},
-                {InventoryItemType.titanium_ore, rMod.tiles.Count() * 50f},
-                {InventoryItemType.rhodium_ore, rMod.tiles.Count() * 20f},
-                {InventoryItemType.mitraxit_ore, rMod.tiles.Count() * 15f},
-                {InventoryItemType.ithacit_ore, rMod.tiles.Count() * 5f}
-            });
-            patch_TILEBAG.SafeAssignResources(rMod, rExtra[rMod]);
         }
         public static void modCloningVat(uint rEntry, byte r, byte g, byte b) {
             FFU_TL_Defs.checkModifiedEntry(rEntry, new Color(r, g, b));

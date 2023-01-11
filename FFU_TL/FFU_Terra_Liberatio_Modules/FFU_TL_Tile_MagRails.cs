@@ -12,32 +12,32 @@ using System.Linq;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_MagRails {
-        public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+        public static void updateModules() {
             ModLog.Message($"Applying module changes: MagRail Stations.");
-            modMagRailStationH(modules, 145, 192, 24);
-            modMagRailStationH(modules, 145, 193, 24);
-            modMagRailStationH(modules, 145, 194, 24);
-            modMagRailStationH(modules, 145, 195, 24);
-            modMagRailStationH(modules, 145, 196, 24);
-            modMagRailStationH(modules, 145, 197, 24);
-            modMagRailStationH(modules, 145, 198, 24);
-            modMagRailStationH(modules, 145, 199, 24);
-            modMagRailStationT(modules, 145, 200, 24);
-            modMagRailStationT(modules, 145, 201, 24);
-            modMagRailStationT(modules, 145, 202, 24);
-            modMagRailStationT(modules, 145, 203, 24);
-            modMagRailStationT(modules, 145, 204, 24);
-            modMagRailStationT(modules, 145, 205, 24);
-            modMagRailStationT(modules, 145, 206, 24);
-            modMagRailStationT(modules, 145, 207, 24);
-            modMagRailStationU(modules, 145, 208, 24);
-            modMagRailStationU(modules, 145, 209, 24);
-            modMagRailStationU(modules, 145, 210, 24);
-            modMagRailStationU(modules, 145, 211, 24);
-            modMagRailStationU(modules, 145, 212, 24);
-            modMagRailStationU(modules, 145, 213, 24);
-            modMagRailStationU(modules, 145, 214, 24);
-            modMagRailStationU(modules, 145, 215, 24);
+            modMagRailStationH(145, 192, 24);
+            modMagRailStationH(145, 193, 24);
+            modMagRailStationH(145, 194, 24);
+            modMagRailStationH(145, 195, 24);
+            modMagRailStationH(145, 196, 24);
+            modMagRailStationH(145, 197, 24);
+            modMagRailStationH(145, 198, 24);
+            modMagRailStationH(145, 199, 24);
+            modMagRailStationT(145, 200, 24);
+            modMagRailStationT(145, 201, 24);
+            modMagRailStationT(145, 202, 24);
+            modMagRailStationT(145, 203, 24);
+            modMagRailStationT(145, 204, 24);
+            modMagRailStationT(145, 205, 24);
+            modMagRailStationT(145, 206, 24);
+            modMagRailStationT(145, 207, 24);
+            modMagRailStationU(145, 208, 24);
+            modMagRailStationU(145, 209, 24);
+            modMagRailStationU(145, 210, 24);
+            modMagRailStationU(145, 211, 24);
+            modMagRailStationU(145, 212, 24);
+            modMagRailStationU(145, 213, 24);
+            modMagRailStationU(145, 214, 24);
+            modMagRailStationU(145, 215, 24);
         }
         public static void updateResearch() {
             ModLog.Message($"Applying research changes: MagRail Stations.");
@@ -45,20 +45,20 @@ namespace FFU_Terra_Liberatio {
             modMagRailStationT(400633U, 145, 200, 24);
             modMagRailStationU(400632U, 145, 208, 24);
         }
-        public static void modMagRailStationH(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modMagRailStationH(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modMagRailStationH(modules[r][g][b] as MagrailModule);
+            modMagRailStationH(FFU_TL_Defs.rMod[r][g][b] as MagrailModule);
         }
-        public static void modMagRailStationT(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modMagRailStationT(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modMagRailStationT(modules[r][g][b] as MagrailModule);
+            modMagRailStationT(FFU_TL_Defs.rMod[r][g][b] as MagrailModule);
         }
-        public static void modMagRailStationU(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modMagRailStationU(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modMagRailStationU(modules[r][g][b] as MagrailModule);
+            modMagRailStationU(FFU_TL_Defs.rMod[r][g][b] as MagrailModule);
         }
         public static void modMagRailStationH(MagrailModule mRail) {
             mRail.cost = 6750;

@@ -14,44 +14,44 @@ using System.Linq;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_CargoBays {
-        public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+        public static void updateModules() {
             ModLog.Message($"Applying module changes: Cargo Bays.");
-            modCargoBayT0S(modules, 144, 246, 22);
-            modCargoBayT0S(modules, 144, 247, 22);
-            modCargoBayT0S(modules, 144, 248, 22);
-            modCargoBayT0S(modules, 144, 249, 22);
-            modCargoBayT1S(modules, 145, 156, 22);
-            modCargoBayT1S(modules, 145, 157, 22);
-            modCargoBayT1S(modules, 145, 158, 22);
-            modCargoBayT1S(modules, 145, 159, 22);
-            modCargoBayT1S(modules, 145, 160, 22);
-            modCargoBayT1S(modules, 145, 161, 22);
-            modCargoBayT1S(modules, 145, 162, 22);
-            modCargoBayT1S(modules, 145, 163, 22);
-            modCargoBayT1L(modules, 145, 164, 22);
-            modCargoBayT1L(modules, 145, 165, 22);
-            modCargoBayT1L(modules, 145, 166, 22);
-            modCargoBayT1L(modules, 145, 167, 22);
-            modCargoBayT2S(modules, 144, 67, 22);
-            modCargoBayT2S(modules, 144, 68, 22);
-            modCargoBayT2S(modules, 144, 69, 22);
-            modCargoBayT2S(modules, 144, 70, 22);
-            modCargoBayT2L(modules, 144, 51, 22);
-            modCargoBayT2L(modules, 144, 52, 22);
-            modCargoBayT2L(modules, 144, 53, 22);
-            modCargoBayT2L(modules, 144, 54, 22);
-            modCargoBayT2X(modules, 144, 71, 22);
-            modCargoBayT2X(modules, 144, 72, 22);
-            modCargoBayT2X(modules, 144, 73, 22);
-            modCargoBayT2X(modules, 144, 74, 22);
-            modCargoBayT2X(modules, 144, 75, 22);
-            modCargoBayT2X(modules, 144, 76, 22);
-            modCargoBayT2X(modules, 144, 77, 22);
-            modCargoBayT2X(modules, 144, 78, 22);
-            modCargoBayT3X(modules, 145, 2, 26);
-            modCargoBayT3X(modules, 145, 3, 26);
-            modCargoBayT3X(modules, 145, 4, 26);
-            modCargoBayT3X(modules, 145, 5, 26);
+            modCargoBayT0S(144, 246, 22);
+            modCargoBayT0S(144, 247, 22);
+            modCargoBayT0S(144, 248, 22);
+            modCargoBayT0S(144, 249, 22);
+            modCargoBayT1S(145, 156, 22);
+            modCargoBayT1S(145, 157, 22);
+            modCargoBayT1S(145, 158, 22);
+            modCargoBayT1S(145, 159, 22);
+            modCargoBayT1S(145, 160, 22);
+            modCargoBayT1S(145, 161, 22);
+            modCargoBayT1S(145, 162, 22);
+            modCargoBayT1S(145, 163, 22);
+            modCargoBayT1L(145, 164, 22);
+            modCargoBayT1L(145, 165, 22);
+            modCargoBayT1L(145, 166, 22);
+            modCargoBayT1L(145, 167, 22);
+            modCargoBayT2S(144, 67, 22);
+            modCargoBayT2S(144, 68, 22);
+            modCargoBayT2S(144, 69, 22);
+            modCargoBayT2S(144, 70, 22);
+            modCargoBayT2L(144, 51, 22);
+            modCargoBayT2L(144, 52, 22);
+            modCargoBayT2L(144, 53, 22);
+            modCargoBayT2L(144, 54, 22);
+            modCargoBayT2X(144, 71, 22);
+            modCargoBayT2X(144, 72, 22);
+            modCargoBayT2X(144, 73, 22);
+            modCargoBayT2X(144, 74, 22);
+            modCargoBayT2X(144, 75, 22);
+            modCargoBayT2X(144, 76, 22);
+            modCargoBayT2X(144, 77, 22);
+            modCargoBayT2X(144, 78, 22);
+            modCargoBayT3X(145, 2, 26);
+            modCargoBayT3X(145, 3, 26);
+            modCargoBayT3X(145, 4, 26);
+            modCargoBayT3X(145, 5, 26);
         }
         public static void updateResearch() {
             ModLog.Message($"Applying research changes: Cargo Bays.");
@@ -63,40 +63,40 @@ namespace FFU_Terra_Liberatio {
             modCargoBayT2X(400702U, 144, 71, 22);
             modCargoBayT3X(400735U, 145, 2, 26);
         }
-        public static void modCargoBayT0S(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCargoBayT0S(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCargoBayT0S(modules[r][g][b] as CargoBay);
+            modCargoBayT0S(FFU_TL_Defs.rMod[r][g][b] as CargoBay);
         }
-        public static void modCargoBayT1S(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCargoBayT1S(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCargoBayT1S(modules[r][g][b] as CargoBay);
+            modCargoBayT1S(FFU_TL_Defs.rMod[r][g][b] as CargoBay);
         }
-        public static void modCargoBayT1L(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCargoBayT1L(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCargoBayT1L(modules[r][g][b] as CargoBay);
+            modCargoBayT1L(FFU_TL_Defs.rMod[r][g][b] as CargoBay);
         }
-        public static void modCargoBayT2S(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCargoBayT2S(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCargoBayT2S(modules[r][g][b] as CargoBay);
+            modCargoBayT2S(FFU_TL_Defs.rMod[r][g][b] as CargoBay);
         }
-        public static void modCargoBayT2L(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCargoBayT2L(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCargoBayT2L(modules[r][g][b] as CargoBay);
+            modCargoBayT2L(FFU_TL_Defs.rMod[r][g][b] as CargoBay);
         }
-        public static void modCargoBayT2X(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCargoBayT2X(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCargoBayT2X(modules[r][g][b] as CargoBay);
+            modCargoBayT2X(FFU_TL_Defs.rMod[r][g][b] as CargoBay);
         }
-        public static void modCargoBayT3X(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCargoBayT3X(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCargoBayT3X(modules[r][g][b] as CargoBay);
+            modCargoBayT3X(FFU_TL_Defs.rMod[r][g][b] as CargoBay);
         }
         public static void modCargoBayT0S(CargoBay cBay) {
             cBay.cost = 440;

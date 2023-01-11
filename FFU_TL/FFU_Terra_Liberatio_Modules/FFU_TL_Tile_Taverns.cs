@@ -14,33 +14,33 @@ using System.Linq;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Taverns {
-        public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+        public static void updateModules() {
             ModLog.Message($"Applying module changes: Space Bars & Taverns.");
-			modTavernSushi(modules, 145, 188, 22);
-			modTavernSushi(modules, 145, 189, 22);
-			modTavernSushi(modules, 145, 190, 22);
-			modTavernSushi(modules, 145, 191, 22);
-			modTavernSnooker(modules, 145, 184, 22);
-			modTavernSnooker(modules, 145, 185, 22);
-			modTavernSnooker(modules, 145, 186, 22);
-			modTavernSnooker(modules, 145, 187, 22);
-			modTavernTeaHouse(modules, 145, 172, 24);
-			modTavernTeaHouse(modules, 145, 173, 24);
-			modTavernTeaHouse(modules, 145, 174, 24);
-			modTavernTeaHouse(modules, 145, 175, 24);
-			modTavernTeaHouse(modules, 145, 176, 24);
-			modTavernTeaHouse(modules, 145, 177, 24);
-			modTavernTeaHouse(modules, 145, 178, 24);
-			modTavernTeaHouse(modules, 145, 179, 24);
-			modTavernLuxury(modules, 145, 123, 24);
-			modTavernLuxury(modules, 145, 124, 24);
-			modTavernLuxury(modules, 145, 125, 24);
-			modTavernLuxury(modules, 145, 126, 24);
-			modTavernLuxury(modules, 145, 127, 24);
-			modTavernLuxury(modules, 145, 128, 24);
-			modTavernLuxury(modules, 145, 129, 24);
-			modTavernLuxury(modules, 145, 130, 24);
-			modTavernDeprecated(modules, 145, 183, 22);
+			modTavernSushi(145, 188, 22);
+			modTavernSushi(145, 189, 22);
+			modTavernSushi(145, 190, 22);
+			modTavernSushi(145, 191, 22);
+			modTavernSnooker(145, 184, 22);
+			modTavernSnooker(145, 185, 22);
+			modTavernSnooker(145, 186, 22);
+			modTavernSnooker(145, 187, 22);
+			modTavernTeaHouse(145, 172, 24);
+			modTavernTeaHouse(145, 173, 24);
+			modTavernTeaHouse(145, 174, 24);
+			modTavernTeaHouse(145, 175, 24);
+			modTavernTeaHouse(145, 176, 24);
+			modTavernTeaHouse(145, 177, 24);
+			modTavernTeaHouse(145, 178, 24);
+			modTavernTeaHouse(145, 179, 24);
+			modTavernLuxury(145, 123, 24);
+			modTavernLuxury(145, 124, 24);
+			modTavernLuxury(145, 125, 24);
+			modTavernLuxury(145, 126, 24);
+			modTavernLuxury(145, 127, 24);
+			modTavernLuxury(145, 128, 24);
+			modTavernLuxury(145, 129, 24);
+			modTavernLuxury(145, 130, 24);
+			modTavernDeprecated(145, 183, 22);
             patch_TILEBAG.refDeprecate(new Color(145, 183, 22));
 		}
 		public static void updateResearch() {
@@ -50,28 +50,28 @@ namespace FFU_Terra_Liberatio {
 			modTavernTeaHouse(400733U, 145, 172, 24);
 			modTavernLuxury(400734U, 145, 123, 24);
 		}
-		public static void modTavernSushi(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+		public static void modTavernSushi(byte r, byte g, byte b) {
 			FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
 			FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-			modTavernSushi(modules[r][g][b] as ScreenAccess);
+			modTavernSushi(FFU_TL_Defs.rMod[r][g][b] as ScreenAccess);
 		}
-		public static void modTavernSnooker(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+		public static void modTavernSnooker(byte r, byte g, byte b) {
 			FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
 			FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-			modTavernSnooker(modules[r][g][b] as ScreenAccess);
+			modTavernSnooker(FFU_TL_Defs.rMod[r][g][b] as ScreenAccess);
 		}
-		public static void modTavernTeaHouse(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+		public static void modTavernTeaHouse(byte r, byte g, byte b) {
 			FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
 			FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-			modTavernTeaHouse(modules[r][g][b] as ScreenAccess);
+			modTavernTeaHouse(FFU_TL_Defs.rMod[r][g][b] as ScreenAccess);
 		}
-		public static void modTavernLuxury(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+		public static void modTavernLuxury(byte r, byte g, byte b) {
 			FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
 			FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-			modTavernLuxury(modules[r][g][b] as ScreenAccess);
+			modTavernLuxury(FFU_TL_Defs.rMod[r][g][b] as ScreenAccess);
 		}
-		public static void modTavernDeprecated(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
-			modTavernDeprecated(modules[r][g][b] as ScreenAccess);
+		public static void modTavernDeprecated(byte r, byte g, byte b) {
+			modTavernDeprecated(FFU_TL_Defs.rMod[r][g][b] as ScreenAccess);
 		}
 		public static void modTavernSushi(ScreenAccess rBar) {
 			rBar.cost = 7500;

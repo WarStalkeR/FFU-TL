@@ -15,28 +15,58 @@ using System.Linq;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_Missiles {
-		public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+		public static void updateModules() {
 			ModLog.Message($"Applying module changes: Missiles & Torpedoes.");
-			MissileFactory(modules, 144, 223, 22);
-			MissileFactory(modules, 144, 224, 22);
-			MissileFactory(modules, 144, 225, 22);
-			MissileFactory(modules, 144, 226, 22);
-			MissileFactory(modules, 144, 227, 22);
-			MissileFactory(modules, 144, 228, 22);
-			MissileFactory(modules, 144, 229, 22);
-			MissileFactory(modules, 144, 230, 22);
-			TorpedoFactory(modules, 145, 167, 24);
-			TorpedoFactory(modules, 145, 168, 24);
+			MissileFactory(144, 223, 22);
+			MissileFactory(144, 224, 22);
+			MissileFactory(144, 225, 22);
+			MissileFactory(144, 226, 22);
+			MissileFactory(144, 227, 22);
+			MissileFactory(144, 228, 22);
+			MissileFactory(144, 229, 22);
+			MissileFactory(144, 230, 22);
+			TorpedoFactory(145, 167, 24);
+			TorpedoFactory(145, 168, 24);
+			MissilePylon(144, 211, 22);
+			MissilePylon(144, 212, 22);
+			MissilePylon(144, 213, 22);
+			MissilePylon(144, 214, 22);
+			MissileLauncher(144, 210, 22);
+			MissileLauncher(144, 220, 22);
+			MissileLauncher(144, 221, 22);
+			MissileLauncher(144, 222, 22);
+			TorpedoLauncher(145, 163, 24);
+			TorpedoLauncher(145, 164, 24);
+			TorpedoLauncher(145, 165, 24);
+			TorpedoLauncher(145, 166, 24);
 		}
-		public static void MissileFactory(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+		public static void updateResearch() {
+			ModLog.Message($"Applying research changes: Missiles & Torpedoes.");
+		}
+		public static void MissileFactory(byte r, byte g, byte b) {
 			FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
 			FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-			MissileFactory(modules[r][g][b] as MissileFactory);
+			MissileFactory(FFU_TL_Defs.rMod[r][g][b] as MissileFactory);
 		}
-		public static void TorpedoFactory(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+		public static void TorpedoFactory(byte r, byte g, byte b) {
 			FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
 			FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-			TorpedoFactory(modules[r][g][b] as MissileFactory);
+			TorpedoFactory(FFU_TL_Defs.rMod[r][g][b] as MissileFactory);
+		}
+		public static void MissilePylon(byte r, byte g, byte b) {
+			FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
+			FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
+			MissilePylon(FFU_TL_Defs.rMod[r][g][b] as Launcher);
+		}
+		public static void MissileLauncher(byte r, byte g, byte b) {
+			FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
+			FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
+			MissileLauncher(FFU_TL_Defs.rMod[r][g][b] as Launcher);
+		}
+		public static void TorpedoLauncher(byte r, byte g, byte b) {
+			FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
+			FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
+			TorpedoLauncher(FFU_TL_Defs.rMod[r][g][b] as Launcher);
 		}
 		public static void MissileFactory(MissileFactory mFactory) {
 			mFactory.cost = 8500;
@@ -74,6 +104,39 @@ namespace FFU_Terra_Liberatio {
 			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.hellfire_siege)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.hellfire_siege)} En.", false);
 			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.mirv_siege)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.mirv_siege)} En.", false);
 			mFactory.tip.addStat($"{patch_MISSILEBAG.typeName(patch_MissileType.red_siege)} Cost", $"{patch_MISSILEBAG.constructionCost(patch_MissileType.red_siege)} En.", false);
+		}
+		public static void MissilePylon(Launcher mLauncher) {
+			mLauncher.cost = 200;
+			mLauncher.toolTip = "Missile Pylon";
+			mLauncher.techLevel = 1;
+			mLauncher.tip = new ToolTip();
+			mLauncher.tip.tip = mLauncher.toolTip;
+			mLauncher.tip.botLeftText = $"Almaz-Antey Interstellar";
+			mLauncher.tip.description = "A simple one shot missile pylon. The only way to reload this missile pylon is at a station. For that reason, these pylons are typically found on small fighter craft that have limited space and capacity.";
+			mLauncher.tip.addStat($"Self Reload", $"{mLauncher.selfReload}", false);
+			mLauncher.externalReq = 0;
+		}
+		public static void MissileLauncher(Launcher mLauncher) {
+			mLauncher.cost = 1000;
+			mLauncher.toolTip = "Missile Launcher";
+			mLauncher.techLevel = 2;
+			mLauncher.tip = new ToolTip();
+			mLauncher.tip.tip = mLauncher.toolTip;
+			mLauncher.tip.botLeftText = $"Almaz-Antey Interstellar";
+			mLauncher.tip.description = "Advanced multi-purpose missile launcher. Has modular auto-reloading mechanism at the back, which allows to pull ammo nearby missile silos. Mostly installed on more advanced artillery-focused military ships.";
+			mLauncher.tip.addStat($"Self Reload", $"{mLauncher.selfReload}", false);
+			mLauncher.externalReq = 0;
+		}
+		public static void TorpedoLauncher(Launcher mLauncher) {
+			mLauncher.cost = 3750;
+			mLauncher.toolTip = "Torpedo Launcher";
+			mLauncher.techLevel = 3;
+			mLauncher.tip = new ToolTip();
+			mLauncher.tip.tip = mLauncher.toolTip;
+			mLauncher.tip.botLeftText = $"Almaz-Antey Interstellar";
+			mLauncher.tip.description = "A very technologically advanced multi-purpose torpedo launcher. Just as missile launcher, has modular auto-reloading mechanism at the back. Fires comparably slow, but extremely devastating and heavily armored torpedoes.";
+			mLauncher.tip.addStat($"Self Reload", $"{mLauncher.selfReload}", false);
+			mLauncher.externalReq = 0;
 		}
 	}
 }

@@ -5,56 +5,56 @@ using System.Linq;
 
 namespace FFU_Terra_Liberatio {
     public class FFU_TL_Tile_CrewRooms {
-        public static void updateModules(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules) {
+        public static void updateModules() {
             ModLog.Message($"Applying module changes: Barracks & Cabins.");
-            modCabinT1S(modules, 145, 168, 22);
-            modCabinT1S(modules, 145, 169, 22);
-            modCabinT1S(modules, 145, 170, 22);
-            modCabinT1S(modules, 145, 171, 22);
-            modCabinT1S(modules, 145, 172, 22);
-            modCabinT1S(modules, 145, 173, 22);
-            modCabinT1S(modules, 145, 174, 22);
-            modCabinT1S(modules, 145, 175, 22);
-            modCabinT1M(modules, 145, 176, 22);
-            modCabinT1M(modules, 145, 177, 22);
-            modCabinT1M(modules, 145, 178, 22);
-            modCabinT1M(modules, 145, 179, 22);
-            modCabinT2S(modules, 144, 79, 22);
-            modCabinT2S(modules, 144, 80, 22);
-            modCabinT2S(modules, 144, 81, 22);
-            modCabinT2S(modules, 144, 82, 22);
-            modCabinT2S(modules, 144, 106, 22);
-            modCabinT2S(modules, 144, 107, 22);
-            modCabinT2S(modules, 144, 108, 22);
-            modCabinT2S(modules, 144, 109, 22);
-            modCabinT2M(modules, 144, 59, 22);
-            modCabinT2M(modules, 144, 60, 22);
-            modCabinT2M(modules, 144, 61, 22);
-            modCabinT2M(modules, 144, 62, 22);
-            modCabinT2M(modules, 144, 63, 22);
-            modCabinT2M(modules, 144, 64, 22);
-            modCabinT2M(modules, 144, 65, 22);
-            modCabinT2M(modules, 144, 66, 22);
-            modCabinT2L(modules, 144, 55, 22);
-            modCabinT2L(modules, 144, 56, 22);
-            modCabinT2L(modules, 144, 57, 22);
-            modCabinT2L(modules, 144, 58, 22);
-            modCabinT3M(modules, 146, 24, 22);
-            modCabinT3M(modules, 146, 25, 22);
-            modCabinT3M(modules, 146, 26, 22);
-            modCabinT3M(modules, 146, 27, 22);
-            modCabinT3M(modules, 146, 28, 22);
-            modCabinT3M(modules, 146, 29, 22);
-            modCabinT3M(modules, 146, 30, 22);
-            modCabinT3M(modules, 146, 31, 22);
-            modCabinT3L(modules, 146, 32, 22);
-            modCabinT3L(modules, 146, 33, 22);
-            modCabinT3L(modules, 146, 34, 22);
-            modCabinT3L(modules, 146, 35, 22);
-            modCabinT3L(modules, 146, 36, 22);
-            modCabinT3L(modules, 146, 37, 22);
-            modCabinT3L(modules, 146, 38, 22);
-            modCabinT3L(modules, 146, 39, 22);
+            modCabinT1S(145, 168, 22);
+            modCabinT1S(145, 169, 22);
+            modCabinT1S(145, 170, 22);
+            modCabinT1S(145, 171, 22);
+            modCabinT1S(145, 172, 22);
+            modCabinT1S(145, 173, 22);
+            modCabinT1S(145, 174, 22);
+            modCabinT1S(145, 175, 22);
+            modCabinT1M(145, 176, 22);
+            modCabinT1M(145, 177, 22);
+            modCabinT1M(145, 178, 22);
+            modCabinT1M(145, 179, 22);
+            modCabinT2S(144, 79, 22);
+            modCabinT2S(144, 80, 22);
+            modCabinT2S(144, 81, 22);
+            modCabinT2S(144, 82, 22);
+            modCabinT2S(144, 106, 22);
+            modCabinT2S(144, 107, 22);
+            modCabinT2S(144, 108, 22);
+            modCabinT2S(144, 109, 22);
+            modCabinT2M(144, 59, 22);
+            modCabinT2M(144, 60, 22);
+            modCabinT2M(144, 61, 22);
+            modCabinT2M(144, 62, 22);
+            modCabinT2M(144, 63, 22);
+            modCabinT2M(144, 64, 22);
+            modCabinT2M(144, 65, 22);
+            modCabinT2M(144, 66, 22);
+            modCabinT2L(144, 55, 22);
+            modCabinT2L(144, 56, 22);
+            modCabinT2L(144, 57, 22);
+            modCabinT2L(144, 58, 22);
+            modCabinT3M(146, 24, 22);
+            modCabinT3M(146, 25, 22);
+            modCabinT3M(146, 26, 22);
+            modCabinT3M(146, 27, 22);
+            modCabinT3M(146, 28, 22);
+            modCabinT3M(146, 29, 22);
+            modCabinT3M(146, 30, 22);
+            modCabinT3M(146, 31, 22);
+            modCabinT3L(146, 32, 22);
+            modCabinT3L(146, 33, 22);
+            modCabinT3L(146, 34, 22);
+            modCabinT3L(146, 35, 22);
+            modCabinT3L(146, 36, 22);
+            modCabinT3L(146, 37, 22);
+            modCabinT3L(146, 38, 22);
+            modCabinT3L(146, 39, 22);
         }
         public static void updateResearch() {
             ModLog.Message($"Applying research changes: Barracks & Cabins.");
@@ -66,40 +66,40 @@ namespace FFU_Terra_Liberatio {
             modCabinT3M(400660U, 146, 24, 22);
             modCabinT3L(400661U, 146, 32, 22);
         }
-        public static void modCabinT1S(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCabinT1S(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCabinT1S(modules[r][g][b] as Bedroom);
+            modCabinT1S(FFU_TL_Defs.rMod[r][g][b] as Bedroom);
         }
-        public static void modCabinT1M(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCabinT1M(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCabinT1M(modules[r][g][b] as Bedroom);
+            modCabinT1M(FFU_TL_Defs.rMod[r][g][b] as Bedroom);
         }
-        public static void modCabinT2S(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCabinT2S(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCabinT2S(modules[r][g][b] as Bedroom);
+            modCabinT2S(FFU_TL_Defs.rMod[r][g][b] as Bedroom);
         }
-        public static void modCabinT2M(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCabinT2M(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCabinT2M(modules[r][g][b] as Bedroom);
+            modCabinT2M(FFU_TL_Defs.rMod[r][g][b] as Bedroom);
         }
-        public static void modCabinT2L(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCabinT2L(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCabinT2L(modules[r][g][b] as Bedroom);
+            modCabinT2L(FFU_TL_Defs.rMod[r][g][b] as Bedroom);
         }
-        public static void modCabinT3M(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCabinT3M(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCabinT3M(modules[r][g][b] as Bedroom);
+            modCabinT3M(FFU_TL_Defs.rMod[r][g][b] as Bedroom);
         }
-        public static void modCabinT3L(Dictionary<byte, Dictionary<byte, Dictionary<byte, Module>>> modules, byte r, byte g, byte b) {
+        public static void modCabinT3L(byte r, byte g, byte b) {
             FFU_TL_Defs.unlistDynamic.Add(new Color(r, g, b));
             FFU_TL_Defs.unlistDynamic = FFU_TL_Defs.unlistDynamic.ToList();
-            modCabinT3L(modules[r][g][b] as Bedroom);
+            modCabinT3L(FFU_TL_Defs.rMod[r][g][b] as Bedroom);
         }
         public static void modCabinT1S(Bedroom bRoom) {
             bRoom.cost = 400;
